@@ -23,7 +23,7 @@ module.exports = {
   // --- контакты ------------------------------------------------------------
   phones,
   phonePrimary: phones[0],
-  email: 'info@vtorresurs55.ru', // TODO: реальная почта
+  email: 'info@mbaza55.ru', // TODO: реальная почта
   address: {
     street: 'ул. 2-я Барнаульская, 105',
     locality: 'Омск',
@@ -49,7 +49,7 @@ module.exports = {
   },
 
   // --- сайт ----------------------------------------------------------------
-  url: (process.env.SITE_URL || 'https://vtorresurs55.ru').replace(/\/$/, ''),
+  url: (process.env.SITE_URL || 'https://mbaza55.ru').replace(/\/$/, ''),
   locale: 'ru_RU',
   themeColor: '#0C1524',
 
@@ -66,6 +66,6 @@ module.exports = {
     titleSuffix: ' | Вторресурс, Омск',
     defaultDescription:
       'Приём лома чёрных и цветных металлов в Омске: медь, латунь, бронза, алюминий, свинец, никель, нержавейка, радиолом. Честный вес, высокие цены, вывоз и демонтаж. Оплата сразу.',
-    ogImage: '/img/og-cover.svg'
+    ogImage: '/img/og-cover.png'
   }
 };
