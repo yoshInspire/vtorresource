@@ -100,6 +100,10 @@ node scripts/parse-source.js && node scripts/build-prices.js
 
 ## SEO
 
+Семантическое ядро, распределение запросов по блокам и чек-лист —
+в [docs/SEO.md](docs/SEO.md).
+
+
 - серверный рендеринг, уникальные `title`/`description`, `canonical`, OG/Twitter;
 - по одному `<h1>` на страницу, семантическая иерархия заголовков;
 - JSON-LD: `LocalBusiness`+`RecyclingCenter`, `WebSite`, `WebPage`, `FAQPage`,
@@ -115,7 +119,6 @@ node scripts/parse-source.js && node scripts/build-prices.js
 
 - юридическое наименование (ООО/ИП) для футера и разметки;
 - e-mail (сейчас заглушка `info@mbaza55.ru`);
-- почтовый индекс;
 - координаты площадки (`geo`) — без них блок карты отдаёт ссылку на Яндекс.Карты,
   а `geo` не попадает в JSON-LD;
 - фотографии площадки, техники и лома — сейчас в герое векторная иллюстрация.

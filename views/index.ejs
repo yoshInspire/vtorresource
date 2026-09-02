@@ -12,11 +12,12 @@
 
     <div class="container hero__inner">
       <div class="hero__text">
-        <p class="hero__eyebrow">Металлобаза в Омске · ул. 2-я Барнаульская, 105</p>
-        <h1 class="hero__title">Приём лома<br>чёрных и цветных<br><span>металлов в Омске</span></h1>
+        <p class="hero__eyebrow">Пункт приёма · Омск, ул. 2-я Барнаульская, 105</p>
+        <h1 class="hero__title">Приём<br>металлолома<br><span>в Омске</span></h1>
         <p class="hero__lead">
-          Покупаем медь, латунь, бронзу, алюминий, свинец, никель, нержавейку, радиолом
-          и чёрный металл по честным ценам. Работаем напрямую с переработчиками — без посредников.
+          Принимаем чёрный и цветной лом на своей площадке: медь, латунь, бронзу, алюминий,
+          свинец, никель, олово, нержавейку, титан, радиолом и аккумуляторы.
+          Цветмет — от 1 кг, расчёт сразу после взвешивания.
         </p>
 
         <ul class="hero__adv">
@@ -72,10 +73,10 @@
     <div class="container">
       <header class="section__head">
         <p class="section__eyebrow">Приём лома</p>
-        <h2 class="section__title">Какой металл мы принимаем</h2>
+        <h2 class="section__title">Какой металлолом мы принимаем</h2>
         <p class="section__lead">
-          Более 140 позиций в прайсе: от бытового алюминия до твёрдых сплавов и радиолома.
-          Цены указаны за наличный расчёт и обновляются вместе с биржей.
+          141 позиция в прайсе — от бытового алюминия и аккумуляторов до твёрдых сплавов,
+          припоев и радиолома. Цветной лом считаем за килограмм, чёрный — за тонну.
         </p>
       </header>
 
@@ -96,9 +97,9 @@
       </div>
 
       <p class="section__note">
-        Не нашли свой металл? Мы принимаем и редкие позиции — вольфрам, молибден, тантал,
-        баббиты, ферросплавы, катализаторы. <a href="/price">Смотрите полный прайс-лист</a>
-        или позвоните — оценим по фото.
+        Не нашли свой металл? Принимаем и редкие позиции — вольфрам, молибден, тантал,
+        баббиты, припои ПОС и ПОССу, ферросплавы, катализаторы.
+        <a href="/price">Полный прайс-лист на приём лома</a> — 141 позиция с ценами.
       </p>
     </div>
   </section>
@@ -109,7 +110,7 @@
       <header class="section__head section__head--split">
         <div>
           <p class="section__eyebrow">Прайс на <%= f.dateLong(prices.updatedAt) %></p>
-          <h2 class="section__title">Цены на лом металлов в Омске</h2>
+          <h2 class="section__title">Цены на приём металлолома в Омске</h2>
         </div>
         <a class="btn btn--accent" href="/price">Весь прайс-лист
           <svg class="btn__icon" aria-hidden="true"><use href="#i-arrow"></use></svg>
@@ -161,7 +162,9 @@
       <header class="section__head">
         <p class="section__eyebrow">Порядок работы</p>
         <h2 class="section__title">Как сдать металлолом</h2>
-        <p class="section__lead">От звонка до денег — обычно один день.</p>
+        <p class="section__lead">
+          Четыре шага от звонка до денег. Всё происходит на площадке в день вашего приезда.
+        </p>
       </header>
 
       <ol class="steps">
@@ -181,10 +184,10 @@
     <div class="container">
       <header class="section__head">
         <p class="section__eyebrow">Услуги</p>
-        <h2 class="section__title">Что мы делаем</h2>
+        <h2 class="section__title">Что принимаем и на каких условиях</h2>
         <p class="section__lead">
           Приёмный пункт полного профиля: от пары килограммов меди до тонн стального лома,
-          с документами и расчётом в тот же день.
+          с оформлением документов и расчётом в тот же день.
         </p>
       </header>
 
@@ -206,31 +209,61 @@
         <p class="section__eyebrow">О компании</p>
         <h2 class="section__title">«Вторресурс» — металлобаза в Омске</h2>
         <p>
-          Мы принимаем и перерабатываем лом чёрных и цветных металлов в Омске: работаем
-          и с частными клиентами, которые привозят несколько килограммов меди, и с заводами,
-          сдающими стружку и негабарит вагонами.
+          Мы принимаем лом чёрных и цветных металлов на собственной площадке в Центральном
+          округе Омска. Работаем и с частными лицами, которые привозят несколько килограммов
+          меди или один аккумулятор, и с организациями, сдающими стружку и отходы производства.
         </p>
         <p>
-          Площадка на 2-й Барнаульской оборудована поверенными весами, площадкой для разгрузки
-          и техникой для резки негабарита. Лом мы отправляем переработчикам напрямую, поэтому
-          можем держать цену выше, чем небольшие пункты приёма.
+          Приём идёт по прайс-листу из 141 позиции: цветной лом — за килограмм, чёрный —
+          за тонну по ГОСТ 2787-75. Вид металла и процент засора определяет приёмщик при
+          осмотре, вес фиксируется при вас и вносится в приёмо-сдаточный акт.
         </p>
-        <p><%= site.terms.license %>. Для юридических лиц — договор, безналичный расчёт и полный пакет документов.</p>
+        <p>
+          Вывозом и демонтажом мы пока не занимаемся: лом нужно привезти на площадку
+          самостоятельно. Зато на месте вас примут в день обращения — без записи и ожидания
+          свободной машины.
+        </p>
 
         <ul class="about__list">
           <li>Приём цветного лома <b><%= site.terms.minWeight %></b></li>
           <li>Приём чёрного лома <b>по ГОСТ 2787-75</b></li>
           <li>Расчёт в день сдачи <b><%= site.terms.payout %></b></li>
-          <li>Предварительная оценка по фото — до поездки на базу</li>
+          <li>Приёмо-сдаточный акт — <b>по паспорту РФ</b></li>
         </ul>
       </div>
 
       <aside class="about__side">
-        <div class="stat"><b>140+</b><span>позиций в прайсе</span></div>
+        <div class="stat"><b>141</b><span>позиция в прайсе</span></div>
         <div class="stat"><b>от 1 кг</b><span>минимальная партия</span></div>
-        <div class="stat"><b>1 день</b><span>от заявки до оплаты</span></div>
+        <div class="stat"><b>1 день</b><span>от приезда до оплаты</span></div>
         <div class="stat"><b>7/7</b><span>работаем без выходных</span></div>
       </aside>
+    </div>
+  </section>
+
+  <!-- ================= ПУНКТ ПРИЁМА ================= -->
+  <section class="section section--light" id="punkt-priema">
+    <div class="container">
+      <header class="section__head">
+        <p class="section__eyebrow">Адрес и условия</p>
+        <h2 class="section__title"><%= content.location.title %></h2>
+        <p class="section__lead"><%= content.location.intro %></p>
+      </header>
+
+      <div class="services services--half">
+        <% content.location.points.forEach(function (p) { %>
+          <article class="service">
+            <h3 class="service__title"><%= p.title %></h3>
+            <p class="service__text"><%= p.text %></p>
+          </article>
+        <% }); %>
+      </div>
+
+      <p class="section__note">
+        Приём ведётся только по этому адресу: <b><%= site.address.full %></b>,
+        <%= site.hours.text %>. <a href="<%= site.mapUrl %>" target="_blank" rel="noopener">Посмотреть на карте</a>
+        или позвонить: <a href="tel:<%= site.phonePrimary.raw %>"><%= site.phonePrimary.display %></a>.
+      </p>
     </div>
   </section>
 
@@ -239,7 +272,7 @@
     <div class="container container--narrow">
       <header class="section__head">
         <p class="section__eyebrow">Вопросы и ответы</p>
-        <h2 class="section__title">Частые вопросы о сдаче лома</h2>
+        <h2 class="section__title">Частые вопросы о сдаче металлолома</h2>
       </header>
 
       <div class="faq">
@@ -258,7 +291,7 @@
     <div class="container contacts">
       <div class="contacts__info">
         <p class="section__eyebrow">Контакты</p>
-        <h2 class="section__title">Приезжайте на нашу площадку</h2>
+        <h2 class="section__title">Как нас найти</h2>
 
         <dl class="contacts__list">
           <div class="contacts__row">

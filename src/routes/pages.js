@@ -24,7 +24,7 @@ router.get('/', (req, res) => {
     };
   });
 
-  const title = `Приём лома металлов в Омске — сдать чёрный и цветной лом дорого | ${site.brand}`;
+  const title = `Приём металлолома в Омске — сдать чёрный и цветной лом | ${site.brand}`;
   const description = site.seo.defaultDescription;
 
   res.render('index', {
@@ -49,9 +49,9 @@ router.get('/', (req, res) => {
 // --- прайс -----------------------------------------------------------------
 router.get('/price', (req, res) => {
   const prices = store.getPrices();
-  const title = `Цены на лом металлов в Омске — прайс-лист на ${require('../lib/format').dateLong(prices.updatedAt)} | ${site.brand}`;
+  const title = `Цены на металлолом в Омске — прайс за кг и тонну | ${site.brand}`;
   const description =
-    'Актуальный прайс-лист на приём лома в Омске: медь, латунь, бронза, алюминий, свинец, никель, олово, нержавейка, чёрный металл. Цены за кг и за тонну, наличный и безналичный расчёт.';
+    'Прайс на приём металлолома в Омске: 141 позиция. Цена меди, латуни, бронзы, алюминия, свинца, нержавейки за кг, чёрного лома за тонну. Приём на 2-й Барнаульской, 105.';
 
   res.render('price', {
     page: 'price',
@@ -66,7 +66,7 @@ router.get('/price', (req, res) => {
       seo.webPage({ path: '/price', title, description }),
       seo.breadcrumbs([
         { name: 'Главная', path: '/' },
-        { name: 'Цены на лом', path: '/price' }
+        { name: 'Цены на металлолом', path: '/price' }
       ]),
       seo.offerCatalog(prices.groups)
     ])
