@@ -181,9 +181,10 @@
     <div class="container">
       <header class="section__head">
         <p class="section__eyebrow">Услуги</p>
-        <h2 class="section__title">Вывоз, демонтаж и резка лома</h2>
+        <h2 class="section__title">Что мы делаем</h2>
         <p class="section__lead">
-          Берём на себя весь тяжёлый этап: приезжаем со своей техникой, режем, грузим и вывозим.
+          Приёмный пункт полного профиля: от пары килограммов меди до тонн стального лома,
+          с документами и расчётом в тот же день.
         </p>
       </header>
 
@@ -218,9 +219,9 @@
 
         <ul class="about__list">
           <li>Приём цветного лома <b><%= site.terms.minWeight %></b></li>
-          <li>Бесплатный вывоз по Омску <b><%= site.terms.freePickupFrom %></b></li>
+          <li>Приём чёрного лома <b>по ГОСТ 2787-75</b></li>
           <li>Расчёт в день сдачи <b><%= site.terms.payout %></b></li>
-          <li>Оценка по фото до выезда — без лишних поездок</li>
+          <li>Предварительная оценка по фото — до поездки на базу</li>
         </ul>
       </div>
 
@@ -257,7 +258,7 @@
     <div class="container contacts">
       <div class="contacts__info">
         <p class="section__eyebrow">Контакты</p>
-        <h2 class="section__title">Приезжайте или вызовите машину</h2>
+        <h2 class="section__title">Приезжайте на нашу площадку</h2>
 
         <dl class="contacts__list">
           <div class="contacts__row">
@@ -288,8 +289,8 @@
       <div class="contacts__form">
         <%- include('partials/lead-form', {
           variant: 'dark',
-          formTitle: 'Вызвать машину или узнать цену',
-          formText: 'Опишите металл и объём — перезвоним, назовём цену и согласуем время.'
+          formTitle: 'Узнать цену',
+          formText: 'Опишите металл и объём — перезвоним и назовём цену до вашего приезда.'
         }) %>
       </div>
     </div>
