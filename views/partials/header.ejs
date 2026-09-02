@@ -1,0 +1,29 @@
+<header class="header" id="top">
+  <div class="container header__inner">
+    <a class="logo" href="/" aria-label="<%= site.brand %> — на главную">
+      <img class="logo__mark" src="/img/logo.svg" width="44" height="44" alt="">
+      <span class="logo__text">
+        <span class="logo__name"><%= site.brand %></span>
+        <span class="logo__sub">приём лома <%= site.cityIn %></span>
+      </span>
+    </a>
+
+    <input type="checkbox" id="nav-toggle" class="nav-toggle" hidden>
+    <label for="nav-toggle" class="burger" aria-label="Меню"><span></span></label>
+
+    <nav class="nav" aria-label="Основная навигация">
+      <a class="nav__link<%= currentPath === '/' ? ' is-active' : '' %>" href="/">Главная</a>
+      <a class="nav__link" href="/#priem">Что принимаем</a>
+      <a class="nav__link<%= currentPath === '/price' ? ' is-active' : '' %>" href="/price">Цены</a>
+      <a class="nav__link" href="/#uslugi">Услуги</a>
+      <a class="nav__link" href="/#kontakty">Контакты</a>
+    </nav>
+
+    <div class="header__contact">
+      <a class="header__phone" href="tel:<%= site.phonePrimary.raw %>"><%= site.phonePrimary.display %></a>
+      <span class="header__hours"><%= site.hours.short %></span>
+    </div>
+
+    <a class="btn btn--accent btn--sm header__cta" href="#zayavka">Узнать цену</a>
+  </div>
+</header>

@@ -1,0 +1,27 @@
+# зависимости и сборка
+node_modules/
+*.log
+*.tmp
+
+# --- НИКОГДА не коммитить: доступы и персональные данные ---
+server-access/          # ssh-ключи, пароли, инвентарь сервера
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+*.ppk
+id_rsa*
+id_ed25519*
+*password*.txt
+*secret*
+authorized_keys
+known_hosts
+
+# заявки с форм — персональные данные клиентов
+data/leads.json
+
+# служебные файлы разбора прайса
+data/_source/check.txt
+data/_source/_enc.txt
+data/*.tmp

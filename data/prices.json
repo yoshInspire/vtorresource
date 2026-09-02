@@ -1,0 +1,1301 @@
+{
+  "updatedAt": "2026-09-01",
+  "note": "Цены справочные и зависят от объёма, засора и состояния лома. Точную стоимость называем после осмотра и взвешивания. От 500 кг — цена договорная.",
+  "groups": [
+    {
+      "id": "chermet",
+      "title": "Чёрный лом",
+      "short": "Чёрный металл",
+      "unit": "₽/тонна",
+      "unitShort": "т",
+      "columns": [
+        "Цена, ₽/тонна"
+      ],
+      "description": "Приём стального и чугунного лома по ГОСТ 2787-75 в Омске: вывоз, резка, демонтаж, погрузка.",
+      "categories": [
+        {
+          "id": "stal-chugun",
+          "name": "Сталь и чугун",
+          "items": [
+            {
+              "id": "0a",
+              "title": "Деловой металлопрокат (0A)",
+              "note": "Деловой стальной кусковой металлопрокат новый и б/у в виде арматуры, уголка, листа, трубы, профильной трубы, двутавра, швеллера, шестигранника не короче 2 метров",
+              "cash": 20000,
+              "cashTo": 30000,
+              "bank": null,
+              "text": null
+            },
+            {
+              "id": "3a",
+              "title": "Стальной кусковой лом, габарит (3A)",
+              "note": "Стальной кусковой лом габаритные размеры не более 800*500*500 мм (ГОСТ 2787-75), вес куска не менее 2 кг, трубы диаметром более 200 мм должны быть сплющены или разрезаны по образующей. Толщина металла не менее 6 мм (засор 5%)",
+              "cash": 11000,
+              "cashTo": null,
+              "bank": null,
+              "text": null
+            },
+            {
+              "id": "5a",
+              "title": "Стальной негабаритный лом (5A)",
+              "note": "Стальной негабаритный лом, толщиной от 4 мм, трубы длиной до 1,5 м и диаметром более 200 мм, не сплющенные или не разрезанные по образующей, вес конструкции до 5 тн (засор 5%)",
+              "cash": 10000,
+              "cashTo": null,
+              "bank": null,
+              "text": null
+            },
+            {
+              "id": "12a",
+              "title": "Стальной лом тонкий (до 4 мм) (12A)",
+              "note": "Стальной лом – толщина металла менее 4 мм. Стальные,листовые, полосовые и сортовые отходы, кровля, легковесный промышленный и бытовой лом, проволока и изделия из нее, металлоконструкции, трубы (засор 5%)",
+              "cash": 9000,
+              "cashTo": null,
+              "bank": null,
+              "text": null
+            },
+            {
+              "id": "17a",
+              "title": "Чугунный лом, габарит (17A)",
+              "note": "Лом чугуна габарит (300х300х300, масса куска должна быть не менее 0,5 кг, но не более 20 кг) засор 5%",
+              "cash": 17000,
+              "cashTo": null,
+              "bank": null,
+              "text": null
+            },
+            {
+              "id": "21a",
+              "title": "Чугунный лом, негабарит (21A)",
+              "note": "Негабаритный чугунный лом и отходы промышленного производства в виде чугунных отливок, изложниц и поддонов, вес куска не более 5 тн., сантехнические изделия (батареи, ванны и т.п.) (засор 5%)",
+              "cash": 15000,
+              "cashTo": null,
+              "bank": null,
+              "text": null
+            },
+            {
+              "id": "struzhka",
+              "title": "Стружка",
+              "note": "(засор 5%)",
+              "cash": 3000,
+              "cashTo": null,
+              "bank": null,
+              "text": null
+            },
+            {
+              "id": "tros",
+              "title": "Трос",
+              "note": "от 18мм (засор 5%)",
+              "cash": 1000,
+              "cashTo": null,
+              "bank": null,
+              "text": null
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "cvetmet",
+      "title": "Цветной лом",
+      "short": "Цветной металл",
+      "unit": "₽/кг",
+      "unitShort": "кг",
+      "columns": [
+        "Наличный расчёт, ₽/кг",
+        "Безналичный расчёт, ₽/кг"
+      ],
+      "description": "Приём меди, латуни, бронзы, алюминия, свинца, никеля, олова, нержавейки и радиолома в Омске.",
+      "categories": [
+        {
+          "id": "med-sortovaya",
+          "name": "Медь сортовая",
+          "items": [
+            {
+              "id": "lom-medi-blesk",
+              "title": "Лом меди «Блеск»",
+              "note": "механически разделанный кабель, не окисленный, без потемнения и цветоизменения от 1 мм",
+              "cash": 818.18,
+              "bank": 900,
+              "text": null
+            },
+            {
+              "id": "lom-medi-kusok",
+              "title": "Лом меди «Кусок»",
+              "note": "«Блеск» потемневший и с цветоизменениями от 1 мм, прокат, проводники тока, шины без примесей, трубы от 2 мм. Размер куска не менее 50*50 мм",
+              "cash": 809.09,
+              "bank": 890,
+              "text": null
+            }
+          ]
+        },
+        {
+          "id": "med",
+          "name": "Медь",
+          "items": [
+            {
+              "id": "lom-medi-miks",
+              "title": "Лом меди (микс)",
+              "note": "",
+              "cash": 800,
+              "bank": 880,
+              "text": null
+            },
+            {
+              "id": "lom-medi-luzhenaya-med",
+              "title": "Лом меди (луженая медь)",
+              "note": "",
+              "cash": 709.09,
+              "bank": 780,
+              "text": null
+            },
+            {
+              "id": "lom-medi",
+              "title": "Лом меди",
+              "note": "стружка, фольга",
+              "cash": 681.82,
+              "bank": 750,
+              "text": null
+            },
+            {
+              "id": "lom-mednogo-kabelya-v-izolyacii-dlya-mehanichesk",
+              "title": "Лом медного кабеля в изоляции для механической разделки, кроме тонкого",
+              "note": "цена за содержание меди",
+              "cash": 709.09,
+              "bank": 780,
+              "text": null
+            },
+            {
+              "id": "lom-mednogo-kabelya-v-izolyacii-tonkiy-v-steklov",
+              "title": "Лом медного кабеля в изоляции, тонкий, в стекловолокне, провода",
+              "note": "цена за содержание меди",
+              "cash": 690.91,
+              "bank": 760,
+              "text": null
+            },
+            {
+              "id": "lom-bimetalla-za-soderzhanie-medi-ot-20",
+              "title": "Лом биметалла за содержание меди от 20%",
+              "note": "",
+              "cash": 30,
+              "bank": 33,
+              "text": null
+            },
+            {
+              "id": "lom-mednogo-shlaka-za-soderzhaniem-medi-ot-20",
+              "title": "Лом медного шлака за содержанием меди от 20%",
+              "note": "",
+              "cash": 30,
+              "bank": 33,
+              "text": null
+            }
+          ]
+        },
+        {
+          "id": "latun-bronza",
+          "name": "Латунь, бронза",
+          "items": [
+            {
+              "id": "lom-latuni-kusok",
+              "title": "Лом латуни кусок",
+              "note": "разделанные, желтые краны (без примесей), латунные сепараторы, прутки, прокат, высечки",
+              "cash": 540.91,
+              "bank": 595,
+              "text": null
+            },
+            {
+              "id": "lom-latuni-miks",
+              "title": "Лом латуни (микс)",
+              "note": "",
+              "cash": 536.36,
+              "bank": 590,
+              "text": null
+            },
+            {
+              "id": "latun-a-1-2a",
+              "title": "Латунь А-1-2а",
+              "note": "однородная партия латунных шлангов от душа, крышек от радиаторов, термостатов, МНЦ, волосянка, трубка забитая",
+              "cash": 490.91,
+              "bank": 540,
+              "text": null
+            },
+            {
+              "id": "lom-bronzy",
+              "title": "Лом бронзы",
+              "note": "",
+              "cash": 636.36,
+              "bank": 700,
+              "text": null
+            },
+            {
+              "id": "lom-bronzy-struzhka",
+              "title": "Лом бронзы (стружка)",
+              "note": "",
+              "cash": 590.91,
+              "bank": 650,
+              "text": null
+            },
+            {
+              "id": "lom-bronzovyh-vkladyshey-mopy",
+              "title": "Лом бронзовых вкладышей (МОПы)",
+              "note": "",
+              "cash": 536.36,
+              "bank": 590,
+              "text": null
+            },
+            {
+              "id": "lom-medno-nikelevyh-splavov-mnzh-5-1",
+              "title": "Лом медно-никелевых сплавов (МНЖ-5-1)",
+              "note": "",
+              "cash": 636.36,
+              "bank": 700,
+              "text": null
+            },
+            {
+              "id": "lom-radiatorov-latunnyh",
+              "title": "Лом радиаторов латунных",
+              "note": "",
+              "cash": 545.45,
+              "bank": 600,
+              "text": null
+            },
+            {
+              "id": "lom-radiatorov-mednyh-teplovoznye",
+              "title": "Лом радиаторов медных (тепловозные)",
+              "note": "",
+              "cash": 636.36,
+              "bank": 700,
+              "text": null
+            },
+            {
+              "id": "lom-latuni-struzhka",
+              "title": "Лом латуни (стружка)",
+              "note": "",
+              "cash": 490.91,
+              "bank": 540,
+              "text": null
+            }
+          ]
+        },
+        {
+          "id": "alyuminiy",
+          "name": "Алюминий",
+          "items": [
+            {
+              "id": "lom-alyuminiya-bytovogo",
+              "title": "Лом алюминия бытового",
+              "note": "",
+              "cash": 131.82,
+              "bank": 145,
+              "text": null
+            },
+            {
+              "id": "lom-alyuminiya-motornogo",
+              "title": "Лом алюминия моторного",
+              "note": "",
+              "cash": 131.82,
+              "bank": 145,
+              "text": null
+            },
+            {
+              "id": "lom-alyuminievyh-banok",
+              "title": "Лом алюминиевых банок",
+              "note": "",
+              "cash": 90.91,
+              "bank": 100,
+              "text": null
+            },
+            {
+              "id": "lom-alyuminiya-struzhka",
+              "title": "Лом алюминия (стружка)",
+              "note": "",
+              "cash": 72.73,
+              "bank": 80,
+              "text": null
+            },
+            {
+              "id": "lom-alyuminiya-amg",
+              "title": "Лом алюминия (АМГ)",
+              "note": "",
+              "cash": 118.18,
+              "bank": 130,
+              "text": null
+            },
+            {
+              "id": "lom-alyuminiya-folga",
+              "title": "Лом алюминия (фольга)",
+              "note": "",
+              "cash": 63.64,
+              "bank": 70,
+              "text": null
+            },
+            {
+              "id": "lom-radiatorov-alyuminievo-mednyh",
+              "title": "Лом радиаторов алюминиево-медных",
+              "note": "",
+              "cash": 163.64,
+              "bank": 180,
+              "text": null
+            },
+            {
+              "id": "lom-alyuminiya-aviacionnogo",
+              "title": "Лом алюминия авиационного",
+              "note": "",
+              "cash": 45.45,
+              "bank": 50,
+              "text": null
+            },
+            {
+              "id": "lom-alyuminievogo-kabelya-v-pvh-tolschina-zhily",
+              "title": "Лом алюминиевого кабеля в ПВХ, толщина жилы до 1 см, со стальной жилой АС",
+              "note": "цена за содержание алюминия",
+              "cash": 109.09,
+              "bank": 120,
+              "text": null
+            },
+            {
+              "id": "lom-alyuminievogo-kabelya-v-pvh-tolschina-zhily-2",
+              "title": "Лом алюминиевого кабеля в ПВХ, толщина жилы от 1 см до 2 см",
+              "note": "цена за содержание алюминия",
+              "cash": 127.27,
+              "bank": 140,
+              "text": null
+            },
+            {
+              "id": "lom-alyuminievogo-kabelya-v-pvh-tolschina-zhily-3",
+              "title": "Лом алюминиевого кабеля в ПВХ, толщина жилы от 2 см",
+              "note": "цена за содержание алюминия",
+              "cash": 136.36,
+              "bank": 150,
+              "text": null
+            },
+            {
+              "id": "lom-alyuminievogo-kabelya-v-alyuminievoy-ili-svi",
+              "title": "Лом алюминиевого кабеля в алюминиевой или свинцовой броне",
+              "note": "цена за содержание алюминия",
+              "cash": 136.36,
+              "bank": 150,
+              "text": null
+            },
+            {
+              "id": "lom-alyuminiya-shlak-za-soderzhaniya-alyuminiya",
+              "title": "Лом алюминия (шлак) за содержания алюминия",
+              "note": "",
+              "cash": 22.73,
+              "bank": 25,
+              "text": null
+            },
+            {
+              "id": "lom-alyuminievyh-akpp-i-dvs-v-sbore",
+              "title": "Лом алюминиевых АКПП и ДВС в сборе",
+              "note": "",
+              "cash": 22.73,
+              "bank": 25,
+              "text": null
+            }
+          ]
+        },
+        {
+          "id": "alyuminiy-sortovoy",
+          "name": "Алюминий сортовой",
+          "items": [
+            {
+              "id": "lom-alyuminiya-elektrotehnicheskogo",
+              "title": "Лом алюминия электротехнического",
+              "note": "",
+              "cash": 181.82,
+              "bank": 200,
+              "text": null
+            },
+            {
+              "id": "lom-alyuminiya-pischevogo",
+              "title": "Лом алюминия пищевого",
+              "note": "",
+              "cash": 172.73,
+              "bank": 190,
+              "text": null
+            },
+            {
+              "id": "lom-alyuminiya-profil",
+              "title": "Лом алюминия профиль",
+              "note": "",
+              "cash": 163.64,
+              "bank": 180,
+              "text": null
+            },
+            {
+              "id": "lom-alyuminiya-profil-s-termovstavkoy",
+              "title": "Лом алюминия профиль с термовставкой",
+              "note": "",
+              "cash": 72.73,
+              "bank": 80,
+              "text": null
+            },
+            {
+              "id": "lom-alyuminiya-opalubka",
+              "title": "Лом алюминия (опалубка)",
+              "note": "",
+              "cash": 145.45,
+              "bank": 160,
+              "text": null
+            },
+            {
+              "id": "lom-alyuminiya-diski",
+              "title": "Лом алюминия (диски)",
+              "note": "",
+              "cash": 145.45,
+              "bank": 160,
+              "text": null
+            },
+            {
+              "id": "lom-alyuminiya-list-ofsetnyy",
+              "title": "Лом алюминия лист офсетный",
+              "note": "типографский лист",
+              "cash": 145.45,
+              "bank": 160,
+              "text": null
+            },
+            {
+              "id": "lom-alyuminiya-elektrotehnicheskogo-sechka",
+              "title": "Лом алюминия электротехнического (сечка)",
+              "note": "",
+              "cash": 145.45,
+              "bank": 160,
+              "text": null
+            }
+          ]
+        },
+        {
+          "id": "elektrodvigateli",
+          "name": "Электродвигатели",
+          "items": [
+            {
+              "id": "lom-krupnyh-elektrodvigateley-v-sbore-ot-100-kg",
+              "title": "Лом крупных электродвигателей в сборе от 100 кг",
+              "note": "до 100 кг по цене чермета",
+              "cash": 27.27,
+              "bank": 30,
+              "text": null
+            }
+          ]
+        },
+        {
+          "id": "akkumulyatory",
+          "name": "Аккумуляторы",
+          "items": [
+            {
+              "id": "akkumulyatory-polipropilenovye-ne-slitye",
+              "title": "Аккумуляторы полипропиленовые (не слитые)",
+              "note": "",
+              "cash": 38.18,
+              "bank": 42,
+              "text": null
+            },
+            {
+              "id": "akkumulyatory-ebonitovye-gelevye-ne-slitye",
+              "title": "Аккумуляторы эбонитовые, гелевые (не слитые)",
+              "note": "",
+              "cash": 36.36,
+              "bank": 40,
+              "text": null
+            },
+            {
+              "id": "lom-schelochnyh-akb-tnzh-vnzh-nzh-nk-tnk-i-dr-kr",
+              "title": "Лом щелочных АКБ (ТНЖ, ВНЖ, НЖ, НК, ТНК и др. кроме импортных НК, ТПНЖ) Таблица весов",
+              "note": "",
+              "cash": 27.27,
+              "bank": 30,
+              "text": null
+            },
+            {
+              "id": "nk-import-tpnzh-tablica-vesov",
+              "title": "НК импорт ТПНЖ Таблица весов",
+              "note": "",
+              "cash": 22.73,
+              "bank": 25,
+              "text": null
+            },
+            {
+              "id": "lom-schelochnyh-akb-vesom-ot-1-kg-do-2-kg",
+              "title": "Лом щелочных АКБ весом от 1 кг. до 2 кг.",
+              "note": "",
+              "cash": 13.64,
+              "bank": 15,
+              "text": null
+            }
+          ]
+        },
+        {
+          "id": "svinec",
+          "name": "Свинец",
+          "items": [
+            {
+              "id": "lom-svinca",
+              "title": "Лом свинца",
+              "note": "чушка С1, С2, С3",
+              "cash": 104.55,
+              "bank": 115,
+              "text": null
+            },
+            {
+              "id": "lom-svinca-kabelnyy",
+              "title": "Лом свинца (кабельный)",
+              "note": "",
+              "cash": 100,
+              "bank": 110,
+              "text": null
+            },
+            {
+              "id": "lom-svinca-samoplav",
+              "title": "Лом свинца самоплав",
+              "note": "мягкий, без Bi и Ag, Zn до 1.5%, Sn до 4% и Sb до 7%",
+              "cash": 95.45,
+              "bank": 105,
+              "text": null
+            },
+            {
+              "id": "lom-svinca-2",
+              "title": "Лом свинца",
+              "note": "линотипный, грузики, самоплав брак",
+              "cash": 59.09,
+              "bank": 65,
+              "text": null
+            },
+            {
+              "id": "lom-svinca-v-plastinah",
+              "title": "Лом свинца (в пластинах)",
+              "note": "",
+              "cash": 45.45,
+              "bank": 50,
+              "text": null
+            }
+          ]
+        },
+        {
+          "id": "nerzhaveyuschaya-i-nizkolegirovannaya-stal",
+          "name": "Нержавеющая и низколегированная сталь",
+          "items": [
+            {
+              "id": "lom-nerzhaveyuschey-stali-ni-9-5-11",
+              "title": "Лом нержавеющей стали (Ni >9,5-11%)",
+              "note": "",
+              "cash": 45.45,
+              "bank": 50,
+              "text": null
+            },
+            {
+              "id": "lom-nerzhaveyuschey-stali-ni-9-9-5",
+              "title": "Лом нержавеющей стали (Ni 9-9,5%)",
+              "note": "",
+              "cash": 36.36,
+              "bank": 40,
+              "text": null
+            },
+            {
+              "id": "lom-nerzhaveyuschey-stali-ni-8-8-99",
+              "title": "Лом нержавеющей стали (Ni 8-8,99%)",
+              "note": "",
+              "cash": 36.36,
+              "bank": 40,
+              "text": null
+            },
+            {
+              "id": "lom-nizkolegirovannoy-stali-ni-6-7",
+              "title": "Лом низколегированной стали (Ni 6-7%)",
+              "note": "",
+              "cash": 18.18,
+              "bank": 20,
+              "text": null
+            },
+            {
+              "id": "lom-nizkolegirovannoy-stali-ni-4-5",
+              "title": "Лом низколегированной стали (Ni 4-5%)",
+              "note": "",
+              "cash": 13.64,
+              "bank": 15,
+              "text": null
+            },
+            {
+              "id": "lom-struzhki-nerzhaveyuschey-stali-ni-9-11",
+              "title": "Лом стружки нержавеющей стали (Ni 9-11%)",
+              "note": "",
+              "cash": 18.18,
+              "bank": 20,
+              "text": null
+            },
+            {
+              "id": "lom-struzhki-nerzhaveyuschey-stali-ni-8-9",
+              "title": "Лом стружки нержавеющей стали (Ni 8-9%)",
+              "note": "",
+              "cash": 13.64,
+              "bank": 15,
+              "text": null
+            }
+          ]
+        },
+        {
+          "id": "nihromy-i-nikelsoderzhaschie-splavy",
+          "name": "Нихромы и никельсодержащие сплавы",
+          "items": [
+            {
+              "id": "nihrom-h20n80-buhty-diametrom-ot-3-mm-lenty-tols",
+              "title": "Нихром Х20Н80 (Бухты диаметром от 3 мм, ленты толщиной от 2 мм и шириной от 10 мм). Без повреждений, окислений и трещин",
+              "note": "",
+              "cash": 818.18,
+              "bank": 900,
+              "text": null
+            },
+            {
+              "id": "lom-nihroma-h15n60",
+              "title": "Лом нихрома Х15Н60",
+              "note": "",
+              "cash": 363.64,
+              "bank": 400,
+              "text": null
+            },
+            {
+              "id": "lom-nihroma-h20n80",
+              "title": "Лом нихрома Х20Н80",
+              "note": "толстый от 3 мм",
+              "cash": 545.45,
+              "bank": 600,
+              "text": null
+            },
+            {
+              "id": "lom-nihroma-h20n80-2",
+              "title": "Лом нихрома Х20Н80",
+              "note": "тонкий до 3 мм",
+              "cash": 500,
+              "bank": 550,
+              "text": null
+            },
+            {
+              "id": "lom-nikelya-h23n18-b28",
+              "title": "Лом никеля Х23Н18 Б28",
+              "note": "",
+              "cash": 118.18,
+              "bank": 130,
+              "text": null
+            },
+            {
+              "id": "lom-nikelya-ei-943-06hn28mdt",
+              "title": "Лом никеля ЭИ 943 (06ХН28МДТ)",
+              "note": "",
+              "cash": 101.82,
+              "bank": 112,
+              "text": null
+            },
+            {
+              "id": "splav-monel",
+              "title": "Сплав монель",
+              "note": "Ni 60-68%, Cu 30-38%, Mn 1-2%",
+              "cash": 363.64,
+              "bank": 400,
+              "text": null
+            },
+            {
+              "id": "splav-konstantan",
+              "title": "Сплав константан",
+              "note": "Ni 39-41%, Cu 57-60%, Mn 1-2%",
+              "cash": 227.27,
+              "bank": 250,
+              "text": null
+            },
+            {
+              "id": "lom-nikelsoderzhaschih-splavov-za-1-v-kg",
+              "title": "Лом никельсодержащих сплавов за 1% в кг",
+              "note": "",
+              "cash": 3.64,
+              "bank": 4,
+              "text": null
+            },
+            {
+              "id": "lom-medno-nikelevyh-splavov-za-1-v-kg",
+              "title": "Лом медно - никелевых сплавов за 1% в кг",
+              "note": "",
+              "cash": 2.73,
+              "bank": 3,
+              "text": null
+            }
+          ]
+        },
+        {
+          "id": "nikel",
+          "name": "Никель",
+          "items": [
+            {
+              "id": "nikel-np-anod-n-1-katod",
+              "title": "Никель НП анод, Н-1 катод",
+              "note": "",
+              "cash": 818.18,
+              "bank": 900,
+              "text": null
+            },
+            {
+              "id": "nikel-n-3-granuly",
+              "title": "Никель Н-3 гранулы",
+              "note": "",
+              "cash": 818.18,
+              "bank": 900,
+              "text": null
+            },
+            {
+              "id": "lom-nikelya-ni-100",
+              "title": "Лом никеля (Ni 100%)",
+              "note": "",
+              "cash": 681.82,
+              "bank": 750,
+              "text": null
+            }
+          ]
+        },
+        {
+          "id": "tverdye-splavy-pobedit",
+          "name": "Твердые сплавы, победит",
+          "items": [
+            {
+              "id": "lom-vk-tk-bez-pripoya",
+              "title": "Лом ВК-ТК без припоя",
+              "note": "",
+              "cash": 4090.91,
+              "bank": 4500,
+              "text": null
+            },
+            {
+              "id": "lom-vk-tk-s-pripoem",
+              "title": "Лом ВК-ТК с припоем",
+              "note": "",
+              "cash": 3909.09,
+              "bank": 4300,
+              "text": null
+            },
+            {
+              "id": "lom-vk-bez-pripoya",
+              "title": "Лом ВК без припоя",
+              "note": "",
+              "cash": 4090.91,
+              "bank": 4500,
+              "text": null
+            },
+            {
+              "id": "lom-vk-s-pripoem",
+              "title": "Лом ВК с припоем",
+              "note": "",
+              "cash": 3909.09,
+              "bank": 4300,
+              "text": null
+            },
+            {
+              "id": "poroshok-vk-tk",
+              "title": "Порошок ВК-ТК",
+              "note": "сухой в герметичной упаковке",
+              "cash": 1363.64,
+              "bank": 1500,
+              "text": null
+            }
+          ]
+        },
+        {
+          "id": "bystrorezhuschie-stali",
+          "name": "Быстрорежущие стали",
+          "items": [
+            {
+              "id": "lom-bystrorezhuschey-stali-instrument-b-u-r18",
+              "title": "Лом быстрорежущей стали (инструмент б/у) Р18",
+              "note": "",
+              "cash": 545.45,
+              "bank": 600,
+              "text": null
+            },
+            {
+              "id": "lom-bystrorezhuschey-stali-instrument-b-u-r6m5-r",
+              "title": "Лом быстрорежущей стали (инструмент б/у) Р6М5, Р6АМ5, Р6М5Ф3, Р6М5К5",
+              "note": "",
+              "cash": 363.64,
+              "bank": 400,
+              "text": null
+            },
+            {
+              "id": "lom-bystrorezhuschey-stali-instrument-b-u-r9",
+              "title": "Лом быстрорежущей стали (инструмент б/у) Р9",
+              "note": "",
+              "cash": 181.82,
+              "bank": 200,
+              "text": null
+            },
+            {
+              "id": "lom-bystrorezhuschey-stali-instrument-b-u-r12",
+              "title": "Лом быстрорежущей стали (инструмент б/у) Р12",
+              "note": "",
+              "cash": 272.73,
+              "bank": 300,
+              "text": null
+            },
+            {
+              "id": "lom-bystrorezhuschey-stali-instrument-b-u-r3m3",
+              "title": "Лом быстрорежущей стали (инструмент б/у) Р3М3",
+              "note": "",
+              "cash": 118.18,
+              "bank": 130,
+              "text": null
+            }
+          ]
+        },
+        {
+          "id": "olovo",
+          "name": "Олово",
+          "items": [
+            {
+              "id": "lom-olova-o1pch",
+              "title": "Лом олова О1пч",
+              "note": "",
+              "cash": 2227.27,
+              "bank": 2450,
+              "text": null
+            },
+            {
+              "id": "splav-olovyanno-svincovyy-snpb-za-1-olova-v-kg",
+              "title": "Сплав оловянно-свинцовый (SnPb), за 1% олова в кг",
+              "note": "",
+              "cash": 12.73,
+              "bank": 14,
+              "text": null
+            },
+            {
+              "id": "splav-olovyanno-mednyy-sncu-sn-95-za-1-olova-v-k",
+              "title": "Сплав оловянно-медный (SnCu, Sn>95%), за 1% олова в кг",
+              "note": "",
+              "cash": 12.73,
+              "bank": 14,
+              "text": null
+            },
+            {
+              "id": "splav-olovyanno-surmyanistyy-snsb-za-1-olova-v-k",
+              "title": "Сплав оловянно-сурьмянистый (SnSb), за 1% олова в кг",
+              "note": "",
+              "cash": 12.73,
+              "bank": 14,
+              "text": null
+            },
+            {
+              "id": "splav-olovyanno-svincovo-mednyy-snpbcu-za-1-olov",
+              "title": "Сплав оловянно-свинцово-медный (SnPbCu), за 1% олова в кг",
+              "note": "",
+              "cash": 12.73,
+              "bank": 14,
+              "text": null
+            },
+            {
+              "id": "splav-olovyanno-svincovo-mednyy-surmyanistyy-snp",
+              "title": "Сплав оловянно-свинцово-медный-сурьмянистый (SnPbCuSb), за 1% олова в кг",
+              "note": "",
+              "cash": 12.73,
+              "bank": 14,
+              "text": null
+            },
+            {
+              "id": "splav-s-soderzhaniem-olova-snpbcusbasznbi-as-5-z",
+              "title": "Сплав с содержанием олова (SnPbCuSbAsZnBi, As<5%, ZN<2%, Bi<1%), за 1% олова в кг",
+              "note": "",
+              "cash": 10.91,
+              "bank": 12,
+              "text": null
+            }
+          ]
+        },
+        {
+          "id": "babbity",
+          "name": "Баббиты",
+          "items": [
+            {
+              "id": "lom-olovyannogo-babbita-b-83-gost",
+              "title": "Лом оловянного баббита Б-83 ГОСТ",
+              "note": "Pb<0,35%) (лом, чушка",
+              "cash": 1909.09,
+              "bank": 2100,
+              "text": null
+            },
+            {
+              "id": "lom-brakovannogo-olovyannogo-babbita-b-83-pb-do",
+              "title": "Лом бракованного оловянного баббита Б-83 Pb до 1%",
+              "note": "",
+              "cash": 1136.36,
+              "bank": 1250,
+              "text": null
+            },
+            {
+              "id": "lom-brakovannogo-olovyannogo-babbita-b-83-pb-do-2",
+              "title": "Лом бракованного оловянного баббита Б-83 Pb до 1,5%",
+              "note": "",
+              "cash": 1000,
+              "bank": 1100,
+              "text": null
+            },
+            {
+              "id": "lom-olovyannogo-babbita-b-16",
+              "title": "Лом оловянного баббита Б-16",
+              "note": "Sn 15-17%) (лом, чушка",
+              "cash": 490.91,
+              "bank": 540,
+              "text": null
+            },
+            {
+              "id": "lom-brakovannyh-splavov-pos-b-83-pb-1-i-b-16-za",
+              "title": "Лом бракованных сплавов: ПОС, Б-83 (Pb>1%) и Б-16, за 1% олова в кг",
+              "note": "",
+              "cash": 12.73,
+              "bank": 14,
+              "text": null
+            }
+          ]
+        },
+        {
+          "id": "pripoi-olovyanno-svincovye-posy-possu",
+          "name": "Припои оловянно-свинцовые (ПОСы, ПОССу)",
+          "items": [
+            {
+              "id": "pos-90",
+              "title": "ПОС 90",
+              "note": "",
+              "cash": 1840,
+              "bank": 2024,
+              "text": null
+            },
+            {
+              "id": "pos-61",
+              "title": "ПОС 61",
+              "note": "",
+              "cash": 1240,
+              "bank": 1364,
+              "text": null
+            },
+            {
+              "id": "pos-40",
+              "title": "ПОС 40",
+              "note": "",
+              "cash": 820,
+              "bank": 902,
+              "text": null
+            },
+            {
+              "id": "pos-30",
+              "title": "ПОС 30",
+              "note": "",
+              "cash": 610,
+              "bank": 671,
+              "text": null
+            },
+            {
+              "id": "pos-18",
+              "title": "ПОС 18",
+              "note": "",
+              "cash": 370,
+              "bank": 407,
+              "text": null
+            },
+            {
+              "id": "possu-90",
+              "title": "ПОССу-90",
+              "note": "",
+              "cash": 1760,
+              "bank": 1936,
+              "text": null
+            },
+            {
+              "id": "possu-61",
+              "title": "ПОССу-61",
+              "note": "",
+              "cash": 1190,
+              "bank": 1309,
+              "text": null
+            },
+            {
+              "id": "possu-40",
+              "title": "ПОССу-40",
+              "note": "",
+              "cash": 780,
+              "bank": 858,
+              "text": null
+            },
+            {
+              "id": "possu-30",
+              "title": "ПОССу-30",
+              "note": "",
+              "cash": 590,
+              "bank": 649,
+              "text": null
+            },
+            {
+              "id": "possu-18",
+              "title": "ПОССу-18",
+              "note": "",
+              "cash": 350,
+              "bank": 385,
+              "text": null
+            },
+            {
+              "id": "posk-50",
+              "title": "ПОСК 50",
+              "note": "",
+              "cash": 360,
+              "bank": 396,
+              "text": null
+            },
+            {
+              "id": "poin-52",
+              "title": "ПОИН 52",
+              "note": "",
+              "cash": 7727.27,
+              "bank": 8500,
+              "text": null
+            }
+          ]
+        },
+        {
+          "id": "titan",
+          "name": "Титан",
+          "items": [
+            {
+              "id": "lom-titana-vt-1-0",
+              "title": "Лом титана ВТ-1-0",
+              "note": "",
+              "cash": 136.36,
+              "bank": 150,
+              "text": null
+            },
+            {
+              "id": "lom-titana-mix",
+              "title": "Лом титана (mix)",
+              "note": "",
+              "cash": 118.18,
+              "bank": 130,
+              "text": null
+            },
+            {
+              "id": "lom-titana-kopanyy",
+              "title": "Лом титана (копаный)",
+              "note": "",
+              "cash": 63.64,
+              "bank": 70,
+              "text": null
+            },
+            {
+              "id": "lom-titana-struzhka",
+              "title": "Лом титана (стружка)",
+              "note": "",
+              "cash": 81.82,
+              "bank": 90,
+              "text": null
+            }
+          ]
+        },
+        {
+          "id": "volfram-molibden-niobiy-volframosoderzhaschie-sp",
+          "name": "Вольфрам, молибден, ниобий, вольфрамосодержащие сплавы",
+          "items": [
+            {
+              "id": "lom-volframa",
+              "title": "Лом вольфрама",
+              "note": "",
+              "cash": 3636.36,
+              "bank": 4000,
+              "text": null
+            },
+            {
+              "id": "lom-vnzh",
+              "title": "Лом ВНЖ",
+              "note": "",
+              "cash": 2727.27,
+              "bank": 3000,
+              "text": null
+            },
+            {
+              "id": "lom-vn-vnm-vm",
+              "title": "Лом ВН/ВНМ/ВМ",
+              "note": "",
+              "cash": 1363.64,
+              "bank": 1500,
+              "text": null
+            },
+            {
+              "id": "lom-molibdena",
+              "title": "Лом молибдена",
+              "note": "",
+              "cash": 3000,
+              "bank": 3300,
+              "text": null
+            },
+            {
+              "id": "lom-niobiya",
+              "title": "Лом ниобия",
+              "note": "",
+              "cash": 1700,
+              "bank": 1870,
+              "text": null
+            }
+          ]
+        },
+        {
+          "id": "ferrosplavy",
+          "name": "Ферросплавы",
+          "items": [
+            {
+              "id": "ferromarganec-fmn-78",
+              "title": "Ферромарганец ФМн-78",
+              "note": "",
+              "cash": 50,
+              "bank": 55,
+              "text": null
+            },
+            {
+              "id": "ferrosiliciy-fs-45",
+              "title": "Ферросилиций ФС-45",
+              "note": "",
+              "cash": 36.36,
+              "bank": 40,
+              "text": null
+            },
+            {
+              "id": "ferrosiliciy-fs-75",
+              "title": "Ферросилиций ФС-75",
+              "note": "",
+              "cash": 40,
+              "bank": 44,
+              "text": null
+            },
+            {
+              "id": "ferroniobiy-fnb-65",
+              "title": "Феррониобий ФНб-65",
+              "note": "",
+              "cash": 1000,
+              "bank": 1100,
+              "text": null
+            },
+            {
+              "id": "ferromolibden-fmo-60",
+              "title": "Ферромолибден ФМо-60",
+              "note": "",
+              "cash": 1900,
+              "bank": 2090,
+              "text": null
+            },
+            {
+              "id": "ferrovanadiy-fvd-50",
+              "title": "Феррованадий ФВд-50",
+              "note": "",
+              "cash": 636.36,
+              "bank": 700,
+              "text": null
+            },
+            {
+              "id": "ferrovanadiy-fvd-80",
+              "title": "Феррованадий ФВд-80",
+              "note": "",
+              "cash": 954.55,
+              "bank": 1050,
+              "text": null
+            }
+          ]
+        },
+        {
+          "id": "cink-cam",
+          "name": "Цинк, ЦАМ",
+          "items": [
+            {
+              "id": "lom-cama",
+              "title": "Лом ЦАМа",
+              "note": "автомобильный",
+              "cash": 127.27,
+              "bank": 140,
+              "text": null
+            },
+            {
+              "id": "lom-cama-santehnika",
+              "title": "Лом ЦАМа (сантехника)",
+              "note": "",
+              "cash": 127.27,
+              "bank": 140,
+              "text": null
+            },
+            {
+              "id": "lom-cama-brak",
+              "title": "Лом ЦАМа (брак)",
+              "note": "",
+              "cash": 45.45,
+              "bank": 50,
+              "text": null
+            },
+            {
+              "id": "lom-cinka",
+              "title": "Лом цинка",
+              "note": "",
+              "cash": 136.36,
+              "bank": 150,
+              "text": null
+            }
+          ]
+        },
+        {
+          "id": "prochee",
+          "name": "Прочее",
+          "items": [
+            {
+              "id": "lom-surmy",
+              "title": "Лом сурьмы",
+              "note": "",
+              "cash": 1363.64,
+              "bank": 1500,
+              "text": null
+            },
+            {
+              "id": "lom-vismuta-vi-0-vi-1",
+              "title": "Лом Висмута (Ви-0, Ви-1)",
+              "note": "",
+              "cash": 636.36,
+              "bank": 700,
+              "text": null
+            },
+            {
+              "id": "lom-magniya",
+              "title": "Лом магния",
+              "note": "",
+              "cash": 70,
+              "bank": 77,
+              "text": null
+            },
+            {
+              "id": "tantal",
+              "title": "Тантал",
+              "note": "обрезки, пруток, круг, фольга, высечка, лист, Ta >97%",
+              "cash": 11818.18,
+              "bank": 13000,
+              "text": null
+            },
+            {
+              "id": "tantal-2",
+              "title": "Тантал",
+              "note": "из К52-2, ЭТО, К53-1,К52-1, 9",
+              "cash": 6363.64,
+              "bank": 7000,
+              "text": null
+            },
+            {
+              "id": "palladievye-katalizatory",
+              "title": "Палладиевые катализаторы",
+              "note": "",
+              "cash": null,
+              "bank": null,
+              "text": "до 40000"
+            },
+            {
+              "id": "platinovye-katalizatory",
+              "title": "Платиновые катализаторы",
+              "note": "",
+              "cash": null,
+              "bank": null,
+              "text": "до 20000"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

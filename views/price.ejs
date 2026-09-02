@@ -1,0 +1,156 @@
+<%- include('partials/head') %>
+<%- include('partials/icons') %>
+<%- include('partials/header') %>
+
+<main id="main" class="price-page">
+
+  <section class="page-head">
+    <div class="container">
+      <nav class="breadcrumbs" aria-label="Хлебные крошки">
+        <a href="/">Главная</a>
+        <span aria-hidden="true">/</span>
+        <span aria-current="page">Цены на лом</span>
+      </nav>
+
+      <h1 class="page-head__title">Цены на приём лома металлов в Омске</h1>
+      <p class="page-head__lead">
+        Полный прайс-лист металлобазы «Вторресурс»: <%= prices.groups.reduce(function (a, g) { return a + g.categories.reduce(function (b, c) { return b + c.items.length; }, 0); }, 0) %>
+        позиций чёрного и цветного лома. Цены действуют на <%= f.dateLong(prices.updatedAt) %>.
+      </p>
+
+      <div class="page-head__meta">
+        <span class="badge badge--live">Обновлено <%= f.dateLong(prices.updatedAt) %></span>
+        <span class="badge">Наличный и безналичный расчёт</span>
+        <span class="badge">Приём <%= site.terms.minWeight %></span>
+        <a class="btn btn--accent btn--sm" href="#zayavka-form">Уточнить цену</a>
+      </div>
+    </div>
+  </section>
+
+  <div class="price-toolbar" data-price-toolbar>
+    <div class="container price-toolbar__inner">
+      <div class="price-search">
+        <svg class="price-search__icon" aria-hidden="true"><use href="#i-search"></use></svg>
+        <label class="visually-hidden" for="price-q">Поиск по прайсу</label>
+        <input id="price-q" class="price-search__input" type="search" autocomplete="off"
+               placeholder="Поиск: медь, Р6М5, алюминий, АКБ…" data-price-search>
+        <button class="price-search__clear" type="button" data-price-clear hidden aria-label="Очистить">×</button>
+      </div>
+      <div class="price-tabs" role="tablist">
+        <% prices.groups.forEach(function (g) { %>
+          <a class="price-tabs__link" href="#<%= g.id %>"><%= g.title %></a>
+        <% }); %>
+      </div>
+    </div>
+    <p class="price-toolbar__empty" data-price-empty hidden>
+      По запросу ничего не найдено. Позвоните — примем и то, чего нет в прайсе.
+    </p>
+  </div>
+
+  <% prices.groups.forEach(function (group) { %>
+    <section class="section section--<%= group.id === 'chermet' ? 'muted' : 'light' %> price-group"
+             id="<%= group.id %>" data-price-group>
+      <div class="container">
+        <header class="section__head">
+          <p class="section__eyebrow">Прайс · <%= group.unit %></p>
+          <h2 class="section__title"><%= group.title %></h2>
+          <p class="section__lead"><%= group.description %></p>
+        </header>
+
+        <% if (group.categories.length > 1) { %>
+          <nav class="anchors" aria-label="Разделы прайса: <%= group.title %>">
+            <% group.categories.forEach(function (c) { %>
+              <a class="anchors__link" href="#<%= c.id %>"><%= c.name %></a>
+            <% }); %>
+          </nav>
+        <% } %>
+
+        <% group.categories.forEach(function (category) { %>
+          <div class="price-cat" id="<%= category.id %>" data-price-cat>
+            <h3 class="price-cat__title"><%= category.name %></h3>
+            <div class="table-wrap">
+              <table class="price-table">
+                <caption class="visually-hidden"><%= category.name %> — цены на приём лома в Омске</caption>
+                <thead>
+                  <tr>
+                    <th scope="col">Позиция</th>
+                    <% group.columns.forEach(function (col) { %>
+                      <th scope="col" class="price-table__col"><%= col %></th>
+                    <% }); %>
+                  </tr>
+                </thead>
+                <tbody>
+                  <% category.items.forEach(function (item) { %>
+                    <tr data-price-row data-search="<%= (item.title + ' ' + item.note + ' ' + category.name).toLowerCase() %>">
+                      <th scope="row" class="price-table__name">
+                        <%= item.title %>
+                        <% if (item.note) { %><span class="price-table__note"><%= item.note %></span><% } %>
+                      </th>
+                      <td class="price-table__value"><b><%= f.itemPrice(item) %></b></td>
+                      <% if (group.columns.length > 1) { %>
+                        <td class="price-table__value price-table__value--alt">
+                          <%= item.bank !== null && item.bank !== undefined ? f.price(item.bank) : '—' %>
+                        </td>
+                      <% } %>
+                    </tr>
+                  <% }); %>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        <% }); %>
+      </div>
+    </section>
+  <% }); %>
+
+  <section class="section section--dark" id="zayavka-form">
+    <div class="container price-cta">
+      <div class="price-cta__text">
+        <h2 class="section__title">Назовём точную цену по вашему лому</h2>
+        <p><%= prices.note %></p>
+        <p>
+          Для партий от 500 кг и для юридических лиц условия обсуждаются отдельно —
+          как правило, цена выше прайсовой. Звоните:
+          <% site.phones.forEach(function (p, i) { %><a class="link" href="tel:<%= p.raw %>"><%= p.display %></a><%= i < site.phones.length - 1 ? ', ' : '' %><% }); %>.
+        </p>
+      </div>
+      <div class="price-cta__form">
+        <% if (leadStatus === 'ok') { %>
+          <div class="alert alert--ok" role="status"><strong>Заявка принята.</strong> Скоро перезвоним.</div>
+        <% } %>
+        <%- include('partials/lead-form', {
+          variant: 'dark',
+          formTitle: 'Уточнить цену',
+          formText: 'Оставьте номер — перезвоним и назовём цену по вашей позиции.'
+        }) %>
+      </div>
+    </div>
+  </section>
+
+  <section class="section section--light">
+    <div class="container container--narrow">
+      <h2 class="section__title">Как формируется цена на лом</h2>
+      <div class="prose">
+        <p>
+          Цена приёма зависит от четырёх вещей: вида металла, его чистоты и засора, объёма партии
+          и формы расчёта. Например, разделанный медный «блеск» стоит заметно дороже медной стружки,
+          а габаритный стальной лом 3А — дороже тонкого лома 12А.
+        </p>
+        <p>
+          Засор (краска, изоляция, пластик, бетон, влага) вычитается из веса по факту осмотра.
+          Поэтому подготовленный лом — очищенный и разделанный — всегда принимается по более высокой
+          ставке. Кабель, электродвигатели и радиаторы можно сдавать без разделки: для них
+          в прайсе отдельные позиции с ценой за содержание металла.
+        </p>
+        <p>
+          Прайс на этой странице обновляется вслед за биржевыми котировками. Если вы планируете сдать
+          крупную партию, уточните цену по телефону в день сдачи — фиксируем её за вами.
+          <a href="/#faq">Остальные частые вопросы</a> — на главной странице.
+        </p>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<%- include('partials/footer') %>

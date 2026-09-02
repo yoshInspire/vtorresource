@@ -1,0 +1,23 @@
+<%- include('partials/head') %>
+<%- include('partials/icons') %>
+<%- include('partials/header') %>
+
+<main id="main">
+  <section class="section section--dark error-page">
+    <div class="container container--narrow">
+      <p class="section__eyebrow"><%= typeof isError !== 'undefined' && isError ? 'Ошибка 500' : 'Ошибка 404' %></p>
+      <h1 class="section__title">
+        <%= typeof isError !== 'undefined' && isError ? 'Что-то пошло не так' : 'Такой страницы нет' %>
+      </h1>
+      <p class="section__lead">
+        Загляните в прайс или позвоните — подскажем цену на любой металл.
+      </p>
+      <div class="hero__actions">
+        <a class="btn btn--accent" href="/price">Смотреть прайс</a>
+        <a class="btn btn--ghost" href="/">На главную</a>
+      </div>
+    </div>
+  </section>
+</main>
+
+<%- include('partials/footer') %>

@@ -1,0 +1,16 @@
+{
+  "name": "vtorresurs-omsk",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Лендинг и прайс приёма лома металлов — Вторресурс, Омск",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "node --watch server.js"
+  },
+  "dependencies": {
+    "compression": "^1.7.5",
+    "ejs": "^3.1.10",
+    "express": "^4.21.2"
+  }
+}

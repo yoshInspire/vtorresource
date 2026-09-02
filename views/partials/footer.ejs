@@ -1,0 +1,55 @@
+<footer class="footer">
+  <div class="container footer__inner">
+    <div class="footer__col footer__col--brand">
+      <a class="logo logo--footer" href="/">
+        <img class="logo__mark" src="/img/logo.svg" width="40" height="40" alt="">
+        <span class="logo__text">
+          <span class="logo__name"><%= site.brand %></span>
+          <span class="logo__sub">приём лома <%= site.cityIn %></span>
+        </span>
+      </a>
+      <p class="footer__about"><%= site.terms.license %>.</p>
+    </div>
+
+    <nav class="footer__col" aria-label="Разделы сайта">
+      <p class="footer__title">Разделы</p>
+      <a class="footer__link" href="/">Главная</a>
+      <a class="footer__link" href="/price">Цены на лом</a>
+      <a class="footer__link" href="/#priem">Что принимаем</a>
+      <a class="footer__link" href="/#uslugi">Услуги</a>
+      <a class="footer__link" href="/#faq">Вопросы и ответы</a>
+    </nav>
+
+    <div class="footer__col">
+      <p class="footer__title">Приём лома</p>
+      <a class="footer__link" href="/price#med">Медь</a>
+      <a class="footer__link" href="/price#latun-bronza">Латунь и бронза</a>
+      <a class="footer__link" href="/price#alyuminiy">Алюминий</a>
+      <a class="footer__link" href="/price#svinec">Свинец</a>
+      <a class="footer__link" href="/price#stal-chugun">Чёрный металл</a>
+    </div>
+
+    <div class="footer__col">
+      <p class="footer__title">Контакты</p>
+      <% site.phones.forEach(function (p) { %>
+        <a class="footer__link footer__link--phone" href="tel:<%= p.raw %>"><%= p.display %></a>
+      <% }); %>
+      <p class="footer__line"><%= site.address.full %></p>
+      <p class="footer__line"><%= site.hours.text %></p>
+      <a class="footer__link" href="mailto:<%= site.email %>"><%= site.email %></a>
+    </div>
+  </div>
+
+  <div class="container footer__bottom">
+    <p>© <%= new Date().getFullYear() %> <%= site.legalName %>. Приём и переработка лома чёрных и цветных металлов в Омске.</p>
+    <p class="footer__disclaimer">Информация на сайте носит справочный характер и не является публичной офертой.</p>
+  </div>
+</footer>
+
+<a class="call-fab" href="tel:<%= site.phonePrimary.raw %>" aria-label="Позвонить">
+  <svg aria-hidden="true"><use href="#i-phone"></use></svg>
+</a>
+
+<script src="/js/main.js" defer></script>
+</body>
+</html>

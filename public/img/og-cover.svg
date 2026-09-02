@@ -1,0 +1,36 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 630" width="1200" height="630">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#0F1B2C"/>
+      <stop offset="1" stop-color="#05090F"/>
+    </linearGradient>
+    <pattern id="grid" width="48" height="48" patternUnits="userSpaceOnUse">
+      <path d="M48 0H0V48" fill="none" stroke="#7A9BC8" stroke-opacity=".09" stroke-width="1"/>
+    </pattern>
+  </defs>
+
+  <rect width="1200" height="630" fill="url(#bg)"/>
+  <rect width="1200" height="630" fill="url(#grid)"/>
+  <circle cx="980" cy="140" r="300" fill="#2C6BD8" opacity=".16"/>
+
+  <g transform="translate(80,90)">
+    <rect x="0" y="0" width="56" height="56" rx="13" fill="#1D3050" stroke="#3A527A" stroke-width="1.5"/>
+    <path d="M16 14h12c5 0 8 2.4 8 6.4 0 2.6-1.4 4.6-3.8 5.5 3 .8 5 3 5 6.2 0 4.6-3.6 7.4-9.2 7.4H16V14z"
+          fill="none" stroke="#F2F6FC" stroke-width="3"/>
+    <path d="M14 47h28" stroke="#FF6B00" stroke-width="3.4" stroke-linecap="round"/>
+
+    <text x="76" y="26" fill="#FFFFFF" font-family="Segoe UI, Arial, sans-serif" font-size="26" font-weight="700" letter-spacing="4">ВТОРРЕСУРС</text>
+    <text x="76" y="48" fill="#F2B705" font-family="Segoe UI, Arial, sans-serif" font-size="14" letter-spacing="3">ПРИЁМ ЛОМА · ОМСК</text>
+  </g>
+
+  <text x="80" y="290" fill="#FFFFFF" font-family="Segoe UI, Arial, sans-serif" font-size="72" font-weight="800">ПРИЁМ ЛОМА</text>
+  <text x="80" y="368" fill="#FF6B00" font-family="Segoe UI, Arial, sans-serif" font-size="72" font-weight="800">ЧЁРНЫХ И ЦВЕТНЫХ</text>
+  <text x="80" y="446" fill="#FFFFFF" font-family="Segoe UI, Arial, sans-serif" font-size="72" font-weight="800">МЕТАЛЛОВ</text>
+
+  <g font-family="Segoe UI, Arial, sans-serif" font-size="21" fill="#C9D6EA">
+    <text x="80" y="520">Честный вес · Высокие цены · Вывоз от 100 кг бесплатно</text>
+    <text x="80" y="558" fill="#FFFFFF" font-weight="700">8 (902) 822-98-88 · Омск, ул. 2-я Барнаульская, 105</text>
+  </g>
+
+  <rect x="0" y="606" width="1200" height="24" fill="#FF6B00"/>
+</svg>
