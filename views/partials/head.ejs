@@ -26,8 +26,8 @@
 
 <link rel="icon" href="/img/favicon-32.png" type="image/png" sizes="32x32">
 <link rel="apple-touch-icon" href="/img/apple-touch-icon.png" sizes="180x180">
-<link rel="preload" href="/css/style.css" as="style">
-<link rel="stylesheet" href="/css/style.css">
+<link rel="preload" href="<%= asset('/css/style.css') %>" as="style">
+<link rel="stylesheet" href="<%= asset('/css/style.css') %>">
 <link rel="preload" href="/fonts/oswald-600-cyrillic.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="preload" href="/fonts/golos-400-cyrillic.woff2" as="font" type="font/woff2" crossorigin>
 <% if (jsonLd) { %>

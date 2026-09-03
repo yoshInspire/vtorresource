@@ -1,5 +1,7 @@
 'use strict';
 
+const fs = require('fs');
+const crypto = require('crypto');
 const path = require('path');
 const express = require('express');
 const compression = require('compression');
@@ -37,6 +39,32 @@ try {
   photoCredits = [];
 }
 
+/**
+ * Версия статики в адресе файла.
+ *
+ * Статика отдаётся с `Cache-Control: max-age=30d, immutable`, а имена файлов
+ * не меняются. Без версии в адресе браузер, который уже был на сайте, месяц
+ * показывает старый CSS и не перезапрашивает его даже после выкатки.
+ * Хэш считается один раз при старте: файлы меняются только при деплое,
+ * а он перезапускает процесс.
+ */
+const ASSET_VERSIONS = new Map();
+
+function assetUrl(publicPath) {
+  if (!ASSET_VERSIONS.has(publicPath)) {
+    let version = '0';
+    try {
+      const file = fs.readFileSync(path.join(__dirname, '..', 'public', publicPath));
+      version = crypto.createHash('sha1').update(file).digest('hex').slice(0, 8);
+    } catch (_) {
+      // файла нет — отдаём адрес без версии, страница не должна падать из-за этого
+    }
+    ASSET_VERSIONS.set(publicPath, version);
+  }
+  const version = ASSET_VERSIONS.get(publicPath);
+  return version === '0' ? publicPath : `${publicPath}?v=${version}`;
+}
+
 // Общие для всех шаблонов данные
 app.use((req, res, next) => {
   res.locals.site = site;
@@ -44,6 +72,7 @@ app.use((req, res, next) => {
   res.locals.currentPath = req.path;
   res.locals.leadStatus = req.query.lead || null;
   res.locals.photoCredits = photoCredits;
+  res.locals.asset = assetUrl;
   next();
 });
 
