@@ -333,8 +333,10 @@ table { border-collapse: collapse; width: 100%; }
 }
 .header__top-item { display: inline-flex; align-items: center; gap: 7px; }
 .header__top-item svg { width: 14px; height: 14px; color: var(--steel-400); flex: none; }
-.header__msgs { display: inline-flex; align-items: center; gap: 14px; }
-.header__msg { display: inline-flex; align-items: center; gap: 6px; transition: color .15s ease; }
+.header__msg {
+  display: inline-flex; align-items: center; gap: 7px;
+  text-decoration: none; transition: color .15s ease;
+}
 .header__msg:hover { color: var(--orange-400); }
 .header__msg svg { width: 15px; height: 15px; }
 
@@ -402,9 +404,7 @@ table { border-collapse: collapse; width: 100%; }
   font-size: 13px; letter-spacing: .08em; text-transform: uppercase;
   color: var(--on-dark-dim); margin-bottom: 22px;
 }
-.hero__eyebrow::before {
-  content: ""; width: 26px; height: 2px; background: var(--orange-500); flex: none;
-}
+
 .hero__title {
   font-family: var(--display); font-weight: 600; text-transform: uppercase;
   font-size: clamp(34px, 5.4vw, 62px); line-height: 1.02; letter-spacing: -.01em;
@@ -417,7 +417,7 @@ table { border-collapse: collapse; width: 100%; }
 }
 .hero__lead { font-size: 17px; color: var(--on-dark); max-width: 58ch; margin-bottom: 30px; }
 .hero__actions { display: flex; gap: 14px; flex-wrap: wrap; margin-bottom: 30px; }
-.hero__phones { display: flex; align-items: baseline; gap: 8px 18px; flex-wrap: wrap; font-size: 14px; color: var(--on-dark-dim); }
+.hero__phones { display: flex; flex-direction: column; gap: 6px; font-size: 14px; color: var(--on-dark-dim); }
 .hero__phone {
   font-family: var(--display); font-size: 22px; font-weight: 500;
   color: #fff; text-decoration: none;
@@ -436,6 +436,29 @@ table { border-collapse: collapse; width: 100%; }
   color: #fff; letter-spacing: .01em;
 }
 .hero-fact__label { font-size: 13.5px; color: var(--on-dark-dim); margin-top: 5px; }
+
+/* ---------- значки мессенджеров ---------- */
+.msgs { display: inline-flex; align-items: center; gap: 6px; flex: none; }
+.msg {
+  display: grid; place-items: center; border-radius: 50%;
+  color: var(--on-dark-dim); text-decoration: none;
+  transition: background-color .15s ease, color .15s ease;
+}
+.msg svg { width: 100%; height: 100%; }
+.msgs--md .msg { width: 32px; height: 32px; padding: 5px; }
+.msgs--sm .msg { width: 28px; height: 28px; padding: 4px; }
+a.msg:hover { background: rgba(255, 255, 255, .1); color: #fff; }
+a.msg--wa:hover { color: #4ADE80; }
+/* MAX без ссылки: пока у мессенджера нет адреса чата по номеру, значок
+   остаётся подписью — курсор и наведение не обещают перехода */
+.msg.is-static { cursor: default; opacity: .78; }
+.section--light .msg, .section--muted .msg { color: var(--text-500); }
+.section--light a.msg:hover, .section--muted a.msg:hover { background: var(--paper-100); color: var(--text-900); }
+
+.hero__phone-row, .cta__phone-row, .footer__phone-row, .nav__phone-row {
+  display: flex; align-items: center; gap: 12px; flex-wrap: wrap;
+}
+.footer__phone-row { gap: 10px; }
 
 /* ---------- бегущая строка цен ---------- */
 .ticker {
@@ -766,11 +789,9 @@ select.field__input { appearance: none; background-image: url("data:image/svg+xm
 .footer__disclaimer { color: var(--steel-400); }
 .footer__disclaimer a { color: var(--on-dark-dim); text-decoration: underline; }
 .footer__disclaimer a:hover { color: var(--orange-400); }
-.footer__credits { flex: 1 0 100%; order: 2; }
-.footer__credits summary { cursor: pointer; color: var(--steel-400); }
-.footer__credits summary:hover { color: var(--on-dark-dim); }
-.footer__credits p { margin-top: 8px; line-height: 1.7; }
-.footer__credits a { text-decoration: underline; }
+.footer__credits { flex: 1 0 100%; order: 2; font-size: 11.5px; color: #46586E; line-height: 1.7; }
+.footer__credits a { color: #56697F; text-decoration: underline; }
+.footer__credits a:hover { color: var(--on-dark-dim); }
 
 /* кнопка звонка на мобильных */
 .call-fab {
@@ -961,7 +982,7 @@ select.field__input { appearance: none; background-image: url("data:image/svg+xm
   .header__contact { margin-left: auto; }
   .header__cta { display: none; }
   .call-fab { display: grid; }
-  .nav__phones { display: flex; flex-direction: column; gap: 4px; padding-top: 16px; }
+  .nav__phones { display: flex; flex-direction: column; gap: 10px; padding-top: 16px; }
   .nav__phone {
     font-family: var(--display); font-weight: 600; font-size: 22px; color: #fff;
     text-decoration: none;

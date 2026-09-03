@@ -9,18 +9,10 @@
         <svg aria-hidden="true"><use href="#i-clock"></use></svg>
         <%= site.hours.short %>
       </span>
-      <span class="header__msgs">
-        <% site.messengers.whatsappAll.forEach(function (p, i) { %>
-          <% if (i === 0) { %>
-            <a class="header__msg" href="<%= p.url %>" target="_blank" rel="noopener">
-              <svg aria-hidden="true"><use href="#i-whatsapp"></use></svg>WhatsApp
-            </a>
-          <% } %>
-        <% }); %>
-        <span class="header__msg" title="Мы на связи в мессенджере MAX по обоим номерам">
-          <svg aria-hidden="true"><use href="#i-max"></use></svg>MAX
-        </span>
-      </span>
+      <a class="header__msg" href="<%= site.messengers.whatsapp %>" target="_blank" rel="noopener">
+        <svg aria-hidden="true"><use href="#i-whatsapp"></use></svg>
+        Написать в WhatsApp
+      </a>
     </div>
   </div>
 
@@ -39,7 +31,7 @@
     <nav class="nav" aria-label="Основная навигация">
       <a class="nav__link" href="/#priem">Что принимаем</a>
       <a class="nav__link" href="/#kalkulyator">Калькулятор</a>
-      <a class="nav__link<%= currentPath === '/price' ? ' is-active' : '' %>" href="/price">Прайс</a>
+      <a class="nav__link<%= currentPath === '/price' ? ' is-active' : '' %>" href="/price">Цены</a>
       <a class="nav__link" href="/#kak-rabotaem">Как сдать</a>
       <a class="nav__link" href="/#punkt-priema">Площадка</a>
       <a class="nav__link" href="/#kontakty">Контакты</a>
@@ -47,9 +39,12 @@
       <!-- Телефоны в выпадающем меню: в узкой шапке им места нет -->
       <div class="nav__phones">
         <% site.phones.forEach(function (p) { %>
-          <a class="nav__phone" href="tel:<%= p.raw %>"><%= p.display %></a>
+          <span class="nav__phone-row">
+            <a class="nav__phone" href="tel:<%= p.raw %>"><%= p.display %></a>
+            <%- include('messengers', { phone: p, size: 'sm' }) %>
+          </span>
         <% }); %>
-        <span class="nav__hours"><%= site.hours.short %> · <%= site.terms.priceUpdate.toLowerCase() %></span>
+        <span class="nav__hours"><%= site.hours.short %></span>
       </div>
     </nav>
 

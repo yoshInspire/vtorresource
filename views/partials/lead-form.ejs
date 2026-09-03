@@ -2,7 +2,7 @@
       action="/lead" method="post" novalidate data-lead-form>
   <div class="lead-form__head">
     <p class="lead-form__title"><%= typeof formTitle !== 'undefined' ? formTitle : 'Узнать цену' %></p>
-    <p class="lead-form__text"><%= typeof formText !== 'undefined' ? formText : 'Оставьте номер — перезвоним, уточним вид лома и назовём цену.' %></p>
+    <p class="lead-form__text"><%= typeof formText !== 'undefined' ? formText : 'Оставьте номер. Перезвоним, уточним вид лома и назовём цену.' %></p>
   </div>
 
   <label class="field">
@@ -30,7 +30,7 @@
   <p class="lead-form__note">
     Нажимая кнопку, вы соглашаетесь с
     <a href="/privacy">политикой обработки персональных данных</a>.
-    Звонок и консультация — бесплатно.
+    Звонок и консультация бесплатные.
   </p>
   <p class="lead-form__status" data-lead-status role="status" aria-live="polite"></p>
 </form>

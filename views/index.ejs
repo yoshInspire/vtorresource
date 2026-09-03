@@ -26,15 +26,17 @@
 
           <div class="hero__actions">
             <a class="btn btn--accent" href="#kalkulyator">Рассчитать сумму</a>
-            <a class="btn btn--ghost" href="/price">Весь прайс
+            <a class="btn btn--ghost" href="/price">Все цены
               <svg class="btn__icon" aria-hidden="true"><use href="#i-arrow"></use></svg>
             </a>
           </div>
 
           <div class="hero__phones">
-            <span>Позвонить:</span>
             <% site.phones.forEach(function (p) { %>
-              <a class="hero__phone" href="tel:<%= p.raw %>"><%= p.display %></a>
+              <span class="hero__phone-row">
+                <a class="hero__phone" href="tel:<%= p.raw %>"><%= p.display %></a>
+                <%- include('partials/messengers', { phone: p, size: 'md' }) %>
+              </span>
             <% }); %>
           </div>
         </div>
@@ -52,7 +54,7 @@
           <%- include('partials/lead-form', {
             variant: 'hero',
             formTitle: 'Узнать цену по телефону',
-            formText: 'Оставьте номер — перезвоним, уточним вид лома и назовём цену по сегодняшнему прайсу.'
+            formText: 'Оставьте номер. Перезвоним, уточним вид лома и назовём цену на сегодня.'
           }) %>
         </div>
       </div>
@@ -72,7 +74,7 @@
   <div class="ticker">
     <div class="ticker__inner">
       <div class="ticker__label">
-        <span>Прайс на</span>
+        <span>Цены на</span>
         <b><%= f.dateLong(prices.updatedAt) %></b>
       </div>
       <div class="ticker__viewport">
@@ -110,11 +112,11 @@
   <section class="section section--muted" id="kalkulyator">
     <div class="container">
       <header class="section__head">
-        <p class="section__eyebrow">Расчёт по прайсу</p>
+        <p class="section__eyebrow">Расчёт по ценам на сегодня</p>
         <h2 class="section__title">Сколько вы получите</h2>
         <p class="section__lead">
-          Выберите металл и укажите вес — посчитаем по сегодняшнему прайсу.
-          Прайс обновляется каждый день, поэтому цифра актуальна на сегодня.
+          Выберите металл и укажите вес. Посчитаем по ценам на сегодня:
+          мы обновляем их каждый день.
         </p>
       </header>
 
@@ -148,8 +150,8 @@
 
           <noscript>
             <p class="calc__noscript">
-              Калькулятор работает с включённым JavaScript. Без него посмотрите цены
-              в <a class="link" href="/price">прайс-листе</a> или позвоните —
+              Калькулятор работает с включённым JavaScript. Без него посмотрите
+              <a class="link" href="/price">таблицу цен</a> или позвоните,
               посчитаем по телефону.
             </p>
           </noscript>
@@ -161,16 +163,16 @@
           <p class="calc__sum num" data-calc-sum>—</p>
           <p class="calc__breakdown" data-calc-breakdown></p>
           <p class="calc__disclaimer">
-            Расчёт справочный: он не учитывает засор. Окончательную сумму приёмщик
+            Расчёт справочный, он не учитывает засор. Окончательную сумму приёмщик
             называет после осмотра и взвешивания на площадке.
           </p>
           <a class="btn btn--accent btn--block calc__cta" href="#zayavka-form">Уточнить по телефону</a>
         </div>
 
         <ul class="calc__hints">
-          <li>В прайсе <b>141 позиция</b> — в калькуляторе только ходовые. Редкие сплавы считаем по телефону.</li>
-          <li>Чёрный лом считается за тонну, цветной — за килограмм. Единицу можно переключить.</li>
-          <li>Засор в расчёт не входит: за краску, изоляцию, пластик и влагу мы не платим — <a class="link" href="#zasor">как это считается</a>.</li>
+          <li>Всего у нас <b>141 позиция</b>, в калькуляторе только самые ходовые. Редкие сплавы посчитаем по телефону.</li>
+          <li>Чёрный лом считаем за тонну, цветной за килограмм. Единицу можно переключить.</li>
+          <li>Засор в расчёт не входит: за краску, изоляцию, пластик и влагу мы не платим. <a class="link" href="#zasor">Как это считается</a>.</li>
         </ul>
       </div>
     </div>
@@ -184,7 +186,7 @@
           <p class="section__eyebrow">Приём лома</p>
           <h2 class="section__title">Какой металлолом мы принимаем</h2>
         </div>
-        <a class="btn btn--ghost btn--sm" href="/price">141 позиция в прайсе
+        <a class="btn btn--ghost btn--sm" href="/price">Все цены, 141 позиция
           <svg class="btn__icon" aria-hidden="true"><use href="#i-arrow"></use></svg>
         </a>
       </header>
@@ -209,7 +211,7 @@
                 <% if (t.from) { %>до <%= f.price(t.from) %><small><%= t.unit %></small><% } else { %>цена по запросу<% } %>
               </span>
               <span class="tile__more">
-                в прайсе
+                все цены
                 <svg aria-hidden="true"><use href="#i-arrow"></use></svg>
               </span>
             </span>
@@ -224,9 +226,9 @@
       </div>
 
       <p class="section__note">
-        Принимаем и редкие позиции — вольфрам, молибден, тантал, баббиты, припои ПОС и ПОССу,
-        ферросплавы, катализаторы. Не нашли свой металл в списке — позвоните,
-        <a href="/price">полный прайс</a> шире, чем эта витрина.
+        Принимаем и редкие позиции: вольфрам, молибден, тантал, баббиты, припои ПОС
+        и ПОССу, ферросплавы, катализаторы. Не нашли свой металл в списке, позвоните.
+        <a href="/price">Полная таблица цен</a> шире, чем эта витрина.
       </p>
     </div>
   </section>
@@ -238,7 +240,7 @@
         <p class="section__eyebrow">Порядок работы</p>
         <h2 class="section__title">Как сдать металлолом</h2>
         <p class="section__lead">
-          Четыре шага. Всё происходит на площадке в день приезда — записываться и ждать не нужно.
+          Четыре шага. Всё происходит на площадке в день приезда, записываться и ждать не нужно.
         </p>
       </header>
 
@@ -322,7 +324,7 @@
             <svg class="map__pin" aria-hidden="true"><use href="#i-pin"></use></svg>
             <p class="map__placeholder-addr"><%= site.address.full %></p>
             <p class="map__placeholder-note">
-              Карту загружает Яндекс — вместе с ней он ставит свои файлы cookie.
+              Карту загружает Яндекс, вместе с ней он ставит свои файлы cookie.
               Поэтому включаем её по вашему клику.
             </p>
             <button class="btn btn--accent btn--sm" type="button" data-map-load>Показать карту</button>
@@ -350,13 +352,9 @@
           <p class="rating__stars" aria-hidden="true">★★★★★</p>
           <p class="rating__count"><%= reviews.countLabel %></p>
         </div>
-        <p class="rating__text">
-          <b>Нас оценивают в 2ГИС.</b> Отзывы пишут те, кто уже привозил лом на
-          2-ю Барнаульскую: там видно и оценки, и фотографии площадки, и вопросы,
-          которые задают перед приездом.
-        </p>
+        <p class="rating__text"><%= reviews.text %></p>
         <a class="btn btn--ghost btn--sm" href="<%= site.profiles.twogis %>" target="_blank" rel="noopener">
-          Читать отзывы
+          <%= reviews.cta %>
           <svg class="btn__icon" aria-hidden="true"><use href="#i-arrow"></use></svg>
         </a>
       </div>
@@ -381,7 +379,7 @@
         <%- include('partials/lead-form', {
           variant: 'card',
           formTitle: content.business.cta,
-          formText: 'Оставьте номер — вышлем договор и прайс для организаций.',
+          formText: 'Оставьте номер, вышлем договор и цены для организаций.',
           commentLabel: 'ИНН или название компании',
           commentPlaceholder: 'Например: ООО «Пример», ИНН 5500000000'
         }) %>
@@ -422,17 +420,20 @@
     <div class="container cta__inner">
       <div>
         <p class="section__eyebrow">Контакты</p>
-        <h2 class="section__title">Привозите — посчитаем при вас</h2>
+        <h2 class="section__title">Привозите, посчитаем при вас</h2>
         <div class="cta__phones">
           <% site.phones.forEach(function (p) { %>
-            <a class="cta__phone" href="tel:<%= p.raw %>"><%= p.display %></a>
+            <span class="cta__phone-row">
+              <a class="cta__phone" href="tel:<%= p.raw %>"><%= p.display %></a>
+              <%- include('partials/messengers', { phone: p, size: 'md' }) %>
+            </span>
           <% }); %>
         </div>
         <div class="cta__meta">
           <p><strong>Адрес:</strong> <%= site.address.full %></p>
           <p><strong>Режим:</strong> <%= site.hours.text %>, без выходных</p>
           <p><strong>Документы:</strong> приёмо-сдаточный акт, договор и безнал для организаций</p>
-          <p><strong>Мессенджеры:</strong> WhatsApp и MAX на оба номера</p>
+          <p><strong>Почта:</strong> <a class="link" href="mailto:<%= site.email %>"><%= site.email %></a></p>
         </div>
       </div>
 
@@ -440,7 +441,7 @@
         <%- include('partials/lead-form', {
           variant: 'dark',
           formTitle: 'Узнать цену',
-          formText: 'Опишите металл и объём — перезвоним и назовём цену до вашего приезда.'
+          formText: 'Скажите, что везёте и сколько. Перезвоним и назовём цену до вашего приезда.'
         }) %>
       </div>
     </div>

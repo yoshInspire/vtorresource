@@ -18,7 +18,7 @@
       <p class="footer__title">Разделы</p>
       <a class="footer__link" href="/#priem">Что принимаем</a>
       <a class="footer__link" href="/#kalkulyator">Калькулятор</a>
-      <a class="footer__link" href="/price">Прайс-лист</a>
+      <a class="footer__link" href="/price">Все цены</a>
       <a class="footer__link" href="/#kak-rabotaem">Как сдать</a>
       <a class="footer__link" href="/#zasor">Про засор</a>
       <a class="footer__link" href="/#punkt-priema">Площадка</a>
@@ -39,9 +39,11 @@
     <div class="footer__col">
       <p class="footer__title">Контакты</p>
       <% site.phones.forEach(function (p) { %>
-        <a class="footer__link footer__link--phone" href="tel:<%= p.raw %>"><%= p.display %></a>
+        <span class="footer__phone-row">
+          <a class="footer__link footer__link--phone" href="tel:<%= p.raw %>"><%= p.display %></a>
+          <%- include('messengers', { phone: p, size: 'sm' }) %>
+        </span>
       <% }); %>
-      <p class="footer__line">WhatsApp и MAX на оба номера</p>
       <p class="footer__line"><%= site.address.full %></p>
       <p class="footer__line"><%= site.hours.text %></p>
       <a class="footer__link" href="mailto:<%= site.email %>"><%= site.email %></a>
@@ -62,14 +64,20 @@
     </p>
 
     <% if (photoCredits && photoCredits.length) { %>
-      <details class="footer__credits">
-        <summary>Фотографии на сайте — временные, из открытых источников</summary>
-        <p>
-          Съёмка площадки ещё не проведена, поэтому используются снимки с Wikimedia
-          Commons. Авторы и лицензии:
-          <% photoCredits.forEach(function (c, i) { %><a href="<%= c.source %>" target="_blank" rel="noopener nofollow"><%= c.author %></a>, <%= c.license %><%= i < photoCredits.length - 1 ? '; ' : '.' %><% }); %>
-        </p>
-      </details>
+      <%
+        // Один автор мог снять несколько кадров — в подписи он должен быть один раз
+        var _seen = {};
+        var _authors = photoCredits.filter(function (c) {
+          var key = c.author + c.license;
+          if (_seen[key]) return false;
+          _seen[key] = true;
+          return true;
+        });
+      %>
+      <p class="footer__credits">
+        Фотографии: Wikimedia Commons,
+        <% _authors.forEach(function (c, i) { %><a href="<%= c.source %>" target="_blank" rel="noopener nofollow"><%= c.author %></a> (<%= c.license %>)<%= i < _authors.length - 1 ? ', ' : '.' %><% }); %>
+      </p>
     <% } %>
   </div>
 </footer>
