@@ -82,7 +82,7 @@ router.get('/', (req, res) => {
     calcItems,
     calcItemsJson: JSON.stringify(calcItems),
     mapEmbed: `https://yandex.ru/map-widget/v1/?ll=${site.geo.lon}%2C${site.geo.lat}&z=17&pt=${site.geo.lon},${site.geo.lat},pm2rdm`,
-    reviews: { score: 4.7, countLabel: '71 оценка в 2ГИС' },
+    reviews: content.reviews,
     content,
     jsonLd: seo.graph([
       seo.organization(),

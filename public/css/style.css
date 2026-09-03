@@ -913,9 +913,17 @@ select.field__input { appearance: none; background-image: url("data:image/svg+xm
 .section--dark .price-table tbody tr:hover { background: rgba(255, 255, 255, .03); }
 .section--dark .table-wrap { border: 0; }
 
-.price-cta { background: var(--paper-50); }
-.price-cta__text { max-width: 52ch; }
-.price-cta__form { max-width: 460px; }
+/* Блок «уточните цену» на странице цен. Секция тёмная, поэтому светлой
+   подложки здесь быть не должно: раньше она ложилась поверх тёмного фона
+   только по ширине контейнера и белый заголовок оказывался на белом. */
+.price-cta {
+  display: grid; grid-template-columns: minmax(0, 1fr) minmax(320px, 430px);
+  gap: 48px; align-items: start;
+}
+.price-cta__text { max-width: 60ch; }
+.price-cta__text .section__title { margin-bottom: 18px; }
+.price-cta__text p { margin-bottom: 14px; color: var(--on-dark-dim); }
+.price-cta__text p:last-child { margin-bottom: 0; }
 
 .prose p { margin-bottom: 14px; max-width: 72ch; }
 .prose p:last-child { margin-bottom: 0; }
@@ -951,7 +959,7 @@ select.field__input { appearance: none; background-image: url("data:image/svg+xm
 @media (max-width: 1180px) {
   .hero__inner { grid-template-columns: minmax(0, 1fr); gap: 40px; }
   .hero__form { max-width: 520px; }
-  .steps-block, .place, .business, .cta__inner, .calc { grid-template-columns: minmax(0, 1fr); gap: 36px; }
+  .steps-block, .place, .business, .cta__inner, .calc, .price-cta { grid-template-columns: minmax(0, 1fr); gap: 36px; }
   .steps-block__media { order: -1; max-height: 320px; }
   /* на узких экранах сумма должна быть видна сразу под полями, а не под подсказками */
   .calc__hints { grid-template-columns: minmax(0, 1fr); }
