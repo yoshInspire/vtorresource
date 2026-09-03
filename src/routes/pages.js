@@ -12,8 +12,8 @@ const router = express.Router();
 
 /**
  * Позиции для калькулятора: ходовые из content.popular плюс чёрный лом.
- * Отдаём в шаблон и в JSON для клиентского скрипта — считать умеет и он,
- * и мы, источник цен один и тот же.
+ * Отдаём в шаблон и в JSON для клиентского скрипта. Считать умеет и он, и мы,
+ * но источник цен один и тот же — data/prices.json.
  */
 function buildCalcItems(prices) {
   const picked = store.pickItems(content.popular);
@@ -47,7 +47,7 @@ function buildCalcItems(prices) {
 router.get('/', (req, res) => {
   const prices = store.getPrices();
 
-  // Крупные плитки «что принимаем» — цена «до N» берётся из прайса.
+  // Крупные плитки «что принимаем»: цена «до N» берётся из таблицы цен.
   const tiles = content.tiles.map(tile => {
     const group = prices.groups.find(g => g.id === tile.priceFrom.group);
     const category = group && group.categories.find(c => c.id === tile.priceFrom.category);
@@ -93,10 +93,10 @@ router.get('/', (req, res) => {
   });
 });
 
-// --- прайс -----------------------------------------------------------------
+// --- цены ------------------------------------------------------------------
 router.get('/price', (req, res) => {
   const prices = store.getPrices();
-  const title = `Цены на металлолом в Омске — прайс за кг и тонну | ${site.brand}`;
+  const title = `Цены на металлолом в Омске: прайс за кг и тонну | ${site.brand}`;
   const description =
     'Прайс на приём металлолома в Омске: 141 позиция. Цена меди, латуни, бронзы, алюминия, свинца, нержавейки за кг, чёрного лома за тонну. Приём на 2-й Барнаульской, 105.';
 

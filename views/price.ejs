@@ -14,7 +14,7 @@
 
       <h1 class="page-head__title">Цены на приём металлолома в Омске</h1>
       <p class="page-head__lead">
-        Прайс-лист пункта приёма «Вторресурс» на 2-й Барнаульской, 105:
+        Цены пункта приёма «Вторресурс» на 2-й Барнаульской, 105:
         <%= prices.groups.reduce(function (a, g) { return a + g.categories.reduce(function (b, c) { return b + c.items.length; }, 0); }, 0) %>
         позиций чёрного и цветного лома. Цветной металл считаем за килограмм, чёрный за тонну.
         Цены действуют на <%= f.dateLong(prices.updatedAt) %>.
@@ -54,7 +54,7 @@
              id="<%= group.id %>" data-price-group>
       <div class="container">
         <header class="section__head">
-          <p class="section__eyebrow">Прайс · <%= group.unit %></p>
+          <p class="section__eyebrow">Цены · <%= group.unit %></p>
           <h2 class="section__title">Цены на <%= group.title.toLowerCase() %> <%= group.unitShort === "т" ? "за тонну" : "за кг" %></h2>
           <p class="section__lead"><%= group.description %></p>
         </header>
