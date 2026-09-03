@@ -1,0 +1,24 @@
+<%
+/**
+ * Адаптивная фотография из /img/photo.
+ * Параметры: slug, alt, sizes, eager (bool), width, height.
+ * Файлы генерируются скриптом scripts/build-photos.js в трёх ширинах.
+ */
+var _sizes = typeof sizes !== 'undefined' ? sizes : '100vw';
+var _eager = typeof eager !== 'undefined' && eager;
+var _w = typeof width !== 'undefined' ? width : 1920;
+var _h = typeof height !== 'undefined' ? height : 1280;
+%>
+<picture>
+  <source type="image/webp"
+          srcset="/img/photo/<%= slug %>-640.webp 640w, /img/photo/<%= slug %>-1280.webp 1280w, /img/photo/<%= slug %>-1920.webp 1920w"
+          sizes="<%= _sizes %>">
+  <img src="/img/photo/<%= slug %>-1280.jpg"
+       srcset="/img/photo/<%= slug %>-640.jpg 640w, /img/photo/<%= slug %>-1280.jpg 1280w, /img/photo/<%= slug %>-1920.jpg 1920w"
+       sizes="<%= _sizes %>"
+       width="<%= _w %>" height="<%= _h %>"
+       alt="<%= alt %>"
+       loading="<%= _eager ? 'eager' : 'lazy' %>"
+       decoding="<%= _eager ? 'sync' : 'async' %>"
+       <%= _eager ? 'fetchpriority="high"' : '' %>>
+</picture>

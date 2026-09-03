@@ -24,12 +24,26 @@ app.use(express.static(path.join(__dirname, '..', 'public'), {
   etag: true
 }));
 
+/**
+ * Атрибуция временных фотографий. Снимки взяты с Wikimedia Commons по
+ * лицензиям CC BY / CC BY-SA — они требуют указания автора, поэтому список
+ * выводится в подвале. Когда заказчик пришлёт съёмку площадки, файл
+ * public/img/photo/_credits.json удаляется вместе с блоком в подвале.
+ */
+let photoCredits = [];
+try {
+  photoCredits = require('../public/img/photo/_credits.json');
+} catch (_) {
+  photoCredits = [];
+}
+
 // Общие для всех шаблонов данные
 app.use((req, res, next) => {
   res.locals.site = site;
   res.locals.f = format;
   res.locals.currentPath = req.path;
   res.locals.leadStatus = req.query.lead || null;
+  res.locals.photoCredits = photoCredits;
   next();
 });
 

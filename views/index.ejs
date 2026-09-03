@@ -4,66 +4,174 @@
 
 <main id="main">
 
-  <!-- ================= HERO ================= -->
+  <!-- ================= ПЕРВЫЙ ЭКРАН ================= -->
   <section class="hero" id="zayavka">
-    <div class="hero__bg" aria-hidden="true">
-      <img src="/img/hero-grapple.svg" alt="" width="720" height="640" loading="eager">
+    <div class="hero__media" aria-hidden="true">
+      <%- include('partials/photo', {
+        slug: 'yard-hero',
+        alt: '',
+        sizes: '100vw',
+        eager: true,
+        width: 1920, height: 1275
+      }) %>
     </div>
 
-    <div class="container hero__inner">
-      <div class="hero__text">
-        <p class="hero__eyebrow">Пункт приёма · Омск, ул. 2-я Барнаульская, 105</p>
-        <h1 class="hero__title">Приём<br>металлолома<br><span>в Омске</span></h1>
-        <p class="hero__lead">
-          Принимаем чёрный и цветной лом на своей площадке: медь, латунь, бронзу, алюминий,
-          свинец, никель, олово, нержавейку, титан, радиолом и аккумуляторы.
-          Цветмет — от 1 кг, расчёт сразу после взвешивания.
-        </p>
+    <div class="container">
+      <div class="hero__inner">
+        <div class="hero__text">
+          <p class="hero__eyebrow"><%= content.hero.eyebrow %></p>
+          <h1 class="hero__title"><%= content.hero.title %></h1>
+          <p class="hero__offer"><%= content.hero.offer %></p>
+          <p class="hero__lead"><%= content.hero.lead %></p>
 
-        <ul class="hero__adv">
-          <% content.advantages.forEach(function (a) { %>
-            <li class="hero-adv">
-              <span class="hero-adv__icon"><svg aria-hidden="true"><use href="#i-<%= a.icon %>"></use></svg></span>
-              <span class="hero-adv__title"><%= a.title %></span>
-            </li>
-          <% }); %>
-        </ul>
+          <div class="hero__actions">
+            <a class="btn btn--accent" href="#kalkulyator">Рассчитать сумму</a>
+            <a class="btn btn--ghost" href="/price">Весь прайс
+              <svg class="btn__icon" aria-hidden="true"><use href="#i-arrow"></use></svg>
+            </a>
+          </div>
 
-        <div class="hero__actions">
-          <a class="btn btn--accent" href="#zayavka-form">Узнать цену</a>
-          <a class="btn btn--ghost" href="/price">Смотреть прайс
-            <svg class="btn__icon" aria-hidden="true"><use href="#i-arrow"></use></svg>
-          </a>
+          <div class="hero__phones">
+            <span>Позвонить:</span>
+            <% site.phones.forEach(function (p) { %>
+              <a class="hero__phone" href="tel:<%= p.raw %>"><%= p.display %></a>
+            <% }); %>
+          </div>
         </div>
 
-        <p class="hero__phone">
-          Или звоните:
-          <% site.phones.forEach(function (p, i) { %><a href="tel:<%= p.raw %>"><%= p.display %></a><%= i < site.phones.length - 1 ? ' · ' : '' %><% }); %>
-        </p>
+        <div class="hero__form" id="zayavka-form">
+          <% if (leadStatus === 'ok') { %>
+            <div class="alert alert--ok" role="status">
+              <strong>Заявка принята.</strong> Перезвоним в рабочее время.
+            </div>
+          <% } else if (leadStatus === 'error') { %>
+            <div class="alert alert--err" role="alert">
+              Не удалось отправить заявку. Проверьте номер или позвоните напрямую.
+            </div>
+          <% } %>
+          <%- include('partials/lead-form', {
+            variant: 'hero',
+            formTitle: 'Узнать цену по телефону',
+            formText: 'Оставьте номер — перезвоним, уточним вид лома и назовём цену по сегодняшнему прайсу.'
+          }) %>
+        </div>
       </div>
 
-      <div class="hero__form" id="zayavka-form">
-        <% if (leadStatus === 'ok') { %>
-          <div class="alert alert--ok" role="status">
-            <strong>Заявка принята.</strong> Перезвоним в течение 15 минут в рабочее время.
-          </div>
-        <% } else if (leadStatus === 'error') { %>
-          <div class="alert alert--err" role="alert">
-            Не удалось отправить заявку. Проверьте номер телефона или позвоните нам напрямую.
-          </div>
-        <% } %>
-        <%- include('partials/lead-form', { variant: 'hero' }) %>
-      </div>
-    </div>
-
-    <div class="facts">
-      <div class="container facts__inner">
-        <% content.heroFacts.forEach(function (fct) { %>
-          <div class="fact">
-            <p class="fact__title"><%= fct.title %></p>
-            <p class="fact__text"><%= fct.text %></p>
+      <div class="hero__facts">
+        <% content.hero.facts.forEach(function (f2) { %>
+          <div class="hero-fact">
+            <p class="hero-fact__value num"><%= f2.value %></p>
+            <p class="hero-fact__label"><%= f2.label %></p>
           </div>
         <% }); %>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= БЕГУЩАЯ СТРОКА ЦЕН ================= -->
+  <div class="ticker">
+    <div class="ticker__inner">
+      <div class="ticker__label">
+        <span>Прайс на</span>
+        <b><%= f.dateLong(prices.updatedAt) %></b>
+      </div>
+      <div class="ticker__viewport">
+        <div class="ticker__track">
+          <% for (var pass = 0; pass < 2; pass++) { %>
+            <% ticker.forEach(function (t) { %>
+              <a class="ticker__item" href="<%= t.anchor %>"<%= pass === 1 ? ' aria-hidden="true" tabindex="-1"' : '' %>>
+                <span class="ticker__name"><%= t.label %></span>
+                <span class="ticker__price num"><%= t.price %></span>
+                <span class="ticker__unit"><%= t.unit %></span>
+              </a>
+            <% }); %>
+          <% } %>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ================= ПОЛОСА ДОВЕРИЯ ================= -->
+  <section class="section section--light section--tight">
+    <div class="container">
+      <div class="trust">
+        <% content.trust.forEach(function (t) { %>
+          <div class="trust__item">
+            <span class="trust__icon"><svg aria-hidden="true"><use href="#i-<%= t.icon %>"></use></svg></span>
+            <h2 class="trust__title"><%= t.title %></h2>
+            <p class="trust__text"><%= t.text %></p>
+          </div>
+        <% }); %>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= КАЛЬКУЛЯТОР ================= -->
+  <section class="section section--muted" id="kalkulyator">
+    <div class="container">
+      <header class="section__head">
+        <p class="section__eyebrow">Расчёт по прайсу</p>
+        <h2 class="section__title">Сколько вы получите</h2>
+        <p class="section__lead">
+          Выберите металл и укажите вес — посчитаем по сегодняшнему прайсу.
+          Прайс обновляется каждый день, поэтому цифра актуальна на сегодня.
+        </p>
+      </header>
+
+      <script type="application/json" id="calc-data"><%- calcItemsJson %></script>
+
+      <div class="calc" data-calc>
+        <div class="calc__form">
+          <label class="field">
+            <span class="field__label">Что сдаёте</span>
+            <select class="field__input" data-calc-item>
+              <% calcItems.forEach(function (it, i) { %>
+                <option value="<%= it.id %>"<%= i === 0 ? ' selected' : '' %>><%= it.label %></option>
+              <% }); %>
+            </select>
+          </label>
+
+          <div class="calc__row">
+            <label class="field">
+              <span class="field__label">Вес</span>
+              <input class="field__input" type="number" inputmode="decimal" min="0" step="0.1"
+                     value="10" data-calc-weight>
+            </label>
+            <label class="field">
+              <span class="field__label">Единица</span>
+              <select class="field__input" data-calc-unit>
+                <option value="kg" selected>кг</option>
+                <option value="t">тонн</option>
+              </select>
+            </label>
+          </div>
+
+          <noscript>
+            <p class="calc__noscript">
+              Калькулятор работает с включённым JavaScript. Без него посмотрите цены
+              в <a class="link" href="/price">прайс-листе</a> или позвоните —
+              посчитаем по телефону.
+            </p>
+          </noscript>
+
+        </div>
+
+        <div class="calc__result">
+          <p class="calc__result-label">Ориентировочно к выплате</p>
+          <p class="calc__sum num" data-calc-sum>—</p>
+          <p class="calc__breakdown" data-calc-breakdown></p>
+          <p class="calc__disclaimer">
+            Расчёт справочный: он не учитывает засор. Окончательную сумму приёмщик
+            называет после осмотра и взвешивания на площадке.
+          </p>
+          <a class="btn btn--accent btn--block calc__cta" href="#zayavka-form">Уточнить по телефону</a>
+        </div>
+
+        <ul class="calc__hints">
+          <li>В прайсе <b>141 позиция</b> — в калькуляторе только ходовые. Редкие сплавы считаем по телефону.</li>
+          <li>Чёрный лом считается за тонну, цветной — за килограмм. Единицу можно переключить.</li>
+          <li>Засор в расчёт не входит: за краску, изоляцию, пластик и влагу мы не платим — <a class="link" href="#zasor">как это считается</a>.</li>
+        </ul>
       </div>
     </div>
   </section>
@@ -71,208 +179,222 @@
   <!-- ================= ЧТО ПРИНИМАЕМ ================= -->
   <section class="section section--light" id="priem">
     <div class="container">
-      <header class="section__head">
-        <p class="section__eyebrow">Приём лома</p>
-        <h2 class="section__title">Какой металлолом мы принимаем</h2>
-        <p class="section__lead">
-          141 позиция в прайсе — от бытового алюминия и аккумуляторов до твёрдых сплавов,
-          припоев и радиолома. Цветной лом считаем за килограмм, чёрный — за тонну.
-        </p>
+      <header class="section__head section__head--split">
+        <div>
+          <p class="section__eyebrow">Приём лома</p>
+          <h2 class="section__title">Какой металлолом мы принимаем</h2>
+        </div>
+        <a class="btn btn--ghost btn--sm" href="/price">141 позиция в прайсе
+          <svg class="btn__icon" aria-hidden="true"><use href="#i-arrow"></use></svg>
+        </a>
       </header>
 
-      <div class="cards">
-        <% accepted.forEach(function (card) { %>
-          <a class="card" href="<%= card.anchor %>">
-            <span class="card__name"><%= card.name %></span>
-            <span class="card__hint"><%= card.hint %></span>
-            <span class="card__price">
-              <% if (card.from) { %>
-                до <b><%= f.price(card.from) %></b> <%= card.unit %>
-              <% } else { %>
-                цена по запросу
-              <% } %>
+      <div class="tiles">
+        <% tiles.forEach(function (t) { %>
+          <a class="tile<%= t.photo ? '' : ' tile--flat' %>" href="<%= t.anchor %>">
+            <% if (t.photo) { %>
+              <span class="tile__media" aria-hidden="true">
+                <%- include('partials/photo', {
+                  slug: t.photo, alt: '',
+                  sizes: '(max-width: 640px) 100vw, (max-width: 1080px) 50vw, 33vw',
+                  width: 1280, height: 960
+                }) %>
+              </span>
+            <% } %>
+            <span class="tile__name"><%= t.name %></span>
+            <span class="tile__lead"><%= t.lead %></span>
+            <span class="tile__hint"><%= t.hint %></span>
+            <span class="tile__price">
+              <span class="tile__price-value num">
+                <% if (t.from) { %>до <%= f.price(t.from) %><small><%= t.unit %></small><% } else { %>цена по запросу<% } %>
+              </span>
+              <span class="tile__more">
+                в прайсе
+                <svg aria-hidden="true"><use href="#i-arrow"></use></svg>
+              </span>
             </span>
           </a>
         <% }); %>
       </div>
 
+      <div class="chips">
+        <% content.alsoAccepted.forEach(function (a) { %>
+          <a class="chip" href="<%= a.anchor %>"><%= a.name %></a>
+        <% }); %>
+      </div>
+
       <p class="section__note">
-        Не нашли свой металл? Принимаем и редкие позиции — вольфрам, молибден, тантал,
-        баббиты, припои ПОС и ПОССу, ферросплавы, катализаторы.
-        <a href="/price">Полный прайс-лист на приём лома</a> — 141 позиция с ценами.
+        Принимаем и редкие позиции — вольфрам, молибден, тантал, баббиты, припои ПОС и ПОССу,
+        ферросплавы, катализаторы. Не нашли свой металл в списке — позвоните,
+        <a href="/price">полный прайс</a> шире, чем эта витрина.
       </p>
     </div>
   </section>
 
-  <!-- ================= ЦЕНЫ СЕГОДНЯ ================= -->
-  <section class="section section--dark" id="ceny">
-    <div class="container">
-      <header class="section__head section__head--split">
-        <div>
-          <p class="section__eyebrow">Прайс на <%= f.dateLong(prices.updatedAt) %></p>
-          <h2 class="section__title">Цены на приём металлолома в Омске</h2>
-        </div>
-        <a class="btn btn--accent" href="/price">Весь прайс-лист
-          <svg class="btn__icon" aria-hidden="true"><use href="#i-arrow"></use></svg>
-        </a>
-      </header>
-
-      <div class="price-grid">
-        <div class="price-block">
-          <h3 class="price-block__title">Цветной лом <span>₽/кг</span></h3>
-          <table class="price-table price-table--compact">
-            <caption class="visually-hidden">Ходовые цены на цветной лом</caption>
-            <tbody>
-              <% popular.forEach(function (item) { %>
-                <tr>
-                  <th scope="row">
-                    <%= item.title %>
-                    <% if (item.note) { %><span class="price-table__note"><%= item.note %></span><% } %>
-                  </th>
-                  <td class="price-table__value"><b><%= f.itemPrice(item) %></b></td>
-                </tr>
-              <% }); %>
-            </tbody>
-          </table>
-        </div>
-
-        <div class="price-block">
-          <h3 class="price-block__title">Чёрный лом <span>₽/тонна</span></h3>
-          <table class="price-table price-table--compact">
-            <caption class="visually-hidden">Цены на чёрный лом</caption>
-            <tbody>
-              <% chermet.categories[0].items.forEach(function (item) { %>
-                <tr>
-                  <th scope="row"><%= item.title %></th>
-                  <td class="price-table__value"><b><%= f.itemPrice(item) %></b></td>
-                </tr>
-              <% }); %>
-            </tbody>
-          </table>
-        </div>
-      </div>
-
-      <p class="section__note section__note--dark"><%= prices.note %></p>
-    </div>
-  </section>
-
-  <!-- ================= КАК РАБОТАЕМ ================= -->
-  <section class="section section--light" id="kak-rabotaem">
+  <!-- ================= КАК ПРОХОДИТ ПРИЁМКА ================= -->
+  <section class="section section--dark" id="kak-rabotaem">
     <div class="container">
       <header class="section__head">
         <p class="section__eyebrow">Порядок работы</p>
         <h2 class="section__title">Как сдать металлолом</h2>
         <p class="section__lead">
-          Четыре шага от звонка до денег. Всё происходит на площадке в день вашего приезда.
+          Четыре шага. Всё происходит на площадке в день приезда — записываться и ждать не нужно.
         </p>
       </header>
 
-      <ol class="steps">
-        <% content.steps.forEach(function (s) { %>
-          <li class="step">
-            <span class="step__n"><%= s.n %></span>
-            <h3 class="step__title"><%= s.title %></h3>
-            <p class="step__text"><%= s.text %></p>
-          </li>
-        <% }); %>
-      </ol>
+      <div class="steps-block">
+        <ol class="steps">
+          <% content.steps.forEach(function (s) { %>
+            <li class="step">
+              <span class="step__n num"><%= s.n %></span>
+              <div>
+                <h3 class="step__title"><%= s.title %></h3>
+                <p class="step__text"><%= s.text %></p>
+              </div>
+            </li>
+          <% }); %>
+        </ol>
+
+        <figure class="steps-block__media">
+          <%- include('partials/photo', {
+            slug: 'grapple',
+            alt: 'Кран-погрузчик разбирает партию лома на приёмной площадке',
+            sizes: '(max-width: 1080px) 100vw, 50vw',
+            width: 1280, height: 853
+          }) %>
+        </figure>
+      </div>
     </div>
   </section>
 
-  <!-- ================= УСЛУГИ ================= -->
-  <section class="section section--muted" id="uslugi">
+  <!-- ================= ПРО ЗАСОР ================= -->
+  <section class="section section--light" id="zasor">
     <div class="container">
       <header class="section__head">
-        <p class="section__eyebrow">Услуги</p>
-        <h2 class="section__title">Что принимаем и на каких условиях</h2>
-        <p class="section__lead">
-          Приёмный пункт полного профиля: от пары килограммов меди до тонн стального лома,
-          с оформлением документов и расчётом в тот же день.
-        </p>
+        <p class="section__eyebrow">Честно про вес</p>
+        <h2 class="section__title"><%= content.zasor.title %></h2>
+        <p class="section__lead"><%= content.zasor.lead %></p>
       </header>
 
-      <div class="services">
-        <% content.services.forEach(function (s) { %>
-          <article class="service">
-            <h3 class="service__title"><%= s.title %></h3>
-            <p class="service__text"><%= s.text %></p>
+      <div class="zasor">
+        <% content.zasor.cases.forEach(function (c) { %>
+          <article class="zasor-case">
+            <h3 class="zasor-case__what"><%= c.what %></h3>
+            <p class="zasor-case__detail"><%= c.detail %></p>
+            <p class="zasor-case__pay">
+              <span class="zasor-case__pay-label">Платим за</span>
+              <span class="zasor-case__pay-value num"><%= c.payFor %></span>
+            </p>
+            <p class="zasor-case__note"><%= c.note %></p>
           </article>
         <% }); %>
       </div>
+
+      <p class="zasor__disclaimer"><%= content.zasor.disclaimer %></p>
     </div>
   </section>
 
-  <!-- ================= О КОМПАНИИ ================= -->
-  <section class="section section--light" id="o-kompanii">
-    <div class="container about">
-      <div class="about__text">
-        <p class="section__eyebrow">О компании</p>
-        <h2 class="section__title">«Вторресурс» — металлобаза в Омске</h2>
-        <p>
-          Мы принимаем лом чёрных и цветных металлов на собственной площадке в Центральном
-          округе Омска. Работаем и с частными лицами, которые привозят несколько килограммов
-          меди или один аккумулятор, и с организациями, сдающими стружку и отходы производства.
-        </p>
-        <p>
-          Приём идёт по прайс-листу из 141 позиции: цветной лом — за килограмм, чёрный —
-          за тонну по ГОСТ 2787-75. Вид металла и процент засора определяет приёмщик при
-          осмотре, вес фиксируется при вас и вносится в приёмо-сдаточный акт.
-        </p>
-        <p>
-          Вывозом и демонтажом мы пока не занимаемся: лом нужно привезти на площадку
-          самостоятельно. Зато на месте вас примут в день обращения — без записи и ожидания
-          свободной машины.
-        </p>
-
-        <ul class="about__list">
-          <li>Приём цветного лома <b><%= site.terms.minWeight %></b></li>
-          <li>Приём чёрного лома <b>по ГОСТ 2787-75</b></li>
-          <li>Расчёт в день сдачи <b><%= site.terms.payout %></b></li>
-          <li>Приёмо-сдаточный акт — <b>по паспорту РФ</b></li>
-        </ul>
-      </div>
-
-      <aside class="about__side">
-        <div class="stat"><b>141</b><span>позиция в прайсе</span></div>
-        <div class="stat"><b>от 1 кг</b><span>минимальная партия</span></div>
-        <div class="stat"><b>1 день</b><span>от приезда до оплаты</span></div>
-        <div class="stat"><b>7/7</b><span>работаем без выходных</span></div>
-      </aside>
-    </div>
-  </section>
-
-  <!-- ================= ПУНКТ ПРИЁМА ================= -->
-  <section class="section section--light" id="punkt-priema">
+  <!-- ================= ПЛОЩАДКА ================= -->
+  <section class="section section--muted" id="punkt-priema">
     <div class="container">
       <header class="section__head">
-        <p class="section__eyebrow">Адрес и условия</p>
+        <p class="section__eyebrow">Адрес и заезд</p>
         <h2 class="section__title"><%= content.location.title %></h2>
         <p class="section__lead"><%= content.location.intro %></p>
       </header>
 
-      <div class="services services--half">
-        <% content.location.points.forEach(function (p) { %>
-          <article class="service">
-            <h3 class="service__title"><%= p.title %></h3>
-            <p class="service__text"><%= p.text %></p>
-          </article>
-        <% }); %>
-      </div>
+      <div class="place">
+        <div class="place__points">
+          <% content.location.points.forEach(function (p) { %>
+            <div class="place-point">
+              <h3 class="place-point__title"><%= p.title %></h3>
+              <p class="place-point__text"><%= p.text %></p>
+            </div>
+          <% }); %>
+        </div>
 
-      <p class="section__note">
-        Приём ведётся только по этому адресу: <b><%= site.address.full %></b>,
-        <%= site.hours.text %>. <a href="<%= site.mapUrl %>" target="_blank" rel="noopener">Посмотреть на карте</a>
-        или позвонить: <a href="tel:<%= site.phonePrimary.raw %>"><%= site.phonePrimary.display %></a>.
-      </p>
+        <div class="map">
+          <!-- Карта грузится по клику: iframe Яндекса ставит свои куки, а в
+               политике обработки ПД заявлено, что трекинговых кук на сайте нет.
+               До клика показываем статичную заглушку с адресом. -->
+          <div class="map__frame map__placeholder" data-map data-map-src="<%= mapEmbed %>"
+               data-map-title="Карта: <%= site.address.full %>">
+            <svg class="map__pin" aria-hidden="true"><use href="#i-pin"></use></svg>
+            <p class="map__placeholder-addr"><%= site.address.full %></p>
+            <p class="map__placeholder-note">
+              Карту загружает Яндекс — вместе с ней он ставит свои файлы cookie.
+              Поэтому включаем её по вашему клику.
+            </p>
+            <button class="btn btn--accent btn--sm" type="button" data-map-load>Показать карту</button>
+          </div>
+          <div class="map__bar">
+            <div>
+              <p class="map__addr"><%= site.address.full %></p>
+              <p class="map__hint">Центральный округ, микрорайон Новый Амур · <%= site.hours.text %></p>
+            </div>
+            <a class="btn btn--dark btn--sm" href="<%= site.mapUrl %>" target="_blank" rel="noopener">
+              Построить маршрут
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= ОТЗЫВЫ ================= -->
+  <section class="section section--light section--tight" id="otzyvy">
+    <div class="container">
+      <div class="rating">
+        <div class="rating__score">
+          <p class="rating__value num"><%= reviews.score.toLocaleString('ru-RU') %></p>
+          <p class="rating__stars" aria-hidden="true">★★★★★</p>
+          <p class="rating__count"><%= reviews.countLabel %></p>
+        </div>
+        <p class="rating__text">
+          <b>Нас оценивают в 2ГИС.</b> Отзывы пишут те, кто уже привозил лом на
+          2-ю Барнаульскую: там видно и оценки, и фотографии площадки, и вопросы,
+          которые задают перед приездом.
+        </p>
+        <a class="btn btn--ghost btn--sm" href="<%= site.profiles.twogis %>" target="_blank" rel="noopener">
+          Читать отзывы
+          <svg class="btn__icon" aria-hidden="true"><use href="#i-arrow"></use></svg>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= ОРГАНИЗАЦИЯМ ================= -->
+  <section class="section section--dark" id="yurlicam">
+    <div class="container">
+      <div class="business">
+        <div>
+          <p class="section__eyebrow">Юридическим лицам</p>
+          <h2 class="section__title"><%= content.business.title %></h2>
+          <p class="section__lead"><%= content.business.lead %></p>
+          <ul class="business__list">
+            <% content.business.points.forEach(function (p) { %>
+              <li><%= p %></li>
+            <% }); %>
+          </ul>
+        </div>
+
+        <%- include('partials/lead-form', {
+          variant: 'card',
+          formTitle: content.business.cta,
+          formText: 'Оставьте номер — вышлем договор и прайс для организаций.',
+          commentLabel: 'ИНН или название компании',
+          commentPlaceholder: 'Например: ООО «Пример», ИНН 5500000000'
+        }) %>
+      </div>
     </div>
   </section>
 
   <!-- ================= FAQ ================= -->
   <section class="section section--muted" id="faq">
-    <div class="container container--narrow">
+    <div class="container">
       <header class="section__head">
         <p class="section__eyebrow">Вопросы и ответы</p>
-        <h2 class="section__title">Частые вопросы о сдаче металлолома</h2>
+        <h2 class="section__title">Что спрашивают перед приездом</h2>
       </header>
 
       <div class="faq">
@@ -286,40 +408,35 @@
     </div>
   </section>
 
-  <!-- ================= КОНТАКТЫ ================= -->
-  <section class="section section--dark" id="kontakty">
-    <div class="container contacts">
-      <div class="contacts__info">
-        <p class="section__eyebrow">Контакты</p>
-        <h2 class="section__title">Как нас найти</h2>
+  <!-- ================= ФИНАЛЬНЫЙ ПРИЗЫВ ================= -->
+  <section class="section cta" id="kontakty">
+    <div class="cta__media" aria-hidden="true">
+      <%- include('partials/photo', {
+        slug: 'chermet',
+        alt: '',
+        sizes: '100vw',
+        width: 1920, height: 1440
+      }) %>
+    </div>
 
-        <dl class="contacts__list">
-          <div class="contacts__row">
-            <dt><svg aria-hidden="true"><use href="#i-pin"></use></svg>Адрес</dt>
-            <dd><%= site.address.full %><br>
-              <a class="link" href="<%= site.mapUrl %>" target="_blank" rel="noopener">Открыть на карте</a>
-            </dd>
-          </div>
-          <div class="contacts__row">
-            <dt><svg aria-hidden="true"><use href="#i-phone"></use></svg>Телефоны</dt>
-            <dd>
-              <% site.phones.forEach(function (p) { %>
-                <a class="contacts__phone" href="tel:<%= p.raw %>"><%= p.display %></a>
-              <% }); %>
-            </dd>
-          </div>
-          <div class="contacts__row">
-            <dt><svg aria-hidden="true"><use href="#i-clock"></use></svg>Режим работы</dt>
-            <dd><%= site.hours.text %>, без выходных</dd>
-          </div>
-          <div class="contacts__row">
-            <dt><svg aria-hidden="true"><use href="#i-shield"></use></svg>Документы</dt>
-            <dd>Приёмо-сдаточный акт, договор и безнал для юрлиц</dd>
-          </div>
-        </dl>
+    <div class="container cta__inner">
+      <div>
+        <p class="section__eyebrow">Контакты</p>
+        <h2 class="section__title">Привозите — посчитаем при вас</h2>
+        <div class="cta__phones">
+          <% site.phones.forEach(function (p) { %>
+            <a class="cta__phone" href="tel:<%= p.raw %>"><%= p.display %></a>
+          <% }); %>
+        </div>
+        <div class="cta__meta">
+          <p><strong>Адрес:</strong> <%= site.address.full %></p>
+          <p><strong>Режим:</strong> <%= site.hours.text %>, без выходных</p>
+          <p><strong>Документы:</strong> приёмо-сдаточный акт, договор и безнал для организаций</p>
+          <p><strong>Мессенджеры:</strong> WhatsApp и MAX на оба номера</p>
+        </div>
       </div>
 
-      <div class="contacts__form">
+      <div class="cta__form">
         <%- include('partials/lead-form', {
           variant: 'dark',
           formTitle: 'Узнать цену',

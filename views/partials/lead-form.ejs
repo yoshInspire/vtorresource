@@ -1,8 +1,8 @@
 <form class="lead-form<%= typeof variant !== 'undefined' && variant ? ' lead-form--' + variant : '' %>"
       action="/lead" method="post" novalidate data-lead-form>
   <div class="lead-form__head">
-    <p class="lead-form__title"><%= typeof formTitle !== 'undefined' ? formTitle : 'Узнать цену за 5 минут' %></p>
-    <p class="lead-form__text"><%= typeof formText !== 'undefined' ? formText : 'Оставьте номер — перезвоним, уточним вид лома и назовём точную цену.' %></p>
+    <p class="lead-form__title"><%= typeof formTitle !== 'undefined' ? formTitle : 'Узнать цену' %></p>
+    <p class="lead-form__text"><%= typeof formText !== 'undefined' ? formText : 'Оставьте номер — перезвоним, уточним вид лома и назовём цену.' %></p>
   </div>
 
   <label class="field">
@@ -12,20 +12,24 @@
   </label>
 
   <label class="field field--optional">
-    <span class="field__label">Что хотите сдать <span class="field__hint">необязательно</span></span>
+    <span class="field__label">
+      <%= typeof commentLabel !== 'undefined' ? commentLabel : 'Что хотите сдать' %>
+      <span class="field__hint">необязательно</span>
+    </span>
     <input class="field__input" type="text" name="comment" maxlength="200"
-           placeholder="Например: медный кабель, 300 кг">
+           placeholder="<%= typeof commentPlaceholder !== 'undefined' ? commentPlaceholder : 'Например: медный кабель, 300 кг' %>">
   </label>
 
   <input class="field-trap" type="text" name="company" tabindex="-1" autocomplete="off" aria-hidden="true">
 
   <button class="btn btn--accent btn--block" type="submit">
-    <span>Получить цену</span>
+    <span>Отправить</span>
     <svg class="btn__icon" aria-hidden="true"><use href="#i-arrow"></use></svg>
   </button>
 
   <p class="lead-form__note">
-    Нажимая кнопку, вы соглашаетесь на обработку персональных данных.
+    Нажимая кнопку, вы соглашаетесь с
+    <a href="/privacy">политикой обработки персональных данных</a>.
     Звонок и консультация — бесплатно.
   </p>
   <p class="lead-form__status" data-lead-status role="status" aria-live="polite"></p>

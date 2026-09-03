@@ -1,7 +1,32 @@
 <header class="header" id="top">
+  <div class="header__top">
+    <div class="container header__top-inner">
+      <span class="header__top-item">
+        <svg aria-hidden="true"><use href="#i-pin"></use></svg>
+        <%= site.address.full %>
+      </span>
+      <span class="header__top-item">
+        <svg aria-hidden="true"><use href="#i-clock"></use></svg>
+        <%= site.hours.short %>
+      </span>
+      <span class="header__msgs">
+        <% site.messengers.whatsappAll.forEach(function (p, i) { %>
+          <% if (i === 0) { %>
+            <a class="header__msg" href="<%= p.url %>" target="_blank" rel="noopener">
+              <svg aria-hidden="true"><use href="#i-whatsapp"></use></svg>WhatsApp
+            </a>
+          <% } %>
+        <% }); %>
+        <span class="header__msg" title="Мы на связи в мессенджере MAX по обоим номерам">
+          <svg aria-hidden="true"><use href="#i-max"></use></svg>MAX
+        </span>
+      </span>
+    </div>
+  </div>
+
   <div class="container header__inner">
     <a class="logo" href="/" aria-label="<%= site.brand %> — на главную">
-      <img class="logo__mark" src="/img/logo.png" width="44" height="44" alt="">
+      <img class="logo__mark" src="/img/logo.png" width="46" height="46" alt="">
       <span class="logo__text">
         <span class="logo__name"><%= site.brand %></span>
         <span class="logo__sub">приём лома <%= site.cityIn %></span>
@@ -12,19 +37,27 @@
     <label for="nav-toggle" class="burger" aria-label="Меню"><span></span></label>
 
     <nav class="nav" aria-label="Основная навигация">
-      <a class="nav__link<%= currentPath === '/' ? ' is-active' : '' %>" href="/">Главная</a>
       <a class="nav__link" href="/#priem">Что принимаем</a>
-      <a class="nav__link<%= currentPath === '/price' ? ' is-active' : '' %>" href="/price">Цены</a>
-      <a class="nav__link" href="/#uslugi">Услуги</a>
-      <a class="nav__link" href="/#punkt-priema">Пункт приёма</a>
+      <a class="nav__link" href="/#kalkulyator">Калькулятор</a>
+      <a class="nav__link<%= currentPath === '/price' ? ' is-active' : '' %>" href="/price">Прайс</a>
+      <a class="nav__link" href="/#kak-rabotaem">Как сдать</a>
+      <a class="nav__link" href="/#punkt-priema">Площадка</a>
       <a class="nav__link" href="/#kontakty">Контакты</a>
+
+      <!-- Телефоны в выпадающем меню: в узкой шапке им места нет -->
+      <div class="nav__phones">
+        <% site.phones.forEach(function (p) { %>
+          <a class="nav__phone" href="tel:<%= p.raw %>"><%= p.display %></a>
+        <% }); %>
+        <span class="nav__hours"><%= site.hours.short %> · <%= site.terms.priceUpdate.toLowerCase() %></span>
+      </div>
     </nav>
 
     <div class="header__contact">
       <a class="header__phone" href="tel:<%= site.phonePrimary.raw %>"><%= site.phonePrimary.display %></a>
-      <span class="header__hours"><%= site.hours.short %></span>
+      <span class="header__hours"><%= site.terms.priceUpdate.toLowerCase() %></span>
     </div>
 
-    <a class="btn btn--accent btn--sm header__cta" href="#zayavka">Узнать цену</a>
+    <a class="btn btn--accent btn--sm header__cta" href="/#zayavka">Узнать цену</a>
   </div>
 </header>

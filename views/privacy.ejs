@@ -1,0 +1,59 @@
+<%- include('partials/head') %>
+<%- include('partials/icons') %>
+<%- include('partials/header') %>
+
+<main id="main">
+  <section class="section section--light legal">
+    <div class="container container--narrow">
+      <header class="section__head">
+        <p class="section__eyebrow">Документы</p>
+        <h1 class="section__title">Политика обработки персональных данных</h1>
+        <p class="section__lead">
+          Что мы собираем через форму на сайте, зачем, сколько это хранится
+          и как эти данные удалить.
+        </p>
+      </header>
+
+      <% privacy.sections.forEach(function (s) { %>
+        <section class="legal__block">
+          <h2 class="legal__title"><%= s.title %></h2>
+
+          <% (s.paragraphs || []).forEach(function (p) { %>
+            <p class="legal__text"><%= p %></p>
+          <% }); %>
+
+          <% if (s.list) { %>
+            <dl class="legal__req">
+              <% s.list.forEach(function (row) { %>
+                <div class="legal__req-row">
+                  <dt><%= row.k %></dt>
+                  <dd><%= row.v %></dd>
+                </div>
+              <% }); %>
+            </dl>
+          <% } %>
+
+          <% if (s.bullets) { %>
+            <ul class="legal__list">
+              <% s.bullets.forEach(function (b) { %>
+                <li><%= b %></li>
+              <% }); %>
+            </ul>
+          <% } %>
+
+          <% (s.after || []).forEach(function (p) { %>
+            <p class="legal__text"><%= p %></p>
+          <% }); %>
+        </section>
+      <% }); %>
+
+      <p class="legal__edition">
+        Редакция от <%= f.dateLong(privacy.edition) %>.
+        Вопросы по обработке данных — <a href="mailto:<%= site.email %>"><%= site.email %></a>
+        или <a href="tel:<%= site.phonePrimary.raw %>"><%= site.phonePrimary.display %></a>.
+      </p>
+    </div>
+  </section>
+</main>
+
+<%- include('partials/footer') %>

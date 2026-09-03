@@ -136,6 +136,79 @@
     }
   }
 
+  // ---------- калькулятор суммы ---------------------------------------------
+  // Цены приходят из data/prices.json через <script type="application/json">,
+  // чтобы источник цифр был один и тот же для сервера и клиента.
+  var calc = document.querySelector('[data-calc]');
+  var calcData = document.getElementById('calc-data');
+
+  if (calc && calcData) {
+    var items = [];
+    try { items = JSON.parse(calcData.textContent); } catch (e) { items = []; }
+
+    var selItem = calc.querySelector('[data-calc-item]');
+    var inpWeight = calc.querySelector('[data-calc-weight]');
+    var selUnit = calc.querySelector('[data-calc-unit]');
+    var outSum = calc.querySelector('[data-calc-sum]');
+    var outBreak = calc.querySelector('[data-calc-breakdown]');
+
+    var byId = {};
+    items.forEach(function (i) { byId[i.id] = i; });
+
+    function money(n) {
+      return n.toLocaleString('ru-RU', { maximumFractionDigits: 0 });
+    }
+
+    function recalc() {
+      var item = byId[selItem.value];
+      var weight = parseFloat(String(inpWeight.value).replace(',', '.'));
+
+      if (!item || !isFinite(weight) || weight <= 0) {
+        outSum.textContent = '—';
+        outBreak.textContent = 'Укажите вес, чтобы увидеть сумму.';
+        return;
+      }
+
+      // Чёрный лом в прайсе идёт за тонну, цветной — за килограмм.
+      // Приводим введённый вес к единице измерения позиции.
+      var kg = selUnit.value === 't' ? weight * 1000 : weight;
+      var qty = item.perTonne ? kg / 1000 : kg;
+      var sum = qty * item.price;
+
+      outSum.innerHTML = money(sum) + '<span class="calc__sum-unit">₽</span>';
+
+      var qtyLabel = item.perTonne
+        ? qty.toLocaleString('ru-RU', { maximumFractionDigits: 3 }) + ' т'
+        : money(qty) + ' кг';
+      outBreak.innerHTML = qtyLabel + ' × <b>' + money(item.price) + ' ' + item.unit + '</b>';
+    }
+
+    [selItem, inpWeight, selUnit].forEach(function (el) {
+      if (!el) return;
+      el.addEventListener('input', recalc);
+      el.addEventListener('change', recalc);
+    });
+    recalc();
+  }
+
+  // ---------- карта по клику -------------------------------------------------
+  // Iframe Яндекса ставит сторонние куки, поэтому вставляем его только после
+  // явного согласия — это то, что заявлено в политике обработки данных.
+  var mapBox = document.querySelector('[data-map]');
+  var mapBtn = document.querySelector('[data-map-load]');
+
+  if (mapBox && mapBtn) {
+    mapBtn.addEventListener('click', function () {
+      var frame = document.createElement('iframe');
+      frame.className = 'map__frame';
+      frame.src = mapBox.getAttribute('data-map-src');
+      frame.title = mapBox.getAttribute('data-map-title');
+      frame.setAttribute('referrerpolicy', 'no-referrer-when-downgrade');
+      frame.setAttribute('loading', 'lazy');
+      mapBox.replaceWith(frame);
+    });
+  }
+
   // ---------- закрытие мобильного меню по клику ------------------------------
   var toggle = document.getElementById('nav-toggle');
   if (toggle) {

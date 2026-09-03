@@ -16,12 +16,13 @@
 
     <nav class="footer__col" aria-label="Разделы сайта">
       <p class="footer__title">Разделы</p>
-      <a class="footer__link" href="/">Главная</a>
-      <a class="footer__link" href="/price">Цены на лом</a>
       <a class="footer__link" href="/#priem">Что принимаем</a>
-      <a class="footer__link" href="/#uslugi">Услуги</a>
-      <a class="footer__link" href="/#punkt-priema">Пункт приёма</a>
-      <a class="footer__link" href="/#faq">Вопросы и ответы</a>
+      <a class="footer__link" href="/#kalkulyator">Калькулятор</a>
+      <a class="footer__link" href="/price">Прайс-лист</a>
+      <a class="footer__link" href="/#kak-rabotaem">Как сдать</a>
+      <a class="footer__link" href="/#zasor">Про засор</a>
+      <a class="footer__link" href="/#punkt-priema">Площадка</a>
+      <a class="footer__link" href="/#yurlicam">Организациям</a>
     </nav>
 
     <div class="footer__col">
@@ -40,15 +41,36 @@
       <% site.phones.forEach(function (p) { %>
         <a class="footer__link footer__link--phone" href="tel:<%= p.raw %>"><%= p.display %></a>
       <% }); %>
+      <p class="footer__line">WhatsApp и MAX на оба номера</p>
       <p class="footer__line"><%= site.address.full %></p>
       <p class="footer__line"><%= site.hours.text %></p>
       <a class="footer__link" href="mailto:<%= site.email %>"><%= site.email %></a>
+      <a class="footer__link" href="<%= site.profiles.twogis %>" target="_blank" rel="noopener">Мы в 2ГИС</a>
     </div>
   </div>
 
   <div class="container footer__bottom">
     <p>© <%= new Date().getFullYear() %> <%= site.legalName %>. Приём лома чёрных и цветных металлов в Омске.</p>
-    <p class="footer__disclaimer">Информация на сайте носит справочный характер и не является публичной офертой.</p>
+    <p class="footer__disclaimer">
+      Информация на сайте носит справочный характер и не является публичной офертой.
+      <a href="/privacy">Политика обработки персональных данных</a>.
+    </p>
+    <p class="footer__req">
+      ОГРН <%= site.legal.ogrn %> · ИНН <%= site.legal.inn %> · КПП <%= site.legal.kpp %>.
+      Юридический адрес: <%= site.legal.address %>.
+      Приём лома ведётся по адресу <%= site.address.full %>.
+    </p>
+
+    <% if (photoCredits && photoCredits.length) { %>
+      <details class="footer__credits">
+        <summary>Фотографии на сайте — временные, из открытых источников</summary>
+        <p>
+          Съёмка площадки ещё не проведена, поэтому используются снимки с Wikimedia
+          Commons. Авторы и лицензии:
+          <% photoCredits.forEach(function (c, i) { %><a href="<%= c.source %>" target="_blank" rel="noopener nofollow"><%= c.author %></a>, <%= c.license %><%= i < photoCredits.length - 1 ? '; ' : '.' %><% }); %>
+        </p>
+      </details>
+    <% } %>
   </div>
 </footer>
 

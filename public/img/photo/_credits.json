@@ -1,0 +1,47 @@
+[
+  {
+    "slug": "yard-hero",
+    "title": "Moscow, Vladykino-Moskovskoye railway station, heaps of scrap metal (21).jpg",
+    "author": "Svetlov Artem",
+    "license": "CC BY 3.0",
+    "licenseUrl": "https://creativecommons.org/licenses/by/3.0",
+    "source": "https://commons.wikimedia.org/wiki/File%3AMoscow%2C%20Vladykino-Moskovskoye%20railway%20station%2C%20heaps%20of%20scrap%20metal%20(21).jpg",
+    "note": "Куча лома, Москва — фон первого экрана"
+  },
+  {
+    "slug": "grapple",
+    "title": "Fuchs Bagger F301.jpg",
+    "author": "Beatclub",
+    "license": "CC BY-SA 4.0",
+    "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0",
+    "source": "https://commons.wikimedia.org/wiki/File%3AFuchs%20Bagger%20F301.jpg",
+    "note": "Грейферный перегружатель"
+  },
+  {
+    "slug": "chermet",
+    "title": "Scrap metal yard.jpg",
+    "author": "Digitura",
+    "license": "CC0",
+    "licenseUrl": "http://creativecommons.org/publicdomain/zero/1.0/deed.en",
+    "source": "https://commons.wikimedia.org/wiki/File%3AScrap%20metal%20yard.jpg",
+    "note": "Чёрный лом навалом"
+  },
+  {
+    "slug": "chermet-alt",
+    "title": "Steel Scrap Compacted.JPG",
+    "author": "TeWeBs",
+    "license": "CC BY-SA 4.0",
+    "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0",
+    "source": "https://commons.wikimedia.org/wiki/File%3ASteel%20Scrap%20Compacted.JPG",
+    "note": "Прессованный стальной лом"
+  },
+  {
+    "slug": "cvetmet",
+    "title": "BS VW Aluminium Swarf.JPG",
+    "author": "TeWeBs",
+    "license": "CC BY-SA 4.0",
+    "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0",
+    "source": "https://commons.wikimedia.org/wiki/File%3ABS%20VW%20Aluminium%20Swarf.JPG",
+    "note": "Алюминиевая стружка крупно"
+  }
+]
