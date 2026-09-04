@@ -134,14 +134,15 @@
 
 /* ---------- токены ---------- */
 :root {
-  /* тёмная шкала — от фона первого экрана до карточек */
-  --ink-950: #070A0E;
-  --ink-900: #0D131A;
-  --ink-850: #131C25;
-  --ink-800: #1A2632;
-  --ink-700: #243342;
-  --steel-600: #33465A;
-  --steel-400: #6B819A;
+  /* Тёмная шкала со штендера: не уголь, а тёмно-синий. Раньше здесь был
+     нейтральный графит, и синий читался случайной подсветкой, а не основой. */
+  --ink-950: #050B16;
+  --ink-900: #0A1527;
+  --ink-850: #0F1E34;
+  --ink-800: #152742;
+  --ink-700: #1F3558;
+  --steel-600: #33507A;
+  --steel-400: #6D89AE;
 
   /* Два акцента со штендера. Оранжевый отвечает за деньги и действие:
      цены, кнопки, бегущая строка. Синий за структуру и технику: иконки,
@@ -168,8 +169,8 @@
   --text-700: #2C3A4A;
   --text-600: #4B5C6E;
   --text-500: #6E7F92;
-  --on-dark: #D5DEE8;
-  --on-dark-dim: #94A6B8;
+  --on-dark: #D2DEEE;
+  --on-dark-dim: #93A7C4;
 
   --ok-500: #1E9E5A;
 
@@ -177,9 +178,9 @@
   --radius: 10px;
   --radius-lg: 16px;
 
-  --shadow-sm: 0 2px 8px rgba(7, 10, 14, .07);
-  --shadow: 0 14px 36px rgba(7, 10, 14, .13);
-  --shadow-lg: 0 28px 68px rgba(7, 10, 14, .42);
+  --shadow-sm: 0 2px 8px rgba(5, 11, 22, .08);
+  --shadow: 0 14px 36px rgba(5, 11, 22, .14);
+  --shadow-lg: 0 28px 68px rgba(5, 11, 22, .44);
 
   --container: 1220px;
 
@@ -399,23 +400,27 @@ table { border-collapse: collapse; width: 100%; }
 .hero__media::after {
   content: ""; position: absolute; inset: 0;
   background:
-    linear-gradient(105deg, var(--ink-950) 22%, rgba(7, 10, 14, .72) 52%, rgba(7, 10, 14, .5) 100%),
+    linear-gradient(105deg, var(--ink-950) 22%, rgba(5, 11, 22, .7) 52%, rgba(5, 11, 22, .44) 100%),
     linear-gradient(to top, var(--ink-950), transparent 42%);
 }
-/* Синие диагонали со штендера. Держим их слабыми: это фактура, а не рисунок. */
-.hero::before {
+/* Синие диагонали со штендера. Общая фактура для тёмных секций. */
+.hero::before,
+.section--dark::before,
+.cta::before {
   content: ""; position: absolute; inset: 0; z-index: 1; pointer-events: none;
   background: repeating-linear-gradient(
     114deg,
     transparent 0 54px,
-    rgba(30, 107, 239, .3) 54px 60px,
+    rgba(30, 107, 239, .34) 54px 60px,
     transparent 60px 84px,
-    rgba(75, 147, 255, .18) 84px 87px,
+    rgba(75, 147, 255, .2) 84px 87px,
     transparent 87px 170px
   );
-  mask-image: linear-gradient(97deg, rgba(0,0,0,.5) 0%, rgba(0,0,0,.15) 40%, #000 100%);
-  -webkit-mask-image: linear-gradient(97deg, rgba(0,0,0,.5) 0%, rgba(0,0,0,.15) 40%, #000 100%);
+  mask-image: linear-gradient(97deg, rgba(0,0,0,.55) 0%, rgba(0,0,0,.18) 42%, #000 100%);
+  -webkit-mask-image: linear-gradient(97deg, rgba(0,0,0,.55) 0%, rgba(0,0,0,.18) 42%, #000 100%);
 }
+.section--dark, .cta { position: relative; }
+.section--dark > .container, .cta > .container { position: relative; z-index: 2; }
 .hero__inner {
   position: relative; z-index: 2;
   display: grid; grid-template-columns: minmax(0, 1.15fr) minmax(340px, .85fr);
@@ -510,6 +515,7 @@ a.msg:hover { background: rgba(255, 255, 255, .1); color: #fff; }
   padding: 13px 22px; text-decoration: none;
   border-right: 1px solid rgba(255, 255, 255, .2);
 }
+.ticker { box-shadow: 0 4px 0 rgba(30, 107, 239, .55); }
 .ticker__item:hover { background: rgba(0, 0, 0, .14); }
 .ticker__name { font-size: 14.5px; opacity: .92; }
 .ticker__price { font-family: var(--display); font-weight: 600; font-size: 18px; }
@@ -571,9 +577,9 @@ a.msg:hover { background: rgba(255, 255, 255, .1); color: #fff; }
 .tile:hover .tile__media img { transform: scale(1.05); }
 .tile__media::after {
   content: ""; position: absolute; inset: 0;
-  background: linear-gradient(to top, rgba(7, 10, 14, .93) 12%, rgba(7, 10, 14, .55) 55%, rgba(7, 10, 14, .3));
+  background: linear-gradient(to top, rgba(5, 11, 22, .93) 12%, rgba(10, 21, 39, .55) 55%, rgba(10, 21, 39, .28));
 }
-.tile--flat { background: linear-gradient(155deg, #12233F, var(--ink-950)); }
+.tile--flat { background: linear-gradient(155deg, #14305A, var(--ink-950)); }
 .tile--flat::before {
   content: ""; position: absolute; inset: 0; z-index: -1; opacity: .5;
   background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='40' height='40' viewBox='0 0 40 40'%3E%3Cpath d='M0 20h40M20 0v40' stroke='%234B93FF' stroke-width='.5' opacity='.55'/%3E%3Ccircle cx='20' cy='20' r='1.5' fill='%231E6BEF' opacity='.85'/%3E%3C/svg%3E");
@@ -724,10 +730,10 @@ a.msg:hover { background: rgba(255, 255, 255, .1); color: #fff; }
 .cta .section__eyebrow { color: var(--orange-400); }
 .cta .section__lead { color: var(--on-dark-dim); }
 .cta__media { position: absolute; inset: 0; }
-.cta__media img { width: 100%; height: 100%; object-fit: cover; opacity: .38; }
+.cta__media img { width: 100%; height: 100%; object-fit: cover; opacity: .5; }
 .cta__media::after {
   content: ""; position: absolute; inset: 0;
-  background: linear-gradient(100deg, var(--ink-950) 26%, rgba(7, 10, 14, .74));
+  background: linear-gradient(100deg, var(--ink-950) 24%, rgba(5, 11, 22, .66));
 }
 .cta__inner {
   position: relative; z-index: 1; display: grid;
@@ -775,17 +781,40 @@ select.field__input { appearance: none; background-image: url("data:image/svg+xm
 .alert--ok { background: rgba(30, 158, 90, .12); color: #14683B; border-left: 3px solid var(--ok-500); }
 .alert--err { background: rgba(201, 78, 0, .1); color: var(--orange-600); border-left: 3px solid var(--orange-500); }
 
-/* ---------- полоса доверия ---------- */
-.trust { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 1px; background: var(--paper-200); border: 1px solid var(--paper-200); }
-.trust__item { background: var(--paper); padding: 28px 26px; }
-.trust__icon {
-  display: grid; place-items: center; width: 44px; height: 44px; margin-bottom: 16px;
-  background: linear-gradient(150deg, var(--blue-600), var(--blue-700));
-  border-radius: var(--radius-sm); color: #fff;
+/* ---------- полоса доверия ----------
+   Прямая цитата нижнего ряда штендера: сплошная синяя плашка, белые значки,
+   разделители между колонками. Это же самая большая площадь синего на странице. */
+.section--blue {
+  position: relative; overflow: hidden;
+  background: linear-gradient(120deg, var(--blue-700) 0%, var(--blue-600) 48%, #1A63D8 100%);
+  color: #fff;
 }
-.trust__icon svg { width: 22px; height: 22px; }
-.trust__title { font-family: var(--display); font-weight: 500; font-size: 18px; text-transform: uppercase; color: var(--text-900); letter-spacing: .01em; margin-bottom: 7px; }
-.trust__text { font-size: 14.5px; color: var(--text-600); }
+.section--blue::before {
+  content: ""; position: absolute; inset: 0; pointer-events: none;
+  background: repeating-linear-gradient(
+    114deg,
+    transparent 0 60px,
+    rgba(255, 255, 255, .07) 60px 66px,
+    transparent 66px 92px,
+    rgba(5, 11, 22, .16) 92px 96px,
+    transparent 96px 190px
+  );
+}
+.section--blue > .container { position: relative; z-index: 1; }
+
+.trust { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); }
+.trust__item { padding: 6px 30px; border-left: 1px solid rgba(255, 255, 255, .22); }
+.trust__item:first-child { border-left: 0; padding-left: 0; }
+.trust__icon {
+  display: grid; place-items: center; width: 44px; height: 44px; margin-bottom: 14px;
+  color: #fff;
+}
+.trust__icon svg { width: 34px; height: 34px; }
+.trust__title {
+  font-family: var(--display); font-weight: 500; font-size: 18px; text-transform: uppercase;
+  color: #fff; letter-spacing: .02em; margin-bottom: 7px;
+}
+.trust__text { font-size: 14.5px; color: rgba(255, 255, 255, .9); }
 
 /* ---------- подвал ---------- */
 .footer { background: var(--ink-950); color: var(--on-dark-dim); padding-top: 56px; font-size: 15px; }
@@ -1008,7 +1037,11 @@ select.field__input { appearance: none; background-image: url("data:image/svg+xm
   .hero-fact { border-left: 0; padding: 20px 0; border-top: 1px solid rgba(107, 129, 154, .18); }
   .hero-fact:nth-child(-n+2) { border-top: 0; }
   .hero-fact:nth-child(even) { padding-left: 22px; border-left: 1px solid rgba(107, 129, 154, .18); }
+  /* В колонку разделители должны быть сверху, иначе первый пункт
+     оказывается без отступа, а остальные с ним */
   .trust { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .trust__item { padding: 20px 22px; }
+  .trust__item:nth-child(odd) { padding-left: 0; border-left: 0; }
   .zasor { grid-template-columns: minmax(0, 1fr); }
   .faq { columns: 1; }
   .price-grid { grid-template-columns: minmax(0, 1fr); }
@@ -1027,6 +1060,12 @@ select.field__input { appearance: none; background-image: url("data:image/svg+xm
   .tiles { grid-template-columns: minmax(0, 1fr); }
   .tile, .tile:last-child { grid-column: auto; min-height: 300px; }
   .trust { grid-template-columns: minmax(0, 1fr); }
+  .trust__item {
+    padding: 22px 0 0; border-left: 0;
+    border-top: 1px solid rgba(255, 255, 255, .22);
+  }
+  .trust__item:first-child { padding-top: 0; border-top: 0; }
+  .trust__icon { margin-bottom: 10px; }
   .footer__inner { grid-template-columns: minmax(0, 1fr); }
   .lead-form--hero, .lead-form--dark, .lead-form--card { padding: 22px; }
   .calc__row { grid-template-columns: minmax(0, 1fr); }
