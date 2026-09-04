@@ -1054,7 +1054,7 @@
             {
               "id": "lom-vk-tk-bez-pripoya",
               "title": "Лом ВК-ТК без припоя",
-              "note": "",
+              "note": null,
               "cash": 4090.91,
               "bank": 4500,
               "text": null

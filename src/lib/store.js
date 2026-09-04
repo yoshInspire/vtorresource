@@ -101,6 +101,93 @@ function updateItem(groupId, categoryId, itemId, patch) {
   return true;
 }
 
+/**
+ * Транслитерация в идентификатор позиции: «Лом меди Блеск» -> «lom-medi-blesk».
+ * Те же правила, что в scripts/build-prices.js, чтобы id, созданные в админке,
+ * не отличались от импортированных.
+ */
+const TRANSLIT = {
+  а: 'a', б: 'b', в: 'v', г: 'g', д: 'd', е: 'e', ё: 'e', ж: 'zh', з: 'z', и: 'i',
+  й: 'y', к: 'k', л: 'l', м: 'm', н: 'n', о: 'o', п: 'p', р: 'r', с: 's', т: 't',
+  у: 'u', ф: 'f', х: 'h', ц: 'c', ч: 'ch', ш: 'sh', щ: 'sch', ъ: '', ы: 'y', ь: '',
+  э: 'e', ю: 'yu', я: 'ya'
+};
+
+function slugify(text) {
+  return String(text)
+    .toLowerCase()
+    .split('')
+    .map(c => (TRANSLIT[c] !== undefined ? TRANSLIT[c] : c))
+    .join('')
+    .replace(/[^a-z0-9]+/g, '-')
+    .replace(/^-|-$/g, '')
+    .slice(0, 48)
+    .replace(/-$/, '');
+}
+
+/** Все занятые id позиций: они должны быть уникальны на весь прайс. */
+function usedItemIds(data) {
+  const ids = new Set();
+  for (const group of data.groups) {
+    for (const category of group.categories) {
+      for (const item of category.items) ids.add(item.id);
+    }
+  }
+  return ids;
+}
+
+/**
+ * Добавление позиции в категорию.
+ * Идентификатор строится из названия и при совпадении дополняется числом.
+ * @returns {string|null} id созданной позиции либо null, если категории нет
+ */
+function addItem(groupId, categoryId, fields) {
+  const data = JSON.parse(fs.readFileSync(PRICES_FILE, 'utf8'));
+  const group = data.groups.find(g => g.id === groupId);
+  const category = group && group.categories.find(c => c.id === categoryId);
+  if (!category) return null;
+
+  const taken = usedItemIds(data);
+  const base = slugify(fields.title) || 'poziciya';
+  let id = base;
+  for (let i = 2; taken.has(id); i += 1) id = `${base}-${i}`;
+
+  category.items.push({
+    id,
+    title: fields.title,
+    note: fields.note || null,
+    cash: fields.cash === undefined ? null : fields.cash,
+    cashTo: fields.cashTo === undefined ? null : fields.cashTo,
+    bank: fields.bank === undefined ? null : fields.bank,
+    text: fields.text || null
+  });
+
+  data.updatedAt = new Date().toISOString().slice(0, 10);
+  writeJson(PRICES_FILE, data);
+  cache = null;
+  return id;
+}
+
+/**
+ * Удаление позиции.
+ * @returns {object|null} удалённая позиция либо null, если её не нашли
+ */
+function removeItem(groupId, categoryId, itemId) {
+  const data = JSON.parse(fs.readFileSync(PRICES_FILE, 'utf8'));
+  const group = data.groups.find(g => g.id === groupId);
+  const category = group && group.categories.find(c => c.id === categoryId);
+  if (!category) return null;
+
+  const index = category.items.findIndex(i => i.id === itemId);
+  if (index === -1) return null;
+
+  const [removed] = category.items.splice(index, 1);
+  data.updatedAt = new Date().toISOString().slice(0, 10);
+  writeJson(PRICES_FILE, data);
+  cache = null;
+  return removed;
+}
+
 /** Полная перезапись прайса (импорт, массовое редактирование). */
 function replacePrices(data) {
   data.updatedAt = new Date().toISOString().slice(0, 10);
@@ -139,6 +226,9 @@ module.exports = {
   topPrice,
   pickItems,
   updateItem,
+  addItem,
+  removeItem,
+  slugify,
   replacePrices,
   saveLead,
   getLeads,

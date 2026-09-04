@@ -1,0 +1,34 @@
+<%- include('_head') %>
+<%- include('_nav') %>
+
+<main class="adm-main">
+  <div class="adm-confirm">
+    <h1 class="adm-h1">Удалить позицию?</h1>
+    <p class="adm-sub">
+      Позиция исчезнет из прайс-листа на сайте сразу. Отменить это из админки
+      нельзя, придётся добавить её заново.
+    </p>
+
+    <dl class="adm-confirm__what">
+      <div><dt>Название</dt><dd><%= item.title %></dd></div>
+      <% if (item.note) { %>
+        <div><dt>Уточнение</dt><dd><%= item.note %></dd></div>
+      <% } %>
+      <div><dt>Цена</dt><dd><%= f.itemPrice(item) %> <%= group.unit %></dd></div>
+      <div><dt>Категория</dt><dd><%= category.name %>, <%= group.title.toLowerCase() %></dd></div>
+    </dl>
+
+    <div class="adm-confirm__actions">
+      <form action="/admin/prices/delete" method="post">
+        <input type="hidden" name="_csrf" value="<%= csrf %>">
+        <input type="hidden" name="group" value="<%= group.id %>">
+        <input type="hidden" name="item" value="<%= category.id %>__<%= item.id %>">
+        <input type="hidden" name="confirm" value="yes">
+        <button class="adm-btn adm-btn--danger" type="submit">Да, удалить</button>
+      </form>
+      <a class="adm-btn adm-btn--ghost" href="/admin?group=<%= group.id %>#<%= category.id %>">Отмена</a>
+    </div>
+  </div>
+</main>
+
+<%- include('_foot') %>

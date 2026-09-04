@@ -23,9 +23,27 @@
     </p>
   <% } %>
 
-  <% if (error === 'csrf') { %>
+  <% if (added) { %>
+    <p class="adm-alert adm-alert--ok" role="status">
+      Позиция добавлена, её адрес в прайсе: <code><%= added %></code>.
+    </p>
+  <% } %>
+
+  <% if (removed) { %>
+    <p class="adm-alert adm-alert--ok" role="status">
+      Позиция «<%= removed %>» удалена.
+    </p>
+  <% } %>
+
+  <% if (error) { %>
     <p class="adm-alert adm-alert--err" role="alert">
-      Форма устарела: вход был выполнен слишком давно. Откройте страницу заново и повторите.
+      <% if (error === 'csrf') { %>
+        Форма устарела: вход был выполнен слишком давно. Откройте страницу заново и повторите.
+      <% } else if (error === 'title') { %>
+        Не добавил позицию: у неё должно быть название.
+      <% } else { %>
+        Не нашёл, что вы правите. Возможно, позицию уже удалили в другой вкладке.
+      <% } %>
     </p>
   <% } %>
 
@@ -38,40 +56,59 @@
     <% }); %>
   </div>
 
+  <p class="adm-hint">
+    Цену можно писать через запятую или с пробелами: 818,18 или 1 200.
+    Пустое поле означает «цена по запросу». Колонка «Текстом» перебивает число:
+    если в ней что-то есть, на сайте покажется именно она.
+    Название и уточнение тоже правятся прямо здесь.
+  </p>
+
+  <!-- Форма удаления вынесена из таблицы: вложенные формы недопустимы,
+       поэтому кнопки в строках привязаны к ней через атрибут form. -->
+  <form id="del-form" action="/admin/prices/delete" method="post" hidden>
+    <input type="hidden" name="_csrf" value="<%= csrf %>">
+    <input type="hidden" name="group" value="<%= group.id %>">
+  </form>
+
   <form action="/admin/prices" method="post">
     <input type="hidden" name="_csrf" value="<%= csrf %>">
     <input type="hidden" name="group" value="<%= group.id %>">
 
-    <p class="adm-hint">
-      Цену можно писать через запятую или с пробелами: 818,18 или 1 200.
-      Пустое поле означает «цена по запросу».
-      Колонка «Текстом» перебивает число: если в ней что-то есть, на сайте
-      покажется именно она.
-    </p>
-
     <% group.categories.forEach(function (category) { %>
-      <section class="adm-cat">
-        <h2 class="adm-cat__title"><%= category.name %></h2>
+      <section class="adm-cat" id="<%= category.id %>">
+        <h2 class="adm-cat__title">
+          <%= category.name %>
+          <span class="adm-cat__count"><%= category.items.length %></span>
+        </h2>
+
         <div class="adm-tablewrap">
           <table class="adm-table">
             <thead>
               <tr>
-                <th scope="col">Позиция</th>
+                <th scope="col">Название и уточнение</th>
                 <th scope="col" class="adm-table__num">Цена, <%= group.unit %></th>
                 <th scope="col" class="adm-table__num">До (диапазон)</th>
                 <% if (group.columns.length > 1) { %>
                   <th scope="col" class="adm-table__num">Безнал</th>
                 <% } %>
                 <th scope="col" class="adm-table__text">Текстом</th>
+                <th scope="col" class="adm-table__act"><span class="visually-hidden">Действия</span></th>
               </tr>
             </thead>
             <tbody>
               <% category.items.forEach(function (item) { %>
                 <tr>
-                  <th scope="row" class="adm-table__name">
-                    <%= item.title %>
-                    <% if (item.note) { %><span class="adm-table__note"><%= item.note %></span><% } %>
-                  </th>
+                  <td class="adm-table__name">
+                    <input class="adm-input adm-input--title" type="text" maxlength="200" required
+                           name="title__<%= category.id %>__<%= item.id %>"
+                           value="<%= item.title %>"
+                           aria-label="Название позиции">
+                    <input class="adm-input adm-input--note" type="text" maxlength="400"
+                           name="note__<%= category.id %>__<%= item.id %>"
+                           value="<%= item.note || '' %>"
+                           placeholder="уточнение: состояние, ГОСТ, засор"
+                           aria-label="Уточнение к позиции <%= item.title %>">
+                  </td>
                   <td>
                     <input class="adm-input adm-input--num" type="text" inputmode="decimal"
                            name="cash__<%= category.id %>__<%= item.id %>"
@@ -96,8 +133,15 @@
                     <input class="adm-input" type="text" maxlength="120"
                            name="text__<%= category.id %>__<%= item.id %>"
                            value="<%= item.text || '' %>"
-                           placeholder="например: до 40 000"
+                           placeholder="до 40 000"
                            aria-label="Текстовая цена: <%= item.title %>">
+                  </td>
+                  <td class="adm-table__act">
+                    <button class="adm-del" type="submit" form="del-form"
+                            name="item" value="<%= category.id %>__<%= item.id %>"
+                            title="Удалить позицию">
+                      Удалить<span class="visually-hidden"> позицию <%= item.title %></span>
+                    </button>
                   </td>
                 </tr>
               <% }); %>
@@ -112,6 +156,65 @@
       <span class="adm-save__hint">Сохраняются только изменённые поля.</span>
     </div>
   </form>
+
+  <!-- Добавление вынесено отдельной формой: иначе пустые поля новой позиции
+       уходили бы вместе с каждым сохранением цен. -->
+  <section class="adm-add">
+    <h2 class="adm-add__title">Добавить позицию</h2>
+    <form class="adm-add__form" action="/admin/prices/add" method="post">
+      <input type="hidden" name="_csrf" value="<%= csrf %>">
+      <input type="hidden" name="group" value="<%= group.id %>">
+
+      <label class="adm-field adm-add__cat">
+        <span class="adm-field__label">Категория</span>
+        <select class="adm-field__input" name="category" required>
+          <% group.categories.forEach(function (c) { %>
+            <option value="<%= c.id %>"><%= c.name %></option>
+          <% }); %>
+        </select>
+      </label>
+
+      <label class="adm-field adm-add__title-field">
+        <span class="adm-field__label">Название</span>
+        <input class="adm-field__input" type="text" name="title" required maxlength="200"
+               placeholder="Например: Лом меди «Блеск»">
+      </label>
+
+      <label class="adm-field adm-add__num">
+        <span class="adm-field__label">Цена, <%= group.unit %></span>
+        <input class="adm-field__input adm-input--num" type="text" inputmode="decimal" name="cash"
+               placeholder="818,18">
+      </label>
+
+      <label class="adm-field adm-add__num">
+        <span class="adm-field__label">До</span>
+        <input class="adm-field__input adm-input--num" type="text" inputmode="decimal" name="cashTo"
+               placeholder="необязательно">
+      </label>
+
+      <% if (group.columns.length > 1) { %>
+        <label class="adm-field adm-add__num">
+          <span class="adm-field__label">Безнал</span>
+          <input class="adm-field__input adm-input--num" type="text" inputmode="decimal" name="bank"
+                 placeholder="необязательно">
+        </label>
+      <% } %>
+
+      <label class="adm-field adm-add__note">
+        <span class="adm-field__label">Уточнение</span>
+        <input class="adm-field__input" type="text" name="note" maxlength="400"
+               placeholder="состояние, ГОСТ, процент засора">
+      </label>
+
+      <div class="adm-add__submit">
+        <button class="adm-btn adm-btn--accent" type="submit">Добавить</button>
+      </div>
+    </form>
+    <p class="adm-add__hint">
+      Позиция встанет в конец выбранной категории. Адрес в прайсе построится
+      из названия автоматически.
+    </p>
+  </section>
 </main>
 
 <%- include('_foot') %>
