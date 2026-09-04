@@ -3,27 +3,26 @@
  * Значки мессенджеров рядом с номером телефона.
  * Параметры: phone (объект из site.phones), size ('sm' | 'md').
  *
- * WhatsApp привязан к каждому номеру, ссылка строится через wa.me.
- * У MAX ссылки на чат по номеру не существует, поэтому значок становится
- * ссылкой только когда в site.messengers.max появится адрес профиля.
- * До этого он остаётся подписью с подсказкой — кликать некуда.
+ * WhatsApp показываем только у номера, к которому он привязан: ссылка wa.me
+ * на номер без WhatsApp открывает заглушку, и человек решает, что мы
+ * не отвечаем.
+ *
+ * У MAX ссылки на чат по номеру не существует, работает только адрес профиля.
+ * Он один на компанию, поэтому у всех номеров ведёт в один и тот же чат.
  */
 var _size = typeof size !== 'undefined' ? size : 'md';
 %>
 <span class="msgs msgs--<%= _size %>">
-  <a class="msg msg--wa" href="<%= phone.whatsapp %>" target="_blank" rel="noopener"
-     aria-label="Написать в WhatsApp на номер <%= phone.display %>" title="WhatsApp">
-    <svg aria-hidden="true"><use href="#i-whatsapp"></use></svg>
-  </a>
+  <% if (phone.whatsapp) { %>
+    <a class="msg msg--wa" href="<%= phone.whatsapp %>" target="_blank" rel="noopener"
+       aria-label="Написать в WhatsApp на номер <%= phone.display %>" title="WhatsApp">
+      <svg aria-hidden="true"><use href="#i-whatsapp"></use></svg>
+    </a>
+  <% } %>
   <% if (site.messengers.max) { %>
     <a class="msg msg--max" href="<%= site.messengers.max %>" target="_blank" rel="noopener"
-       aria-label="Написать в MAX" title="MAX">
+       aria-label="Написать нам в MAX" title="MAX">
       <svg aria-hidden="true"><use href="#i-max"></use></svg>
     </a>
-  <% } else { %>
-    <span class="msg msg--max is-static" title="Мы есть в MAX на этом номере">
-      <svg aria-hidden="true"><use href="#i-max"></use></svg>
-      <span class="visually-hidden">Мы есть в MAX на номере <%= phone.display %></span>
-    </span>
   <% } %>
 </span>

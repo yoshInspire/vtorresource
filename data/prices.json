@@ -748,98 +748,6 @@
           ]
         },
         {
-          "id": "tverdye-splavy-pobedit",
-          "name": "Твердые сплавы, победит",
-          "items": [
-            {
-              "id": "lom-vk-tk-bez-pripoya",
-              "title": "Лом ВК-ТК без припоя",
-              "note": "",
-              "cash": 4090.91,
-              "bank": 4500,
-              "text": null
-            },
-            {
-              "id": "lom-vk-tk-s-pripoem",
-              "title": "Лом ВК-ТК с припоем",
-              "note": "",
-              "cash": 3909.09,
-              "bank": 4300,
-              "text": null
-            },
-            {
-              "id": "lom-vk-bez-pripoya",
-              "title": "Лом ВК без припоя",
-              "note": "",
-              "cash": 4090.91,
-              "bank": 4500,
-              "text": null
-            },
-            {
-              "id": "lom-vk-s-pripoem",
-              "title": "Лом ВК с припоем",
-              "note": "",
-              "cash": 3909.09,
-              "bank": 4300,
-              "text": null
-            },
-            {
-              "id": "poroshok-vk-tk",
-              "title": "Порошок ВК-ТК",
-              "note": "сухой в герметичной упаковке",
-              "cash": 1363.64,
-              "bank": 1500,
-              "text": null
-            }
-          ]
-        },
-        {
-          "id": "bystrorezhuschie-stali",
-          "name": "Быстрорежущие стали",
-          "items": [
-            {
-              "id": "lom-bystrorezhuschey-stali-instrument-b-u-r18",
-              "title": "Лом быстрорежущей стали (инструмент б/у) Р18",
-              "note": "",
-              "cash": 545.45,
-              "bank": 600,
-              "text": null
-            },
-            {
-              "id": "lom-bystrorezhuschey-stali-instrument-b-u-r6m5-r",
-              "title": "Лом быстрорежущей стали (инструмент б/у) Р6М5, Р6АМ5, Р6М5Ф3, Р6М5К5",
-              "note": "",
-              "cash": 363.64,
-              "bank": 400,
-              "text": null
-            },
-            {
-              "id": "lom-bystrorezhuschey-stali-instrument-b-u-r9",
-              "title": "Лом быстрорежущей стали (инструмент б/у) Р9",
-              "note": "",
-              "cash": 181.82,
-              "bank": 200,
-              "text": null
-            },
-            {
-              "id": "lom-bystrorezhuschey-stali-instrument-b-u-r12",
-              "title": "Лом быстрорежущей стали (инструмент б/у) Р12",
-              "note": "",
-              "cash": 272.73,
-              "bank": 300,
-              "text": null
-            },
-            {
-              "id": "lom-bystrorezhuschey-stali-instrument-b-u-r3m3",
-              "title": "Лом быстрорежущей стали (инструмент б/у) Р3М3",
-              "note": "",
-              "cash": 118.18,
-              "bank": 130,
-              "text": null
-            }
-          ]
-        },
-        {
           "id": "olovo",
           "name": "Олово",
           "items": [
@@ -1088,6 +996,150 @@
           ]
         },
         {
+          "id": "cink-cam",
+          "name": "Цинк, ЦАМ",
+          "items": [
+            {
+              "id": "lom-cama",
+              "title": "Лом ЦАМа",
+              "note": "автомобильный",
+              "cash": 127.27,
+              "bank": 140,
+              "text": null
+            },
+            {
+              "id": "lom-cama-santehnika",
+              "title": "Лом ЦАМа (сантехника)",
+              "note": "",
+              "cash": 127.27,
+              "bank": 140,
+              "text": null
+            },
+            {
+              "id": "lom-cama-brak",
+              "title": "Лом ЦАМа (брак)",
+              "note": "",
+              "cash": 45.45,
+              "bank": 50,
+              "text": null
+            },
+            {
+              "id": "lom-cinka",
+              "title": "Лом цинка",
+              "note": "",
+              "cash": 136.36,
+              "bank": 150,
+              "text": null
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "redkozem",
+      "title": "Редкоземельный лом",
+      "short": "Редкозем",
+      "unit": "₽/кг",
+      "unitShort": "кг",
+      "columns": [
+        "Наличный расчёт, ₽/кг",
+        "Безналичный расчёт, ₽/кг"
+      ],
+      "description": "Приём твёрдых сплавов, вольфрама, молибдена, тантала, ферросплавов и быстрорежущей стали в Омске.",
+      "categories": [
+        {
+          "id": "tverdye-splavy-pobedit",
+          "name": "Твердые сплавы, победит",
+          "items": [
+            {
+              "id": "lom-vk-tk-bez-pripoya",
+              "title": "Лом ВК-ТК без припоя",
+              "note": "",
+              "cash": 4090.91,
+              "bank": 4500,
+              "text": null
+            },
+            {
+              "id": "lom-vk-tk-s-pripoem",
+              "title": "Лом ВК-ТК с припоем",
+              "note": "",
+              "cash": 3909.09,
+              "bank": 4300,
+              "text": null
+            },
+            {
+              "id": "lom-vk-bez-pripoya",
+              "title": "Лом ВК без припоя",
+              "note": "",
+              "cash": 4090.91,
+              "bank": 4500,
+              "text": null
+            },
+            {
+              "id": "lom-vk-s-pripoem",
+              "title": "Лом ВК с припоем",
+              "note": "",
+              "cash": 3909.09,
+              "bank": 4300,
+              "text": null
+            },
+            {
+              "id": "poroshok-vk-tk",
+              "title": "Порошок ВК-ТК",
+              "note": "сухой в герметичной упаковке",
+              "cash": 1363.64,
+              "bank": 1500,
+              "text": null
+            }
+          ]
+        },
+        {
+          "id": "bystrorezhuschie-stali",
+          "name": "Быстрорежущие стали",
+          "items": [
+            {
+              "id": "lom-bystrorezhuschey-stali-instrument-b-u-r18",
+              "title": "Лом быстрорежущей стали (инструмент б/у) Р18",
+              "note": "",
+              "cash": 545.45,
+              "bank": 600,
+              "text": null
+            },
+            {
+              "id": "lom-bystrorezhuschey-stali-instrument-b-u-r6m5-r",
+              "title": "Лом быстрорежущей стали (инструмент б/у) Р6М5, Р6АМ5, Р6М5Ф3, Р6М5К5",
+              "note": "",
+              "cash": 363.64,
+              "bank": 400,
+              "text": null
+            },
+            {
+              "id": "lom-bystrorezhuschey-stali-instrument-b-u-r9",
+              "title": "Лом быстрорежущей стали (инструмент б/у) Р9",
+              "note": "",
+              "cash": 181.82,
+              "bank": 200,
+              "text": null
+            },
+            {
+              "id": "lom-bystrorezhuschey-stali-instrument-b-u-r12",
+              "title": "Лом быстрорежущей стали (инструмент б/у) Р12",
+              "note": "",
+              "cash": 272.73,
+              "bank": 300,
+              "text": null
+            },
+            {
+              "id": "lom-bystrorezhuschey-stali-instrument-b-u-r3m3",
+              "title": "Лом быстрорежущей стали (инструмент б/у) Р3М3",
+              "note": "",
+              "cash": 118.18,
+              "bank": 130,
+              "text": null
+            }
+          ]
+        },
+        {
           "id": "volfram-molibden-niobiy-volframosoderzhaschie-sp",
           "name": "Вольфрам, молибден, ниобий, вольфрамосодержащие сплавы",
           "items": [
@@ -1191,44 +1243,6 @@
               "note": "",
               "cash": 954.55,
               "bank": 1050,
-              "text": null
-            }
-          ]
-        },
-        {
-          "id": "cink-cam",
-          "name": "Цинк, ЦАМ",
-          "items": [
-            {
-              "id": "lom-cama",
-              "title": "Лом ЦАМа",
-              "note": "автомобильный",
-              "cash": 127.27,
-              "bank": 140,
-              "text": null
-            },
-            {
-              "id": "lom-cama-santehnika",
-              "title": "Лом ЦАМа (сантехника)",
-              "note": "",
-              "cash": 127.27,
-              "bank": 140,
-              "text": null
-            },
-            {
-              "id": "lom-cama-brak",
-              "title": "Лом ЦАМа (брак)",
-              "note": "",
-              "cash": 45.45,
-              "bank": 50,
-              "text": null
-            },
-            {
-              "id": "lom-cinka",
-              "title": "Лом цинка",
-              "note": "",
-              "cash": 136.36,
-              "bank": 150,
               "text": null
             }
           ]

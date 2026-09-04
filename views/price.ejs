@@ -16,7 +16,7 @@
       <p class="page-head__lead">
         Цены пункта приёма «Вторресурс» на 2-й Барнаульской, 105:
         <%= prices.groups.reduce(function (a, g) { return a + g.categories.reduce(function (b, c) { return b + c.items.length; }, 0); }, 0) %>
-        позиций чёрного и цветного лома. Цветной металл считаем за килограмм, чёрный за тонну.
+        позиций чёрного, цветного и редкоземельного лома. Чёрный металл считаем за тонну, остальной за килограмм.
         Цены действуют на <%= f.dateLong(prices.updatedAt) %>.
       </p>
 
@@ -49,8 +49,8 @@
     </p>
   </div>
 
-  <% prices.groups.forEach(function (group) { %>
-    <section class="section section--<%= group.id === 'chermet' ? 'muted' : 'light' %> price-group"
+  <% prices.groups.forEach(function (group, gi) { %>
+    <section class="section section--<%= gi % 2 === 0 ? 'muted' : 'light' %> price-group"
              id="<%= group.id %>" data-price-group>
       <div class="container">
         <header class="section__head">

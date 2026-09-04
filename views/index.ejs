@@ -284,7 +284,7 @@
             <h3 class="zasor-case__what"><%= c.what %></h3>
             <p class="zasor-case__detail"><%= c.detail %></p>
             <p class="zasor-case__pay">
-              <span class="zasor-case__pay-label">Платим за</span>
+              <span class="zasor-case__pay-label"><%= c.payLabel || 'Платим за' %></span>
               <span class="zasor-case__pay-value num"><%= c.payFor %></span>
             </p>
             <p class="zasor-case__note"><%= c.note %></p>
