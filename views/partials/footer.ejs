@@ -39,12 +39,14 @@
 
     <div class="footer__col">
       <p class="footer__title">Контакты</p>
-      <% site.phones.forEach(function (p) { %>
-        <span class="footer__phone-row">
-          <a class="footer__link footer__link--phone" href="tel:<%= p.raw %>"><%= p.display %></a>
-          <%- include('messengers', { phone: p, size: 'sm' }) %>
-        </span>
-      <% }); %>
+      <div class="footer__phones">
+        <% site.phones.forEach(function (p) { %>
+          <span class="footer__phone-row">
+            <a class="footer__link footer__link--phone" href="tel:<%= p.raw %>"><%= p.display %></a>
+            <%- include('messengers', { phone: p, size: 'sm' }) %>
+          </span>
+        <% }); %>
+      </div>
       <p class="footer__line"><%= site.address.full %></p>
       <p class="footer__line"><%= site.hours.text %></p>
       <a class="footer__link" href="mailto:<%= site.email %>"><%= site.email %></a>

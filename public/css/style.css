@@ -444,7 +444,7 @@ table { border-collapse: collapse; width: 100%; }
 }
 .hero__lead { font-size: 17px; color: var(--on-dark); max-width: 58ch; margin-bottom: 30px; }
 .hero__actions { display: flex; gap: 14px; flex-wrap: wrap; margin-bottom: 30px; }
-.hero__phones { display: flex; flex-direction: column; gap: 6px; font-size: 14px; color: var(--on-dark-dim); }
+.hero__phones { row-gap: 6px; font-size: 14px; color: var(--on-dark-dim); }
 .hero__phone {
   font-family: var(--display); font-size: 22px; font-weight: 500;
   color: #fff; text-decoration: none;
@@ -481,10 +481,19 @@ a.msg:hover { background: rgba(255, 255, 255, .1); color: #fff; }
 .section--light .msg, .section--muted .msg { color: var(--text-500); }
 .section--light a.msg:hover, .section--muted a.msg:hover { background: var(--paper-100); color: var(--text-900); }
 
-.hero__phone-row, .cta__phone-row, .footer__phone-row, .nav__phone-row {
-  display: flex; align-items: center; gap: 12px; flex-wrap: wrap;
+/* Списки телефонов со значком мессенджера.
+   Строки раскрываются в сетку родителя (display: contents), поэтому колонка
+   с номером у всех строк одна и значки стоят ровно друг под другом.
+   Просто flex не годился: цифры Oswald разной ширины, а tabular-nums
+   этот шрифт не поддерживает, и «8 (913)…» оказывался на 7px короче. */
+.hero__phones, .cta__phones, .nav__phones, .footer__phones {
+  display: grid;
+  grid-template-columns: max-content max-content;
+  justify-content: start;
+  align-items: center;
+  column-gap: 12px;
 }
-.footer__phone-row { gap: 10px; }
+.hero__phone-row, .cta__phone-row, .footer__phone-row, .nav__phone-row { display: contents; }
 
 /* ---------- бегущая строка цен ---------- */
 .ticker {
@@ -739,7 +748,7 @@ a.msg:hover { background: rgba(255, 255, 255, .1); color: #fff; }
   position: relative; z-index: 1; display: grid;
   grid-template-columns: minmax(0, 1fr) minmax(330px, 430px); gap: 56px; align-items: center;
 }
-.cta__phones { display: flex; flex-direction: column; gap: 6px; margin: 26px 0; }
+.cta__phones { row-gap: 6px; margin: 26px 0; }
 .cta__phone {
   font-family: var(--display); font-weight: 600; font-size: clamp(26px, 3.4vw, 38px);
   color: #fff; text-decoration: none; line-height: 1.1;
@@ -830,6 +839,7 @@ select.field__input { appearance: none; background-image: url("data:image/svg+xm
 .footer__col { display: flex; flex-direction: column; }
 .footer__link { text-decoration: none; padding: 4px 0; transition: color .15s ease; }
 .footer__link:hover { color: var(--orange-400); }
+.footer__phones { row-gap: 2px; column-gap: 10px; margin-bottom: 4px; }
 .footer__link--phone { font-family: var(--display); font-size: 19px; font-weight: 500; color: #fff; }
 .footer__line { font-size: 14.5px; padding: 4px 0; }
 .footer__bottom {
@@ -1025,12 +1035,12 @@ select.field__input { appearance: none; background-image: url("data:image/svg+xm
   .header__contact { margin-left: auto; }
   .header__cta { display: none; }
   .call-fab { display: grid; }
-  .nav__phones { display: flex; flex-direction: column; gap: 10px; padding-top: 16px; }
+  .nav__phones { row-gap: 10px; padding-top: 16px; }
   .nav__phone {
     font-family: var(--display); font-weight: 600; font-size: 22px; color: #fff;
     text-decoration: none;
   }
-  .nav__hours { font-size: 12.5px; color: var(--on-dark-dim); margin-top: 4px; }
+  .nav__hours { grid-column: 1 / -1; font-size: 12.5px; color: var(--on-dark-dim); margin-top: 4px; }
 
   .section { padding: 56px 0; }
   .hero__facts { grid-template-columns: repeat(2, minmax(0, 1fr)); }
