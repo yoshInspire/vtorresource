@@ -360,6 +360,41 @@
     </div>
   </section>
 
+  <!-- ================= БЛАГОДАРНОСТИ ================= -->
+  <section class="section section--muted section--tight" id="blagodarnosti">
+    <div class="container">
+      <header class="section__head">
+        <p class="section__eyebrow">Документы</p>
+        <h2 class="section__title"><%= content.gratitude.title %></h2>
+        <p class="section__lead"><%= content.gratitude.lead %></p>
+      </header>
+
+      <div class="gratitude">
+        <% content.gratitude.items.forEach(function (g) { %>
+          <figure class="gratitude__item">
+            <a class="gratitude__shot" href="/img/docs/<%= g.slug %>-900.jpg" target="_blank" rel="noopener">
+              <picture>
+                <source type="image/webp"
+                        srcset="/img/docs/<%= g.slug %>-420.webp 420w, /img/docs/<%= g.slug %>-900.webp 900w"
+                        sizes="(max-width: 720px) 100vw, 320px">
+                <img src="/img/docs/<%= g.slug %>-420.jpg"
+                     srcset="/img/docs/<%= g.slug %>-420.jpg 420w, /img/docs/<%= g.slug %>-900.jpg 900w"
+                     sizes="(max-width: 720px) 100vw, 320px"
+                     width="420" height="560" loading="lazy" decoding="async"
+                     alt="<%= g.alt %>">
+              </picture>
+              <span class="gratitude__zoom">Открыть полностью</span>
+            </a>
+            <figcaption class="gratitude__cap">
+              <span class="gratitude__from"><%= g.from %></span>
+              <span class="gratitude__what"><%= g.what %></span>
+            </figcaption>
+          </figure>
+        <% }); %>
+      </div>
+    </div>
+  </section>
+
   <!-- ================= ОРГАНИЗАЦИЯМ ================= -->
   <section class="section section--dark" id="yurlicam">
     <div class="container">

@@ -353,7 +353,7 @@ table { border-collapse: collapse; width: 100%; }
   display: flex; align-items: center; gap: 26px; min-height: 76px;
 }
 .logo { display: inline-flex; align-items: center; gap: 12px; text-decoration: none; flex: none; }
-.logo__mark { width: 46px; height: 46px; flex: none; }
+.logo__mark { width: auto; height: 44px; flex: none; }
 .logo__text { display: flex; flex-direction: column; line-height: 1.14; }
 .logo__name {
   font-family: var(--display); font-weight: 600; font-size: 22px;
@@ -487,12 +487,16 @@ a.msg:hover { background: rgba(255, 255, 255, .1); color: #fff; }
    Просто flex не годился: цифры Oswald разной ширины, а tabular-nums
    этот шрифт не поддерживает, и «8 (913)…» оказывался на 7px короче. */
 .hero__phones, .cta__phones, .nav__phones, .footer__phones {
-  display: grid;
   grid-template-columns: max-content max-content;
   justify-content: start;
   align-items: center;
   column-gap: 12px;
 }
+.hero__phones, .cta__phones, .footer__phones { display: grid; }
+/* Телефоны в навигации нужны только в мобильном меню: на широком экране
+   они уже есть в шапке справа. Отдельным правилом, иначе общая раскладка
+   выше включала бы их и на десктопе. */
+.nav__phones { display: none; }
 .hero__phone-row, .cta__phone-row, .footer__phone-row, .nav__phone-row { display: contents; }
 
 /* ---------- бегущая строка цен ---------- */
@@ -703,6 +707,32 @@ a.msg:hover { background: rgba(255, 255, 255, .1); color: #fff; }
 .rating__text { font-size: 16px; color: var(--text-600); }
 .rating__text b { color: var(--text-900); }
 
+/* ---------- благодарности ---------- */
+.gratitude { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 22px; }
+.gratitude__item { margin: 0; display: grid; grid-template-columns: 200px minmax(0, 1fr); gap: 22px; align-items: start; }
+.gratitude__shot {
+  position: relative; display: block; overflow: hidden;
+  border: 1px solid var(--paper-300); border-radius: var(--radius);
+  background: var(--paper); box-shadow: var(--shadow-sm);
+}
+.gratitude__shot img { width: 100%; height: auto; display: block; transition: transform .4s ease; }
+.gratitude__shot:hover img { transform: scale(1.03); }
+.gratitude__zoom {
+  position: absolute; left: 0; right: 0; bottom: 0;
+  padding: 8px 10px; text-align: center;
+  background: rgba(5, 11, 22, .82); color: #fff;
+  font-family: var(--display); font-size: 12px; letter-spacing: .08em; text-transform: uppercase;
+  opacity: 0; transition: opacity .2s ease;
+}
+.gratitude__shot:hover .gratitude__zoom,
+.gratitude__shot:focus-visible .gratitude__zoom { opacity: 1; }
+.gratitude__cap { display: flex; flex-direction: column; gap: 8px; }
+.gratitude__from {
+  font-family: var(--display); font-weight: 500; font-size: 16px; line-height: 1.25;
+  text-transform: uppercase; letter-spacing: .01em; color: var(--text-900);
+}
+.gratitude__what { font-size: 15px; color: var(--text-600); }
+
 /* ---------- организациям ---------- */
 .business { display: grid; grid-template-columns: minmax(0, 1fr) minmax(320px, 420px); gap: 48px; align-items: center; }
 .business__list { display: grid; gap: 11px; margin-top: 24px; }
@@ -830,7 +860,7 @@ select.field__input { appearance: none; background-image: url("data:image/svg+xm
 .footer__inner {
   display: grid; grid-template-columns: 1.6fr 1fr 1fr 1.2fr; gap: 40px; padding-bottom: 40px;
 }
-.logo--footer .logo__mark { width: 40px; height: 40px; }
+.logo--footer .logo__mark { width: auto; height: 38px; }
 .footer__about { margin-top: 16px; font-size: 14.5px; line-height: 1.65; max-width: 34ch; }
 .footer__title {
   font-family: var(--display); font-weight: 500; font-size: 13px; letter-spacing: .14em;
@@ -1035,7 +1065,7 @@ select.field__input { appearance: none; background-image: url("data:image/svg+xm
   .header__contact { margin-left: auto; }
   .header__cta { display: none; }
   .call-fab { display: grid; }
-  .nav__phones { row-gap: 10px; padding-top: 16px; }
+  .nav__phones { display: grid; row-gap: 10px; padding-top: 16px; }
   .nav__phone {
     font-family: var(--display); font-weight: 600; font-size: 22px; color: #fff;
     text-decoration: none;
@@ -1053,6 +1083,7 @@ select.field__input { appearance: none; background-image: url("data:image/svg+xm
   .trust__item { padding: 20px 22px; }
   .trust__item:nth-child(odd) { padding-left: 0; border-left: 0; }
   .zasor { grid-template-columns: minmax(0, 1fr); }
+  .gratitude { grid-template-columns: minmax(0, 1fr); }
   .faq { columns: 1; }
   .price-grid { grid-template-columns: minmax(0, 1fr); }
   .price-toolbar { position: static; }
@@ -1068,6 +1099,7 @@ select.field__input { appearance: none; background-image: url("data:image/svg+xm
   .hero-fact:nth-child(2) { border-top: 1px solid rgba(107, 129, 154, .18); }
   .hero__actions .btn { width: 100%; }
   .tiles { grid-template-columns: minmax(0, 1fr); }
+  .gratitude__item { grid-template-columns: 140px minmax(0, 1fr); gap: 16px; }
   .tile, .tile:last-child { grid-column: auto; min-height: 300px; }
   .trust { grid-template-columns: minmax(0, 1fr); }
   .trust__item {
@@ -1084,7 +1116,7 @@ select.field__input { appearance: none; background-image: url("data:image/svg+xm
   .header__contact { display: none; }
   .logo__sub { display: none; }
   .logo__name { font-size: 19px; }
-  .logo__mark { width: 40px; height: 40px; }
+  .logo__mark { height: 36px; }
   .rating { grid-template-columns: minmax(0, 1fr); gap: 20px; text-align: left; }
   .rating__score { text-align: left; }
   .rating .btn { grid-column: auto; }

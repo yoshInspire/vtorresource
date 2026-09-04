@@ -29,3 +29,6 @@ data/leads.json
 data/_source/check.txt
 data/_source/_enc.txt
 data/*.tmp
+
+# рабочая папка для присланных материалов, оригиналы переносятся в public/img/source
+another/
