@@ -470,7 +470,6 @@ table { border-collapse: collapse; width: 100%; }
 .msgs--md .msg { width: 32px; height: 32px; padding: 5px; }
 .msgs--sm .msg { width: 28px; height: 28px; padding: 4px; }
 a.msg:hover { background: rgba(255, 255, 255, .1); color: #fff; }
-a.msg--wa:hover { color: #4ADE80; }
 /* MAX без ссылки: пока у мессенджера нет адреса чата по номеру, значок
    остаётся подписью — курсор и наведение не обещают перехода */
 .msg.is-static { cursor: default; opacity: .78; }
@@ -873,24 +872,6 @@ select.field__input { appearance: none; background-image: url("data:image/svg+xm
 }
 .price-tabs__link:hover { background: var(--paper-200); color: var(--text-900); }
 
-.price-search { position: relative; flex: 1; min-width: 240px; }
-.price-search__icon {
-  position: absolute; left: 14px; top: 50%; transform: translateY(-50%);
-  width: 18px; height: 18px; color: var(--text-500); pointer-events: none;
-}
-.price-search__input {
-  width: 100%; padding: 12px 40px 12px 42px;
-  border: 1.5px solid var(--paper-300); border-radius: var(--radius-sm);
-  background: var(--paper-50); font-size: 15px;
-}
-.price-search__input:focus { border-color: var(--orange-500); background: #fff; outline: none; }
-.price-search__clear {
-  position: absolute; right: 8px; top: 50%; transform: translateY(-50%);
-  width: 28px; height: 28px; border: 0; border-radius: 50%; background: transparent;
-  color: var(--text-500); cursor: pointer; font-size: 18px; line-height: 1;
-}
-.price-search__clear:hover { background: var(--paper-200); color: var(--text-900); }
-.price-toolbar__empty { padding: 0 0 14px; font-size: 14.5px; color: var(--text-500); }
 
 .anchors { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 36px; }
 .anchors__link {

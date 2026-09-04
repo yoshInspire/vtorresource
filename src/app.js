@@ -78,8 +78,13 @@ app.use((req, res, next) => {
 
 app.use('/', pages);
 
-// Заготовка под админку: подключается, когда появится src/routes/admin.js
-// app.use('/admin', require('./routes/admin'));
+// Админка живёт только при заданном ADMIN_PASSWORD: без пароля роутер
+// не подключается вовсе, и /admin отдаёт обычную 404.
+if (require('./lib/auth').isEnabled()) {
+  app.use('/admin', require('./routes/admin'));
+} else {
+  console.warn('ADMIN_PASSWORD не задан — админка отключена');
+}
 
 app.use((req, res) => {
   res.status(404).render('404', {

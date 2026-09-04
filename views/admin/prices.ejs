@@ -1,0 +1,117 @@
+<%- include('_head') %>
+<%- include('_nav') %>
+
+<main class="adm-main">
+  <div class="adm-head">
+    <div>
+      <h1 class="adm-h1">Прайс-лист</h1>
+      <p class="adm-sub">
+        Обновлён <%= f.dateLong(prices.updatedAt) %>.
+        Дата на сайте меняется сама при сохранении.
+      </p>
+    </div>
+    <a class="adm-btn adm-btn--ghost" href="/price" target="_blank" rel="noopener">Посмотреть на сайте</a>
+  </div>
+
+  <% if (saved !== null) { %>
+    <p class="adm-alert adm-alert--ok" role="status">
+      <% if (saved > 0) { %>
+        Сохранено позиций: <b><%= saved %></b>. Цены на сайте уже обновились.
+      <% } else { %>
+        Изменений не было, ничего не сохранял.
+      <% } %>
+    </p>
+  <% } %>
+
+  <% if (error === 'csrf') { %>
+    <p class="adm-alert adm-alert--err" role="alert">
+      Форма устарела: вход был выполнен слишком давно. Откройте страницу заново и повторите.
+    </p>
+  <% } %>
+
+  <div class="adm-tabs">
+    <% prices.groups.forEach(function (g) { %>
+      <a class="adm-tab<%= g.id === group.id ? ' is-active' : '' %>" href="/admin?group=<%= g.id %>">
+        <%= g.title %>
+        <span><%= g.categories.reduce(function (a, c) { return a + c.items.length; }, 0) %></span>
+      </a>
+    <% }); %>
+  </div>
+
+  <form action="/admin/prices" method="post">
+    <input type="hidden" name="_csrf" value="<%= csrf %>">
+    <input type="hidden" name="group" value="<%= group.id %>">
+
+    <p class="adm-hint">
+      Цену можно писать через запятую или с пробелами: 818,18 или 1 200.
+      Пустое поле означает «цена по запросу».
+      Колонка «Текстом» перебивает число: если в ней что-то есть, на сайте
+      покажется именно она.
+    </p>
+
+    <% group.categories.forEach(function (category) { %>
+      <section class="adm-cat">
+        <h2 class="adm-cat__title"><%= category.name %></h2>
+        <div class="adm-tablewrap">
+          <table class="adm-table">
+            <thead>
+              <tr>
+                <th scope="col">Позиция</th>
+                <th scope="col" class="adm-table__num">Цена, <%= group.unit %></th>
+                <th scope="col" class="adm-table__num">До (диапазон)</th>
+                <% if (group.columns.length > 1) { %>
+                  <th scope="col" class="adm-table__num">Безнал</th>
+                <% } %>
+                <th scope="col" class="adm-table__text">Текстом</th>
+              </tr>
+            </thead>
+            <tbody>
+              <% category.items.forEach(function (item) { %>
+                <tr>
+                  <th scope="row" class="adm-table__name">
+                    <%= item.title %>
+                    <% if (item.note) { %><span class="adm-table__note"><%= item.note %></span><% } %>
+                  </th>
+                  <td>
+                    <input class="adm-input adm-input--num" type="text" inputmode="decimal"
+                           name="cash__<%= category.id %>__<%= item.id %>"
+                           value="<%= item.cash === null ? '' : item.cash %>"
+                           aria-label="Цена: <%= item.title %>">
+                  </td>
+                  <td>
+                    <input class="adm-input adm-input--num" type="text" inputmode="decimal"
+                           name="cashTo__<%= category.id %>__<%= item.id %>"
+                           value="<%= item.cashTo === null || item.cashTo === undefined ? '' : item.cashTo %>"
+                           aria-label="Верхняя граница: <%= item.title %>">
+                  </td>
+                  <% if (group.columns.length > 1) { %>
+                    <td>
+                      <input class="adm-input adm-input--num" type="text" inputmode="decimal"
+                             name="bank__<%= category.id %>__<%= item.id %>"
+                             value="<%= item.bank === null || item.bank === undefined ? '' : item.bank %>"
+                             aria-label="Безналичный расчёт: <%= item.title %>">
+                    </td>
+                  <% } %>
+                  <td>
+                    <input class="adm-input" type="text" maxlength="120"
+                           name="text__<%= category.id %>__<%= item.id %>"
+                           value="<%= item.text || '' %>"
+                           placeholder="например: до 40 000"
+                           aria-label="Текстовая цена: <%= item.title %>">
+                  </td>
+                </tr>
+              <% }); %>
+            </tbody>
+          </table>
+        </div>
+      </section>
+    <% }); %>
+
+    <div class="adm-save">
+      <button class="adm-btn adm-btn--accent" type="submit">Сохранить <%= group.title.toLowerCase() %></button>
+      <span class="adm-save__hint">Сохраняются только изменённые поля.</span>
+    </div>
+  </form>
+</main>
+
+<%- include('_foot') %>

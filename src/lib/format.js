@@ -28,9 +28,25 @@ function dateLong(iso) {
   return `${d.getDate()} ${MONTHS[d.getMonth()]} ${d.getFullYear()}`;
 }
 
+/** «2026-09-04T07:12:33.000Z» -> «4 сентября, 12:12» (местное время сервера). */
+function dateTime(iso) {
+  const d = new Date(iso);
+  if (Number.isNaN(d.getTime())) return iso;
+  const time = `${String(d.getHours()).padStart(2, '0')}:${String(d.getMinutes()).padStart(2, '0')}`;
+  return `${d.getDate()} ${MONTHS[d.getMonth()]}, ${time}`;
+}
+
+/** «79059228555» -> «8 (905) 922-85-55». Для списка заявок в админке. */
+function phone(digits) {
+  const d = String(digits).replace(/\D/g, '');
+  const n = d.length === 11 ? d.slice(1) : d;
+  if (n.length !== 10) return digits;
+  return `8 (${n.slice(0, 3)}) ${n.slice(3, 6)}-${n.slice(6, 8)}-${n.slice(8)}`;
+}
+
 /** Экранирование для вставки в JSON-LD внутри <script>. */
 function jsonLd(obj) {
   return JSON.stringify(obj).replace(/</g, '\\u003c');
 }
 
-module.exports = { price, itemPrice, dateLong, jsonLd };
+module.exports = { price, itemPrice, dateLong, dateTime, phone, jsonLd };

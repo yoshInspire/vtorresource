@@ -6,7 +6,11 @@
       "runtimeExecutable": "npm",
       "runtimeArgs": ["start"],
       "port": 3000,
-      "autoPort": true
+      "autoPort": true,
+      "env": {
+        "ADMIN_PASSWORD": "local-dev-password",
+        "ADMIN_SECRET": "local-dev-secret-not-for-production"
+      }
     }
   ]
 }

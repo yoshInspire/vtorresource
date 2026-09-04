@@ -86,56 +86,6 @@
     });
   });
 
-  // ---------- поиск по прайсу -----------------------------------------------
-  var search = document.querySelector('[data-price-search]');
-  if (search) {
-    var rows = Array.prototype.slice.call(document.querySelectorAll('[data-price-row]'));
-    var cats = Array.prototype.slice.call(document.querySelectorAll('[data-price-cat]'));
-    var groups = Array.prototype.slice.call(document.querySelectorAll('[data-price-group]'));
-    var empty = document.querySelector('[data-price-empty]');
-    var clear = document.querySelector('[data-price-clear]');
-    var timer;
-
-    function apply() {
-      var q = search.value.trim().toLowerCase();
-      if (clear) clear.hidden = !q;
-
-      if (!q) {
-        rows.forEach(function (r) { r.hidden = false; });
-        cats.concat(groups).forEach(function (el) { el.hidden = false; });
-        if (empty) empty.hidden = true;
-        return;
-      }
-
-      var words = q.split(/\s+/);
-      var found = 0;
-
-      rows.forEach(function (row) {
-        var hay = row.getAttribute('data-search');
-        var match = words.every(function (w) { return hay.indexOf(w) !== -1; });
-        row.hidden = !match;
-        if (match) found++;
-      });
-
-      cats.forEach(function (cat) {
-        cat.hidden = !cat.querySelector('[data-price-row]:not([hidden])');
-      });
-      groups.forEach(function (g) {
-        g.hidden = !g.querySelector('[data-price-cat]:not([hidden])');
-      });
-
-      if (empty) empty.hidden = found > 0;
-    }
-
-    search.addEventListener('input', function () {
-      clearTimeout(timer);
-      timer = setTimeout(apply, 120);
-    });
-    if (clear) {
-      clear.addEventListener('click', function () { search.value = ''; apply(); search.focus(); });
-    }
-  }
-
   // ---------- калькулятор суммы ---------------------------------------------
   // Цены приходят из data/prices.json через <script type="application/json">,
   // чтобы источник цифр был один и тот же для сервера и клиента.

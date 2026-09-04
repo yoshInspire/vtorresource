@@ -1,0 +1,182 @@
+/* =========================================================================
+   Админка Вторресурса.
+   Отдельный файл: посетителям сайта эти стили не нужны, а грузить их
+   вместе с лендингом значит платить за них на каждой странице.
+   Шрифты не подключаем — админку видит один человек, системного достаточно.
+   ========================================================================= */
+
+:root {
+  --a-bg: #EEF1F5;
+  --a-surface: #FFFFFF;
+  --a-ink: #0D141C;
+  --a-text: #3B4A5C;
+  --a-dim: #6E7F92;
+  --a-line: #DDE3EB;
+  --a-dark: #0D131A;
+  --a-accent: #F26202;
+  --a-accent-dark: #C94E00;
+  --a-blue: #1E6BEF;
+  --a-ok: #1E9E5A;
+}
+
+*, *::before, *::after { box-sizing: border-box; }
+
+body.adm {
+  margin: 0;
+  background: var(--a-bg);
+  color: var(--a-text);
+  font: 15px/1.55 -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Arial, sans-serif;
+  -webkit-font-smoothing: antialiased;
+}
+
+h1, h2, p { margin: 0; }
+a { color: inherit; }
+table { border-collapse: collapse; width: 100%; }
+button, input { font: inherit; color: inherit; }
+:focus-visible { outline: 2px solid var(--a-blue); outline-offset: 2px; }
+
+/* ---------- шапка ---------- */
+.adm-top { background: var(--a-dark); color: #fff; }
+.adm-top__inner {
+  max-width: 1280px; margin: 0 auto; padding: 0 20px;
+  display: flex; align-items: center; gap: 24px; min-height: 58px; flex-wrap: wrap;
+}
+.adm-logo { display: inline-flex; align-items: center; gap: 10px; text-decoration: none; font-weight: 700; }
+.adm-logo small {
+  display: block; font-weight: 400; font-size: 11px; letter-spacing: .1em;
+  text-transform: uppercase; color: var(--a-accent);
+}
+.adm-nav { display: flex; gap: 18px; margin-left: auto; flex-wrap: wrap; }
+.adm-nav__link {
+  color: #B9C6D6; text-decoration: none; padding: 6px 0;
+  border-bottom: 2px solid transparent; font-size: 14.5px;
+}
+.adm-nav__link:hover { color: #fff; }
+.adm-nav__link.is-active { color: #fff; border-color: var(--a-accent); }
+.adm-logout { margin: 0; }
+
+/* ---------- каркас ---------- */
+.adm-main { max-width: 1280px; margin: 0 auto; padding: 28px 20px 64px; }
+.adm-head {
+  display: flex; align-items: flex-start; justify-content: space-between;
+  gap: 20px; flex-wrap: wrap; margin-bottom: 22px;
+}
+.adm-h1 { font-size: 26px; line-height: 1.2; color: var(--a-ink); }
+.adm-sub { margin-top: 6px; font-size: 14px; color: var(--a-dim); max-width: 62ch; }
+.adm-hint {
+  background: #FFF6EE; border-left: 3px solid var(--a-accent);
+  padding: 12px 16px; font-size: 13.5px; color: var(--a-text);
+  margin-bottom: 22px; max-width: 92ch;
+}
+.adm-empty { padding: 40px 0; color: var(--a-dim); }
+
+/* ---------- кнопки ---------- */
+.adm-btn {
+  display: inline-flex; align-items: center; justify-content: center; gap: 8px;
+  padding: 10px 18px; border: 0; border-radius: 6px;
+  font-size: 14.5px; font-weight: 600; cursor: pointer; text-decoration: none;
+  transition: background-color .15s ease, color .15s ease;
+}
+.adm-btn--accent { background: var(--a-accent); color: #fff; }
+.adm-btn--accent:hover { background: var(--a-accent-dark); }
+.adm-btn--ghost { background: transparent; box-shadow: inset 0 0 0 1px currentColor; }
+.adm-btn--ghost:hover { background: rgba(127, 145, 165, .14); }
+.adm-btn--block { width: 100%; }
+
+/* ---------- вкладки групп ---------- */
+.adm-tabs { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 20px; }
+.adm-tab {
+  display: inline-flex; align-items: center; gap: 8px;
+  padding: 9px 16px; border-radius: 999px; background: var(--a-surface);
+  border: 1px solid var(--a-line); text-decoration: none; font-size: 14.5px;
+}
+.adm-tab span {
+  font-size: 12px; color: var(--a-dim); background: var(--a-bg);
+  border-radius: 999px; padding: 1px 8px;
+}
+.adm-tab:hover { border-color: var(--a-blue); color: var(--a-blue); }
+.adm-tab.is-active {
+  background: var(--a-dark); border-color: var(--a-dark); color: #fff;
+}
+.adm-tab.is-active span { background: rgba(255, 255, 255, .16); color: #fff; }
+
+/* ---------- таблицы ---------- */
+.adm-cat { margin-bottom: 28px; }
+.adm-cat__title { font-size: 17px; color: var(--a-ink); margin-bottom: 10px; }
+.adm-tablewrap {
+  overflow-x: auto; background: var(--a-surface);
+  border: 1px solid var(--a-line); border-radius: 8px;
+}
+.adm-table { font-size: 14px; min-width: 760px; }
+.adm-table th, .adm-table td {
+  text-align: left; padding: 8px 14px; border-bottom: 1px solid var(--a-line);
+  vertical-align: middle;
+}
+.adm-table tbody tr:last-child th, .adm-table tbody tr:last-child td { border-bottom: 0; }
+.adm-table thead th {
+  font-size: 12px; letter-spacing: .04em; text-transform: uppercase;
+  color: var(--a-dim); font-weight: 600; background: #F7F9FC;
+}
+.adm-table tbody tr:hover { background: #F9FBFD; }
+.adm-table__name { font-weight: 500; color: var(--a-ink); min-width: 260px; }
+.adm-table__note { display: block; font-size: 12.5px; color: var(--a-dim); font-weight: 400; margin-top: 2px; }
+.adm-table__num { width: 130px; }
+.adm-table__text { width: 190px; }
+
+/* ---------- поля ---------- */
+.adm-input {
+  width: 100%; padding: 8px 10px; border: 1px solid var(--a-line);
+  border-radius: 5px; background: #fff; font-size: 14px;
+}
+.adm-input:focus { border-color: var(--a-blue); outline: none; box-shadow: 0 0 0 3px rgba(30, 107, 239, .12); }
+.adm-input--num { font-variant-numeric: tabular-nums; text-align: right; }
+
+.adm-field { display: flex; flex-direction: column; gap: 6px; text-align: left; }
+.adm-field__label { font-size: 13.5px; font-weight: 600; color: var(--a-ink); }
+.adm-field__input {
+  padding: 12px 14px; border: 1px solid var(--a-line); border-radius: 6px;
+  background: #fff; font-size: 16px;
+}
+.adm-field__input:focus { border-color: var(--a-blue); outline: none; }
+
+/* ---------- сохранение ---------- */
+.adm-save {
+  position: sticky; bottom: 0; z-index: 5;
+  display: flex; align-items: center; gap: 14px; flex-wrap: wrap;
+  padding: 14px 16px; margin-top: 8px;
+  background: var(--a-surface); border: 1px solid var(--a-line); border-radius: 8px;
+  box-shadow: 0 -6px 20px rgba(13, 20, 28, .08);
+}
+.adm-save__hint { font-size: 13px; color: var(--a-dim); }
+
+/* ---------- сообщения ---------- */
+.adm-alert { padding: 12px 16px; border-radius: 6px; font-size: 14.5px; margin-bottom: 18px; }
+.adm-alert--ok { background: rgba(30, 158, 90, .1); color: #14683B; border-left: 3px solid var(--a-ok); }
+.adm-alert--err { background: rgba(201, 78, 0, .1); color: var(--a-accent-dark); border-left: 3px solid var(--a-accent); }
+
+/* ---------- заявки ---------- */
+.adm-table--leads { min-width: 640px; }
+.adm-lead__date { white-space: nowrap; color: var(--a-dim); width: 150px; }
+.adm-lead__phone { white-space: nowrap; font-weight: 600; width: 170px; }
+.adm-lead__phone a { color: var(--a-ink); text-decoration: none; }
+.adm-lead__phone a:hover { color: var(--a-accent-dark); text-decoration: underline; }
+.adm-lead__src { color: var(--a-dim); font-size: 13px; }
+
+/* ---------- вход ---------- */
+.adm-login { min-height: 100vh; display: grid; place-items: center; padding: 20px; }
+.adm-login__form {
+  width: 100%; max-width: 360px; text-align: center;
+  display: flex; flex-direction: column; gap: 16px;
+  background: var(--a-surface); border: 1px solid var(--a-line);
+  border-radius: 12px; padding: 32px 28px;
+  box-shadow: 0 20px 50px rgba(13, 20, 28, .1);
+}
+.adm-login__logo { margin: 0 auto; }
+.adm-login__title { font-size: 21px; color: var(--a-ink); }
+.adm-login__sub { font-size: 14px; color: var(--a-dim); margin-top: -10px; }
+
+@media (max-width: 640px) {
+  .adm-main { padding: 20px 14px 48px; }
+  .adm-top__inner { padding: 8px 14px; }
+  .adm-nav { margin-left: 0; width: 100%; order: 3; }
+}

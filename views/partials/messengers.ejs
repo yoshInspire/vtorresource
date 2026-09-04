@@ -1,28 +1,18 @@
 <%
 /**
- * Значки мессенджеров рядом с номером телефона.
+ * Значок мессенджера рядом с номером телефона.
  * Параметры: phone (объект из site.phones), size ('sm' | 'md').
- *
- * WhatsApp показываем только у номера, к которому он привязан: ссылка wa.me
- * на номер без WhatsApp открывает заглушку, и человек решает, что мы
- * не отвечаем.
  *
  * У MAX ссылки на чат по номеру не существует, работает только адрес профиля.
  * Он один на компанию, поэтому у всех номеров ведёт в один и тот же чат.
  */
 var _size = typeof size !== 'undefined' ? size : 'md';
 %>
-<span class="msgs msgs--<%= _size %>">
-  <% if (phone.whatsapp) { %>
-    <a class="msg msg--wa" href="<%= phone.whatsapp %>" target="_blank" rel="noopener"
-       aria-label="Написать в WhatsApp на номер <%= phone.display %>" title="WhatsApp">
-      <svg aria-hidden="true"><use href="#i-whatsapp"></use></svg>
-    </a>
-  <% } %>
-  <% if (site.messengers.max) { %>
+<% if (site.messengers.max) { %>
+  <span class="msgs msgs--<%= _size %>">
     <a class="msg msg--max" href="<%= site.messengers.max %>" target="_blank" rel="noopener"
        aria-label="Написать нам в MAX" title="MAX">
       <svg aria-hidden="true"><use href="#i-max"></use></svg>
     </a>
-  <% } %>
-</span>
+  </span>
+<% } %>

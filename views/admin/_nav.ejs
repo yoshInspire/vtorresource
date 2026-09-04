@@ -1,0 +1,19 @@
+<header class="adm-top">
+  <div class="adm-top__inner">
+    <a class="adm-logo" href="/admin">
+      <img src="/img/logo.png" width="30" height="30" alt="">
+      <span><%= site.brand %><small>админка</small></span>
+    </a>
+
+    <nav class="adm-nav">
+      <a class="adm-nav__link<%= currentPath === '/admin' ? ' is-active' : '' %>" href="/admin">Прайс-лист</a>
+      <a class="adm-nav__link<%= currentPath === '/admin/leads' ? ' is-active' : '' %>" href="/admin/leads">Заявки</a>
+      <a class="adm-nav__link" href="/" target="_blank" rel="noopener">Сайт</a>
+    </nav>
+
+    <form class="adm-logout" action="/admin/logout" method="post">
+      <input type="hidden" name="_csrf" value="<%= csrf %>">
+      <button class="adm-btn adm-btn--ghost" type="submit">Выйти</button>
+    </form>
+  </div>
+</header>

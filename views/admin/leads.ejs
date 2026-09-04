@@ -1,0 +1,47 @@
+<%- include('_head') %>
+<%- include('_nav') %>
+
+<main class="adm-main">
+  <div class="adm-head">
+    <div>
+      <h1 class="adm-h1">Заявки</h1>
+      <p class="adm-sub">
+        Всё, что оставили через формы на сайте. Уведомления пока не настроены,
+        поэтому заглядывайте сюда.
+      </p>
+    </div>
+  </div>
+
+  <% if (!leads.length) { %>
+    <p class="adm-empty">Заявок пока нет.</p>
+  <% } else { %>
+    <div class="adm-tablewrap">
+      <table class="adm-table adm-table--leads">
+        <thead>
+          <tr>
+            <th scope="col">Когда</th>
+            <th scope="col">Телефон</th>
+            <th scope="col">Что сдаёт</th>
+            <th scope="col">Откуда</th>
+          </tr>
+        </thead>
+        <tbody>
+          <% leads.forEach(function (lead) { %>
+            <tr>
+              <td class="adm-lead__date"><%= f.dateTime(lead.createdAt) %></td>
+              <td class="adm-lead__phone">
+                <a href="tel:+<%= lead.phone %>"><%= f.phone(lead.phone) %></a>
+              </td>
+              <td><%= lead.comment || '—' %></td>
+              <td class="adm-lead__src">
+                <%= lead.page ? lead.page.replace(/^https?:\/\/[^/]+/, '') || '/' : '—' %>
+              </td>
+            </tr>
+          <% }); %>
+        </tbody>
+      </table>
+    </div>
+  <% } %>
+</main>
+
+<%- include('_foot') %>

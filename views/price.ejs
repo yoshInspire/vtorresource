@@ -9,12 +9,12 @@
       <nav class="breadcrumbs" aria-label="Хлебные крошки">
         <a href="/">Главная</a>
         <span aria-hidden="true">/</span>
-        <span aria-current="page">Цены на металлолом</span>
+        <span aria-current="page">Прайс-лист</span>
       </nav>
 
       <h1 class="page-head__title">Цены на приём металлолома в Омске</h1>
       <p class="page-head__lead">
-        Цены пункта приёма «Вторресурс» на 2-й Барнаульской, 105:
+        Прайс-лист пункта приёма «Вторресурс» на 2-й Барнаульской, 105:
         <%= prices.groups.reduce(function (a, g) { return a + g.categories.reduce(function (b, c) { return b + c.items.length; }, 0); }, 0) %>
         позиций чёрного, цветного и редкоземельного лома. Чёрный металл считаем за тонну, остальной за килограмм.
         Цены действуют на <%= f.dateLong(prices.updatedAt) %>.
@@ -29,24 +29,14 @@
     </div>
   </section>
 
-  <div class="price-toolbar" data-price-toolbar>
+  <div class="price-toolbar">
     <div class="container price-toolbar__inner">
-      <div class="price-search">
-        <svg class="price-search__icon" aria-hidden="true"><use href="#i-search"></use></svg>
-        <label class="visually-hidden" for="price-q">Поиск по таблице цен</label>
-        <input id="price-q" class="price-search__input" type="search" autocomplete="off"
-               placeholder="Поиск: медь, Р6М5, алюминий, АКБ…" data-price-search>
-        <button class="price-search__clear" type="button" data-price-clear hidden aria-label="Очистить">×</button>
-      </div>
-      <div class="price-tabs" role="tablist">
+      <div class="price-tabs">
         <% prices.groups.forEach(function (g) { %>
           <a class="price-tabs__link" href="#<%= g.id %>"><%= g.title %></a>
         <% }); %>
       </div>
     </div>
-    <p class="price-toolbar__empty" data-price-empty hidden>
-      По запросу ничего не найдено. Позвоните: мы принимаем и то, чего нет в таблице.
-    </p>
   </div>
 
   <% prices.groups.forEach(function (group, gi) { %>
@@ -54,7 +44,7 @@
              id="<%= group.id %>" data-price-group>
       <div class="container">
         <header class="section__head">
-          <p class="section__eyebrow">Цены · <%= group.unit %></p>
+          <p class="section__eyebrow">Прайс-лист · <%= group.unit %></p>
           <h2 class="section__title">Цены на <%= group.title.toLowerCase() %> <%= group.unitShort === "т" ? "за тонну" : "за кг" %></h2>
           <p class="section__lead"><%= group.description %></p>
         </header>
@@ -152,7 +142,7 @@
           позиции с ценой за содержание металла.
         </p>
         <p>
-          Цены в таблицах справочные и меняются вслед за биржевыми котировками.
+          Цены в прайс-листе справочные и меняются вслед за биржевыми котировками.
           Окончательную стоимость приёмщик называет на площадке после осмотра и взвешивания.
           Если планируете сдать крупную партию, позвоните в день приезда и уточните цену.
           <a href="/#faq">Остальные частые вопросы</a> и

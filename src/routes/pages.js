@@ -113,7 +113,7 @@ router.get('/price', (req, res) => {
       seo.webPage({ path: '/price', title, description }),
       seo.breadcrumbs([
         { name: 'Главная', path: '/' },
-        { name: 'Цены на металлолом', path: '/price' }
+        { name: 'Прайс-лист', path: '/price' }
       ]),
       seo.offerCatalog(prices.groups)
     ])

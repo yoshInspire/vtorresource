@@ -25,8 +25,7 @@
           <p class="hero__lead"><%= content.hero.lead %></p>
 
           <div class="hero__actions">
-            <a class="btn btn--accent" href="#kalkulyator">Рассчитать сумму</a>
-            <a class="btn btn--ghost" href="/price">Все цены
+            <a class="btn btn--accent" href="/price">Прайс-лист
               <svg class="btn__icon" aria-hidden="true"><use href="#i-arrow"></use></svg>
             </a>
           </div>
@@ -151,7 +150,7 @@
           <noscript>
             <p class="calc__noscript">
               Калькулятор работает с включённым JavaScript. Без него посмотрите
-              <a class="link" href="/price">таблицу цен</a> или позвоните,
+              <a class="link" href="/price">прайс-лист</a> или позвоните,
               посчитаем по телефону.
             </p>
           </noscript>
@@ -186,7 +185,7 @@
           <p class="section__eyebrow">Приём лома</p>
           <h2 class="section__title">Какой металлолом мы принимаем</h2>
         </div>
-        <a class="btn btn--ghost btn--sm" href="/price">Все цены, 141 позиция
+        <a class="btn btn--ghost btn--sm" href="/price">Прайс-лист, 141 позиция
           <svg class="btn__icon" aria-hidden="true"><use href="#i-arrow"></use></svg>
         </a>
       </header>
@@ -211,7 +210,7 @@
                 <% if (t.from) { %>до <%= f.price(t.from) %><small><%= t.unit %></small><% } else { %>цена по запросу<% } %>
               </span>
               <span class="tile__more">
-                все цены
+                прайс-лист
                 <svg aria-hidden="true"><use href="#i-arrow"></use></svg>
               </span>
             </span>
@@ -228,7 +227,7 @@
       <p class="section__note">
         Принимаем и редкие позиции: вольфрам, молибден, тантал, баббиты, припои ПОС
         и ПОССу, ферросплавы, катализаторы. Не нашли свой металл в списке, позвоните.
-        <a href="/price">Полная таблица цен</a> шире, чем эта витрина.
+        <a href="/price">Полный прайс-лист</a> шире, чем эта витрина.
       </p>
     </div>
   </section>
