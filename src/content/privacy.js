@@ -41,6 +41,7 @@ const sections = [
       { k: 'КПП', v: site.legal.kpp },
       { k: 'Юридический адрес', v: site.legal.address },
       { k: 'Адрес площадки', v: site.address.full },
+      { k: 'Лицензия', v: `№ ${site.legal.license.number} от ${site.legal.license.dateText}` },
       { k: 'Телефоны', v: site.phones.map(p => p.display).join(', ') },
       { k: 'Электронная почта', v: site.email }
     ]

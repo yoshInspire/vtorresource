@@ -59,7 +59,8 @@ const trust = [
     icon: 'shield',
     title: 'Работаем официально',
     // Наименование берём из конфига: оно же в подвале, реквизитах и политике
-    text: `${site.legalName} с 2022 года. Приём оформляем приёмо-сдаточным актом, организациям готовим полный пакет документов.`
+    text: `${site.legalName} с 2022 года, лицензия ${site.legal.license.number}. ` +
+      'Приём оформляем приёмо-сдаточным актом, организациям готовим полный пакет документов.'
   }
 ];
 
@@ -227,6 +228,51 @@ const reviews = {
 };
 
 /**
+ * Документы компании. Реквизиты лицензии берём из site.legal.license,
+ * чтобы номер не разъезжался с подвалом и политикой обработки данных.
+ */
+const documents = {
+  title: 'Документы',
+  lead:
+    'Приём лома — лицензируемая деятельность. Ниже реквизиты нашей лицензии ' +
+    'и то, как оформляется сдача.',
+  items: [
+    {
+      icon: 'doc',
+      title: 'Лицензия',
+      rows: [
+        { k: 'Номер', v: site.legal.license.number },
+        { k: 'Дата выдачи', v: site.legal.license.dateText },
+        { k: 'Кем выдана', v: site.legal.license.authority },
+        { k: 'Основание', v: site.legal.license.order }
+      ],
+      text: `Вид деятельности: ${site.legal.license.activity}.`
+    },
+    {
+      icon: 'shield',
+      title: 'Приёмо-сдаточный акт',
+      rows: [
+        { k: 'Кому', v: 'Частным лицам и организациям' },
+        { k: 'Основание', v: 'Правила обращения с ломом' },
+        { k: 'Что нужно', v: 'Паспорт гражданина РФ' }
+      ],
+      text: 'Акт оформляется на каждую партию. В нём фиксируются вид лома, вес, доля засора и сумма.'
+    },
+    {
+      icon: 'ruble',
+      title: 'Реквизиты',
+      rows: [
+        { k: 'Наименование', v: site.legalName },
+        { k: 'ОГРН', v: site.legal.ogrn },
+        { k: 'ИНН', v: site.legal.inn },
+        { k: 'Работает с', v: '24 ноября 2022 года' }
+      ],
+      text: 'Организациям готовим договор и полный пакет документов для бухгалтерии.'
+    }
+  ]
+};
+
+/**
  * Благодарственные письма. Сканы лежат в public/img/docs, тексты взяты
  * с самих писем: ничего не додумываем, иначе получится реклама заслуг,
  * которых в документах нет.
@@ -344,6 +390,6 @@ const ticker = [
 ];
 
 module.exports = {
-  hero, trust, tiles, alsoAccepted, steps, zasor, location, reviews, gratitude,
-  business, faq, popular, ticker
+  hero, trust, tiles, alsoAccepted, steps, zasor, location, reviews, documents,
+  gratitude, business, faq, popular, ticker
 };

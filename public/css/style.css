@@ -707,6 +707,29 @@ a.msg:hover { background: rgba(255, 255, 255, .1); color: #fff; }
 .rating__text { font-size: 16px; color: var(--text-600); }
 .rating__text b { color: var(--text-900); }
 
+/* ---------- документы ---------- */
+.docs { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 20px; }
+.doc-card {
+  display: flex; flex-direction: column;
+  border: 1px solid var(--paper-200); border-radius: var(--radius);
+  padding: 26px 26px 24px; background: var(--paper);
+}
+.doc-card__icon {
+  display: grid; place-items: center; width: 42px; height: 42px; margin-bottom: 16px;
+  background: linear-gradient(150deg, var(--blue-600), var(--blue-700));
+  border-radius: var(--radius-sm); color: #fff;
+}
+.doc-card__icon svg { width: 22px; height: 22px; }
+.doc-card__title {
+  font-family: var(--display); font-weight: 500; font-size: 19px; text-transform: uppercase;
+  letter-spacing: .01em; color: var(--text-900); margin-bottom: 14px;
+}
+.doc-card__rows { display: grid; gap: 8px; margin-bottom: 16px; }
+.doc-card__row { display: grid; grid-template-columns: 108px minmax(0, 1fr); gap: 12px; font-size: 14.5px; }
+.doc-card__row dt { color: var(--text-500); }
+.doc-card__row dd { margin: 0; color: var(--text-900); font-weight: 600; overflow-wrap: anywhere; }
+.doc-card__text { margin-top: auto; font-size: 14.5px; color: var(--text-600); }
+
 /* ---------- благодарности ---------- */
 .gratitude { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 22px; }
 .gratitude__item { margin: 0; display: grid; grid-template-columns: 200px minmax(0, 1fr); gap: 22px; align-items: start; }
@@ -1085,6 +1108,7 @@ select.field__input { appearance: none; background-image: url("data:image/svg+xm
   .trust__item:nth-child(odd) { padding-left: 0; border-left: 0; }
   .zasor { grid-template-columns: minmax(0, 1fr); }
   .gratitude { grid-template-columns: minmax(0, 1fr); }
+  .docs { grid-template-columns: minmax(0, 1fr); }
   .faq { columns: 1; }
   .price-grid { grid-template-columns: minmax(0, 1fr); }
   .price-toolbar { position: static; }

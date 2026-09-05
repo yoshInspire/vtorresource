@@ -360,11 +360,40 @@
     </div>
   </section>
 
-  <!-- ================= БЛАГОДАРНОСТИ ================= -->
-  <section class="section section--muted section--tight" id="blagodarnosti">
+  <!-- ================= ДОКУМЕНТЫ ================= -->
+  <section class="section section--light" id="dokumenty">
     <div class="container">
       <header class="section__head">
-        <p class="section__eyebrow">Документы</p>
+        <p class="section__eyebrow">Официально</p>
+        <h2 class="section__title"><%= content.documents.title %></h2>
+        <p class="section__lead"><%= content.documents.lead %></p>
+      </header>
+
+      <div class="docs">
+        <% content.documents.items.forEach(function (d) { %>
+          <article class="doc-card">
+            <span class="doc-card__icon"><svg aria-hidden="true"><use href="#i-<%= d.icon %>"></use></svg></span>
+            <h3 class="doc-card__title"><%= d.title %></h3>
+            <dl class="doc-card__rows">
+              <% d.rows.forEach(function (r) { %>
+                <div class="doc-card__row">
+                  <dt><%= r.k %></dt>
+                  <dd><%= r.v %></dd>
+                </div>
+              <% }); %>
+            </dl>
+            <p class="doc-card__text"><%= d.text %></p>
+          </article>
+        <% }); %>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= БЛАГОДАРНОСТИ ================= -->
+  <section class="section section--muted" id="blagodarnosti">
+    <div class="container">
+      <header class="section__head">
+        <p class="section__eyebrow">Городские проекты</p>
         <h2 class="section__title"><%= content.gratitude.title %></h2>
         <p class="section__lead"><%= content.gratitude.lead %></p>
       </header>

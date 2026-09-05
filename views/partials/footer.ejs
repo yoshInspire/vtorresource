@@ -68,6 +68,9 @@
       ОГРН <%= site.legal.ogrn %> · ИНН <%= site.legal.inn %> · КПП <%= site.legal.kpp %>.
       Юридический адрес: <%= site.legal.address %>.
       Приём лома ведётся по адресу <%= site.address.full %>.
+      <br>
+      Лицензия № <%= site.legal.license.number %> от <%= site.legal.license.dateText %>
+      на <%= site.legal.license.activity %>. Выдана: <%= site.legal.license.authority %>.
     </p>
 
     <% if (photoCredits && photoCredits.length) { %>
