@@ -95,7 +95,8 @@ const tiles = [
     lead: 'Твёрдые сплавы ВК-ТК и победит, вольфрам, молибден, ниобий, тантал, ферросплавы, быстрорежущая сталь.',
     hint: 'Самая дорогая группа. Цена за килограмм, партии принимаем от одного изделия.',
     anchor: '/price#tverdye-splavy-pobedit',
-    photo: null,
+    photo: 'redkozem',
+    photoAlt: 'Твердосплавные пластины ВК-ТК',
     priceFrom: { category: 'tverdye-splavy-pobedit', group: 'redkozem' }
   }
 ];
