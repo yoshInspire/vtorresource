@@ -44,6 +44,27 @@ function buildCalcItems(prices) {
   return items;
 }
 
+/**
+ * Сколько позиций с ценами сейчас на сайте.
+ *   `prices` — только основной прайс, к нему ведёт кнопка «Прайс-лист»;
+ *   `total`  — вместе с радиодеталями и драгметаллами, это цифра «на сайте».
+ * Считаем по факту, а не константой: заказчик правит все три каталога через
+ * админку, и вручную проставленное число разъезжается с таблицами сразу же.
+ */
+function countPositions() {
+  const prices = store.getPrices().groups.reduce(
+    (n, group) => n + group.categories.reduce((m, c) => m + c.items.length, 0),
+    0
+  );
+  const catalogs = cat.REGISTRY.reduce((n, c) => n + cat.countItems(cat.load(c.id)), 0);
+  return { prices, total: prices + catalogs };
+}
+
+/** «498 позиций» / «141 позиция» — число со склонённым словом. */
+function positionsText(n) {
+  return `${n} ${f.plural(n, 'позиция', 'позиции', 'позиций')}`;
+}
+
 // --- главная ---------------------------------------------------------------
 router.get('/', (req, res) => {
   const prices = store.getPrices();
@@ -76,6 +97,19 @@ router.get('/', (req, res) => {
   }));
 
   const calcItems = buildCalcItems(prices);
+  const counts = countPositions();
+
+  // Первый экран: четвёртый факт и FAQ говорят об одном и том же числе,
+  // поэтому подставляем его в одном месте.
+  const heroFacts = content.hero.facts.map(fact => (
+    fact.id === 'positions'
+      ? { value: String(counts.total), label: f.plural(counts.total, 'позиция', 'позиции', 'позиций') + ' с ценами' }
+      : fact
+  ));
+  const faq = content.faq.map(item => ({
+    ...item,
+    a: item.a.replace('{positions}', positionsText(counts.total))
+  }));
 
   const title = `Приём металлолома в Омске — сдать чёрный и цветной лом | ${site.brand}`;
   const description = site.seo.defaultDescription;
@@ -86,6 +120,10 @@ router.get('/', (req, res) => {
     description,
     canonical: seo.abs('/'),
     prices,
+    counts,
+    positionsText,
+    heroFacts,
+    faq,
     tiles,
     ticker,
     calcItems,
@@ -97,7 +135,7 @@ router.get('/', (req, res) => {
       seo.organization(),
       seo.webSite(),
       seo.webPage({ path: '/', title, description }),
-      seo.faqPage(content.faq)
+      seo.faqPage(faq)
     ])
   });
 });
@@ -107,7 +145,9 @@ router.get('/price', (req, res) => {
   const prices = store.getPrices();
   const title = `Цены на металлолом в Омске: прайс за кг и тонну | ${site.brand}`;
   const description =
-    'Прайс на приём металлолома в Омске: 141 позиция. Цена меди, латуни, бронзы, алюминия, свинца, нержавейки за кг, чёрного лома за тонну. Приём на 2-й Барнаульской, 105.';
+    `Прайс на приём металлолома в Омске: ${positionsText(countPositions().prices)}. ` +
+    'Цена меди, латуни, бронзы, алюминия, свинца, нержавейки за кг, чёрного лома за тонну. ' +
+    'Приём на 2-й Барнаульской, 105.';
 
   res.render('price', {
     page: 'price',

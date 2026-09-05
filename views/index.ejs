@@ -59,7 +59,7 @@
       </div>
 
       <div class="hero__facts">
-        <% content.hero.facts.forEach(function (f2) { %>
+        <% heroFacts.forEach(function (f2) { %>
           <div class="hero-fact">
             <p class="hero-fact__value num"><%= f2.value %></p>
             <p class="hero-fact__label"><%= f2.label %></p>
@@ -169,7 +169,7 @@
         </div>
 
         <ul class="calc__hints">
-          <li>Всего у нас <b>141 позиция</b>, в калькуляторе только самые ходовые. Редкие сплавы посчитаем по телефону.</li>
+          <li>Всего у нас <b><%= positionsText(counts.total) %></b>, в калькуляторе только самые ходовые. Редкие сплавы посчитаем по телефону.</li>
           <li>Чёрный лом считаем за тонну, цветной за килограмм. Единицу можно переключить.</li>
           <li>Засор в расчёт не входит: за краску, изоляцию, пластик и влагу мы не платим. <a class="link" href="#zasor">Как это считается</a>.</li>
         </ul>
@@ -185,7 +185,7 @@
           <p class="section__eyebrow">Приём лома</p>
           <h2 class="section__title">Какой металлолом мы принимаем</h2>
         </div>
-        <a class="btn btn--ghost btn--sm" href="/price">Прайс-лист, 141 позиция
+        <a class="btn btn--ghost btn--sm" href="/price">Прайс-лист, <%= positionsText(counts.prices) %>
           <svg class="btn__icon" aria-hidden="true"><use href="#i-arrow"></use></svg>
         </a>
       </header>
@@ -461,7 +461,7 @@
       </header>
 
       <div class="faq">
-        <% content.faq.forEach(function (item, i) { %>
+        <% faq.forEach(function (item, i) { %>
           <details class="faq__item"<%= i === 0 ? ' open' : '' %>>
             <summary class="faq__q"><%= item.q %></summary>
             <div class="faq__a"><p><%= item.a %></p></div>

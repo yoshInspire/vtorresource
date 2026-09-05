@@ -27,7 +27,9 @@ function readPrices() {
 
 function writeJson(file, data) {
   const tmp = `${file}.${process.pid}.tmp`;
-  fs.writeFileSync(tmp, JSON.stringify(data, null, 2), 'utf8');
+  // Перевод строки в конце файла: без него каждое сохранение из админки
+  // помечается в git как «No newline at end of file». В catalogs.js так же.
+  fs.writeFileSync(tmp, JSON.stringify(data, null, 2) + '\n', 'utf8');
   fs.renameSync(tmp, file);
 }
 

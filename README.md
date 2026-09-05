@@ -114,7 +114,10 @@ node scripts/fetch-photos.js dragmet --force   # пересобрать один
 
 ## Прайс
 
-`data/prices.json` — две группы (`chermet`, `cvetmet`), 22 категории, 141 позиция.
+`data/prices.json` — три группы (`chermet`, `cvetmet`, `redkozem`), 141 позиция.
+Число позиций нигде не записано константой: главная и `description` страницы
+цен считают его из данных (`countPositions()` в `src/routes/pages.js`), иначе
+после первой же правки в админке цифра в тексте расходится с таблицей.
 Структура позиции:
 
 ```json

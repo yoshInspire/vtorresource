@@ -37,8 +37,8 @@ function organization() {
     openingHoursSpecification: [{
       '@type': 'OpeningHoursSpecification',
       dayOfWeek: ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'],
-      opens: '08:00',
-      closes: '20:00'
+      opens: site.hours.opens,
+      closes: site.hours.closes
     }]
   };
   if (site.geo) {
