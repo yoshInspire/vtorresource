@@ -17,7 +17,7 @@ function organization() {
     email: site.email,
     priceRange: '₽₽',
     currenciesAccepted: 'RUB',
-    paymentAccepted: 'Наличные, безналичный расчёт',
+    paymentAccepted: 'Перевод на банковскую карту, безналичный расчёт для организаций',
     areaServed: [
       { '@type': 'City', name: site.city },
       { '@type': 'AdministrativeArea', name: site.region }
