@@ -88,9 +88,6 @@
                 <th scope="col">Название и уточнение</th>
                 <th scope="col" class="adm-table__num">Цена, <%= group.unit %></th>
                 <th scope="col" class="adm-table__num">До (диапазон)</th>
-                <% if (group.columns.length > 1) { %>
-                  <th scope="col" class="adm-table__num">Безнал</th>
-                <% } %>
                 <th scope="col" class="adm-table__text">Текстом</th>
                 <th scope="col" class="adm-table__act"><span class="visually-hidden">Действия</span></th>
               </tr>
@@ -121,14 +118,6 @@
                            value="<%= item.cashTo === null || item.cashTo === undefined ? '' : item.cashTo %>"
                            aria-label="Верхняя граница: <%= item.title %>">
                   </td>
-                  <% if (group.columns.length > 1) { %>
-                    <td>
-                      <input class="adm-input adm-input--num" type="text" inputmode="decimal"
-                             name="bank__<%= category.id %>__<%= item.id %>"
-                             value="<%= item.bank === null || item.bank === undefined ? '' : item.bank %>"
-                             aria-label="Безналичный расчёт: <%= item.title %>">
-                    </td>
-                  <% } %>
                   <td>
                     <input class="adm-input" type="text" maxlength="120"
                            name="text__<%= category.id %>__<%= item.id %>"
@@ -192,13 +181,6 @@
                placeholder="необязательно">
       </label>
 
-      <% if (group.columns.length > 1) { %>
-        <label class="adm-field adm-add__num">
-          <span class="adm-field__label">Безнал</span>
-          <input class="adm-field__input adm-input--num" type="text" inputmode="decimal" name="bank"
-                 placeholder="необязательно">
-        </label>
-      <% } %>
 
       <label class="adm-field adm-add__note">
         <span class="adm-field__label">Уточнение</span>

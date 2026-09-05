@@ -1,0 +1,132 @@
+<%- include('partials/head') %>
+<%- include('partials/icons') %>
+<%- include('partials/header') %>
+
+<main id="main" class="price-page">
+
+  <section class="page-head">
+    <div class="container">
+      <nav class="breadcrumbs" aria-label="Хлебные крошки">
+        <a href="/">Главная</a>
+        <span aria-hidden="true">/</span>
+        <span aria-current="page"><%= catalogTitle %></span>
+      </nav>
+
+      <h1 class="page-head__title"><%= h1 %></h1>
+      <p class="page-head__lead"><%= lead %></p>
+
+      <div class="page-head__meta">
+        <span class="badge badge--live">Обновлено <%= f.dateLong(catalog.updatedAt) %></span>
+        <span class="badge"><%= itemCount %> позиций</span>
+        <span class="badge">Приём на площадке в Омске</span>
+        <a class="btn btn--accent btn--sm" href="#zayavka-form">Уточнить цену</a>
+      </div>
+    </div>
+  </section>
+
+  <div class="price-toolbar">
+    <div class="container price-toolbar__inner">
+      <div class="price-tabs">
+        <% catalog.groups.forEach(function (g) { %>
+          <a class="price-tabs__link" href="#<%= g.id %>"><%= g.title %></a>
+        <% }); %>
+      </div>
+    </div>
+  </div>
+
+  <% catalog.groups.forEach(function (group, gi) { %>
+    <section class="section section--<%= gi % 2 === 0 ? 'muted' : 'light' %> price-group" id="<%= group.id %>">
+      <div class="container">
+        <header class="section__head">
+          <p class="section__eyebrow">Прайс-лист</p>
+          <h2 class="section__title"><%= group.title %></h2>
+          <p class="section__lead"><%= group.description %></p>
+        </header>
+
+        <% if (group.categories.length > 1) { %>
+          <nav class="anchors" aria-label="Разделы: <%= group.title %>">
+            <% group.categories.forEach(function (c) { %>
+              <a class="anchors__link" href="#<%= c.id %>"><%= c.name %></a>
+            <% }); %>
+          </nav>
+        <% } %>
+
+        <% group.categories.forEach(function (category) { %>
+          <div class="price-cat" id="<%= category.id %>">
+            <h3 class="price-cat__title"><%= category.name %></h3>
+            <div class="table-wrap">
+              <table class="price-table">
+                <caption class="visually-hidden"><%= category.name %>, цены приёма</caption>
+                <thead>
+                  <tr>
+                    <th scope="col">Позиция</th>
+                    <th scope="col" class="price-table__unit">Ед.</th>
+                    <th scope="col" class="price-table__col"><%= (group.columns && group.columns[0]) || 'Цена, ₽' %></th>
+                    <% if (group.columns && group.columns[1]) { %>
+                      <th scope="col" class="price-table__col"><%= group.columns[1] %></th>
+                    <% } %>
+                  </tr>
+                </thead>
+                <tbody>
+                  <% category.items.forEach(function (item) { %>
+                    <tr>
+                      <th scope="row" class="price-table__name">
+                        <%= item.title %>
+                        <% if (item.note) { %><span class="price-table__note"><%= item.note %></span><% } %>
+                      </th>
+                      <td class="price-table__unit"><%= item.unit %></td>
+                      <td class="price-table__value"><b><%= cat.formatPrice(item.price) %></b></td>
+                      <% if (group.columns && group.columns[1]) { %>
+                        <td class="price-table__value price-table__value--alt">
+                          <%= item.priceBulk ? cat.formatPrice(item.priceBulk) : '—' %>
+                        </td>
+                      <% } %>
+                    </tr>
+                  <% }); %>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        <% }); %>
+      </div>
+    </section>
+  <% }); %>
+
+  <section class="section section--dark" id="zayavka-form">
+    <div class="container price-cta">
+      <div class="price-cta__text">
+        <h2 class="section__title">Оценим по описанию</h2>
+        <p><%= catalog.note %></p>
+        <p>
+          Приём ведётся на площадке в Омске по адресу <%= site.address.full %>,
+          <%= site.hours.text.toLowerCase() %>. Звоните:
+          <% site.phones.forEach(function (p, i) { %><a class="link" href="tel:<%= p.raw %>"><%= p.display %></a><%= i < site.phones.length - 1 ? ', ' : '' %><% }); %>.
+        </p>
+      </div>
+      <div class="price-cta__form">
+        <% if (leadStatus === 'ok') { %>
+          <div class="alert alert--ok" role="status"><strong>Заявка принята.</strong> Скоро перезвоним.</div>
+        <% } %>
+        <%- include('partials/lead-form', {
+          variant: 'dark',
+          formTitle: 'Уточнить цену',
+          formText: 'Оставьте номер и опишите, что у вас есть. Перезвоним и назовём цену.'
+        }) %>
+      </div>
+    </div>
+  </section>
+
+  <section class="section section--light">
+    <div class="container container--narrow">
+      <h2 class="section__title"><%= aboutTitle %></h2>
+      <div class="prose">
+        <% about.forEach(function (para) { %>
+          <p><%- para %></p>
+        <% }); %>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<%- include('partials/footer') %>

@@ -79,11 +79,6 @@
                         <% if (item.note) { %><span class="price-table__note"><%= item.note %></span><% } %>
                       </th>
                       <td class="price-table__value"><b><%= f.itemPrice(item) %></b></td>
-                      <% if (group.columns.length > 1) { %>
-                        <td class="price-table__value price-table__value--alt">
-                          <%= item.bank !== null && item.bank !== undefined ? f.price(item.bank) : '—' %>
-                        </td>
-                      <% } %>
                     </tr>
                   <% }); %>
                 </tbody>

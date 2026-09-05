@@ -92,7 +92,7 @@ function updateItem(groupId, categoryId, itemId, patch) {
   const item = category && category.items.find(i => i.id === itemId);
   if (!item) return false;
 
-  for (const key of ['title', 'note', 'cash', 'cashTo', 'bank', 'text']) {
+  for (const key of ['title', 'note', 'cash', 'cashTo', 'text']) {
     if (Object.prototype.hasOwnProperty.call(patch, key)) item[key] = patch[key];
   }
   data.updatedAt = new Date().toISOString().slice(0, 10);
@@ -158,7 +158,6 @@ function addItem(groupId, categoryId, fields) {
     note: fields.note || null,
     cash: fields.cash === undefined ? null : fields.cash,
     cashTo: fields.cashTo === undefined ? null : fields.cashTo,
-    bank: fields.bank === undefined ? null : fields.bank,
     text: fields.text || null
   });
 

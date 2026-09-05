@@ -39,16 +39,20 @@ src/app.js               — express-приложение, middleware, обра�
 src/config/site.js       — контакты, реквизиты, адрес, координаты, режим, SEO-умолчания
 src/content/index.js     — тексты лендинга: оффер, плитки, шаги, засор, FAQ, витрины
 src/content/privacy.js   — текст политики обработки персональных данных
-src/lib/store.js         — доступ к прайсу и заявкам (чтение + запись)
+src/lib/store.js         — доступ к основному прайсу и заявкам (чтение + запись)
+src/lib/catalogs.js      — радиодетали и драгметаллы (только чтение)
 src/lib/format.js        — форматирование цен и дат
 src/lib/seo.js           — сборка JSON-LD (LocalBusiness, FAQPage, OfferCatalog, крошки)
 src/routes/pages.js      — роуты: /, /price, /privacy, /lead, robots.txt, sitemap.xml
 views/                   — EJS-шаблоны
 views/partials/photo.ejs — адаптивная картинка (webp + jpg, три ширины)
+views/catalog.ejs        — общий шаблон страниц радиодеталей и драгметаллов
 public/css/style.css     — единая таблица стилей, включая @font-face
 public/fonts/            — Oswald и Golos Text, кириллица и латиница раздельно
 public/img/photo/        — фотографии блоков + _credits.json с атрибуцией
-data/prices.json         — прайс (единственный источник цен)
+data/prices.json         — основной прайс: чёрный, цветной, редкоземельный лом
+data/radio.json          — радиодетали и платы (страница /radiodetali)
+data/dragmet.json        — драгметаллы (страница /dragmetally)
 data/leads.json          — заявки с форм
 scripts/                 — разовые скрипты импорта прайса
 ```
