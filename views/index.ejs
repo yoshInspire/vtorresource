@@ -366,7 +366,9 @@
       <header class="section__head">
         <p class="section__eyebrow">Официально</p>
         <h2 class="section__title"><%= content.documents.title %></h2>
-        <p class="section__lead"><%= content.documents.lead %></p>
+        <% if (content.documents.lead) { %>
+          <p class="section__lead"><%= content.documents.lead %></p>
+        <% } %>
       </header>
 
       <div class="docs">

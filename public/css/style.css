@@ -708,7 +708,7 @@ a.msg:hover { background: rgba(255, 255, 255, .1); color: #fff; }
 .rating__text b { color: var(--text-900); }
 
 /* ---------- документы ---------- */
-.docs { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 20px; }
+.docs { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 20px; }
 .doc-card {
   display: flex; flex-direction: column;
   border: 1px solid var(--paper-200); border-radius: var(--radius);
