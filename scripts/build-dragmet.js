@@ -18,11 +18,21 @@ const path = require('path');
 
 const OUT = path.join(__dirname, '..', 'data', 'dragmet.json');
 
+// Идентификаторы строим транслитом, как в остальных каталогах: кириллица
+// в именах полей формы и в адресах превращается в процентные последовательности.
+const TRANSLIT = {
+  а: 'a', б: 'b', в: 'v', г: 'g', д: 'd', е: 'e', ё: 'e', ж: 'zh', з: 'z', и: 'i',
+  й: 'y', к: 'k', л: 'l', м: 'm', н: 'n', о: 'o', п: 'p', р: 'r', с: 's', т: 't',
+  у: 'u', ф: 'f', х: 'h', ц: 'c', ч: 'ch', ш: 'sh', щ: 'sch', ъ: '', ы: 'y', ь: '',
+  э: 'e', ю: 'yu', я: 'ya'
+};
+
+const slug = s => String(s).toLowerCase().split('')
+  .map(c => (TRANSLIT[c] !== undefined ? TRANSLIT[c] : c)).join('')
+  .replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '').slice(0, 48).replace(/-$/, '');
+
 const item = (title, unit, price, note) => ({
-  id: title.toLowerCase()
-    .replace(/[^a-zа-яё0-9]+/gi, '-')
-    .replace(/^-|-$/g, '')
-    .slice(0, 48),
+  id: slug(title),
   title,
   unit,
   price,

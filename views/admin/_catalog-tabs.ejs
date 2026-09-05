@@ -1,0 +1,7 @@
+<% if (catalogTabs && catalogTabs.length) { %>
+  <nav class="adm-cats" aria-label="Каталоги">
+    <% catalogTabs.forEach(function (t) { %>
+      <a class="adm-cats__link<%= t.isActive ? ' is-active' : '' %>" href="<%= t.href %>"><%= t.title %></a>
+    <% }); %>
+  </nav>
+<% } %>

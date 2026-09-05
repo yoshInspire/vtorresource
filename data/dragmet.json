@@ -13,35 +13,35 @@
           "name": "Слитки, монеты и изделия",
           "items": [
             {
-              "id": "серебро-999-пробы-мерные-слитки",
+              "id": "serebro-999-proby-mernye-slitki",
               "title": "Серебро 999 пробы, мерные слитки",
               "unit": "1 г",
               "price": "115",
               "note": null
             },
             {
-              "id": "серебро-чашка-это-к52",
+              "id": "serebro-chashka-eto-k52",
               "title": "Серебро, чашка ЭТО, К52",
               "unit": "1 г",
               "price": "100",
               "note": null
             },
             {
-              "id": "ювелирные-изделия-925-проба",
+              "id": "yuvelirnye-izdeliya-925-proba",
               "title": "Ювелирные изделия, 925 проба",
               "unit": "1 г",
               "price": "95",
               "note": null
             },
             {
-              "id": "серебряные-монеты-рсфср-и-ссср",
+              "id": "serebryanye-monety-rsfsr-i-sssr",
               "title": "Серебряные монеты РСФСР и СССР",
               "unit": "1 г",
               "price": "92",
               "note": "50 копеек, 1 рубль"
             },
             {
-              "id": "столовое-серебро-875-проба",
+              "id": "stolovoe-serebro-875-proba",
               "title": "Столовое серебро, 875 проба",
               "unit": "1 г",
               "price": "70",
@@ -54,35 +54,35 @@
           "name": "Контакты и технические сплавы",
           "items": [
             {
-              "id": "серебро-80-немагнитное",
+              "id": "serebro-80-nemagnitnoe",
               "title": "Серебро 80 %, немагнитное",
               "unit": "1 г",
               "price": "80",
               "note": null
             },
             {
-              "id": "серебро-60-магнитное",
+              "id": "serebro-60-magnitnoe",
               "title": "Серебро 60 %, магнитное",
               "unit": "1 г",
               "price": "60",
               "note": null
             },
             {
-              "id": "серебро-на-меди",
+              "id": "serebro-na-medi",
               "title": "Серебро на меди",
               "unit": "1 г",
               "price": "27",
               "note": null
             },
             {
-              "id": "серебро-на-меди-крупное",
+              "id": "serebro-na-medi-krupnoe",
               "title": "Серебро на меди, крупное",
               "unit": "1 г",
               "price": "10",
               "note": null
             },
             {
-              "id": "серебро-на-керамике-вольфрамовые-контакты",
+              "id": "serebro-na-keramike-volframovye-kontakty",
               "title": "Серебро на керамике, вольфрамовые контакты",
               "unit": "1 г",
               "price": "9",
@@ -95,28 +95,28 @@
           "name": "Посеребрённый лом",
           "items": [
             {
-              "id": "посеребрённая-медь-мелочь-1-5-мм",
+              "id": "poserebrennaya-med-meloch-1-5-mm",
               "title": "Посеребрённая медь, мелочь 1,5 мм",
               "unit": "1 кг",
               "price": "900",
               "note": null
             },
             {
-              "id": "посеребрённая-латунь",
+              "id": "poserebrennaya-latun",
               "title": "Посеребрённая латунь",
               "unit": "1 кг",
               "price": "600",
               "note": null
             },
             {
-              "id": "посеребрённый-алюминий-ссср",
+              "id": "poserebrennyy-alyuminiy-sssr",
               "title": "Посеребрённый алюминий, СССР",
               "unit": "1 кг",
               "price": "250",
               "note": null
             },
             {
-              "id": "посеребрённый-алюминий-импорт-gsm",
+              "id": "poserebrennyy-alyuminiy-import-gsm",
               "title": "Посеребрённый алюминий, импорт GSM",
               "unit": "1 кг",
               "price": "170",
@@ -137,21 +137,21 @@
           "name": "Слитки и монеты",
           "items": [
             {
-              "id": "золото-999-пробы-мерные-слитки",
+              "id": "zoloto-999-proby-mernye-slitki",
               "title": "Золото 999 пробы, мерные слитки",
               "unit": "1 г",
               "price": "10000",
               "note": null
             },
             {
-              "id": "золото-999-пробы-монеты",
+              "id": "zoloto-999-proby-monety",
               "title": "Золото 999 пробы, монеты",
               "unit": "1 г",
               "price": "10000",
               "note": null
             },
             {
-              "id": "золото-900-пробы-монеты",
+              "id": "zoloto-900-proby-monety",
               "title": "Золото 900 пробы, монеты",
               "unit": "1 г",
               "price": "8000",
@@ -164,14 +164,14 @@
           "name": "Контакты",
           "items": [
             {
-              "id": "золото-99-контакты-реле",
+              "id": "zoloto-99-kontakty-rele",
               "title": "Золото 99 %, контакты реле",
               "unit": "1 г",
               "price": "8000",
               "note": null
             },
             {
-              "id": "золото-90-контакты-переключателей",
+              "id": "zoloto-90-kontakty-pereklyuchateley",
               "title": "Золото 90 %, контакты переключателей",
               "unit": "1 г",
               "price": "7500",
@@ -184,21 +184,21 @@
           "name": "Ювелирные изделия",
           "items": [
             {
-              "id": "золото-750-пробы",
+              "id": "zoloto-750-proby",
               "title": "Золото 750 пробы",
               "unit": "1 г",
               "price": "6200",
               "note": null
             },
             {
-              "id": "золото-585-пробы",
+              "id": "zoloto-585-proby",
               "title": "Золото 585 пробы",
               "unit": "1 г",
               "price": "4900",
               "note": null
             },
             {
-              "id": "золото-375-пробы",
+              "id": "zoloto-375-proby",
               "title": "Золото 375 пробы",
               "unit": "1 г",
               "price": "2700",
@@ -219,14 +219,14 @@
           "name": "Катализаторы",
           "items": [
             {
-              "id": "палладиевые-катализаторы",
+              "id": "palladievye-katalizatory",
               "title": "Палладиевые катализаторы",
               "unit": "1 кг",
               "price": "до 40 000",
               "note": null
             },
             {
-              "id": "платиновые-катализаторы",
+              "id": "platinovye-katalizatory",
               "title": "Платиновые катализаторы",
               "unit": "1 кг",
               "price": "до 20 000",
@@ -239,28 +239,28 @@
           "name": "Ламели, контакты, термопары",
           "items": [
             {
-              "id": "ламель-pd",
+              "id": "lamel-pd",
               "title": "Ламель Pd",
               "unit": "1 кг",
               "price": "договорная",
               "note": null
             },
             {
-              "id": "лигатура-палладированная",
+              "id": "ligatura-palladirovannaya",
               "title": "Лигатура палладированная",
               "unit": "1 кг",
               "price": "договорная",
               "note": null
             },
             {
-              "id": "спицы-и-контакты-от-атс-pd-ag",
+              "id": "spicy-i-kontakty-ot-ats-pd-ag",
               "title": "Спицы и контакты от АТС (Pd, Ag)",
               "unit": "1 шт",
               "price": "договорная",
               "note": null
             },
             {
-              "id": "термопары-тпп-тсп-и-другие-с-буквой-п",
+              "id": "termopary-tpp-tsp-i-drugie-s-bukvoy-p",
               "title": "Термопары ТПП, ТСП и другие с буквой П",
               "unit": "1 шт",
               "price": "договорная",
@@ -281,42 +281,42 @@
           "name": "Позолоченные изделия",
           "items": [
             {
-              "id": "ламель-au-импортная-и-советская",
+              "id": "lamel-au-importnaya-i-sovetskaya",
               "title": "Ламель Au, импортная и советская",
               "unit": "1 кг",
               "price": "договорная",
               "note": null
             },
             {
-              "id": "лигатура-от-импортных-разъёмов",
+              "id": "ligatura-ot-importnyh-razemov",
               "title": "Лигатура от импортных разъёмов",
               "unit": "1 кг",
               "price": "договорная",
               "note": null
             },
             {
-              "id": "лигатура-посеребрённая",
+              "id": "ligatura-poserebrennaya",
               "title": "Лигатура посеребрённая",
               "unit": "1 кг",
               "price": "договорная",
               "note": null
             },
             {
-              "id": "корпуса-часов-au-5",
+              "id": "korpusa-chasov-au-5",
               "title": "Корпуса часов Au-5",
               "unit": "1 кг",
               "price": "договорная",
               "note": null
             },
             {
-              "id": "корпуса-часов-au-10",
+              "id": "korpusa-chasov-au-10",
               "title": "Корпуса часов Au-10",
               "unit": "1 кг",
               "price": "договорная",
               "note": null
             },
             {
-              "id": "корпуса-часов-au-20",
+              "id": "korpusa-chasov-au-20",
               "title": "Корпуса часов Au-20",
               "unit": "1 кг",
               "price": "договорная",
@@ -337,21 +337,21 @@
           "name": "Лампы",
           "items": [
             {
-              "id": "лампы-генераторные-гу-гми-гс",
+              "id": "lampy-generatornye-gu-gmi-gs",
               "title": "Лампы генераторные ГУ, ГМИ, ГС",
               "unit": "1 кг",
               "price": "договорная",
               "note": null
             },
             {
-              "id": "серебряные-аккумуляторы-сц-снц",
+              "id": "serebryanye-akkumulyatory-sc-snc",
               "title": "Серебряные аккумуляторы СЦ, СНЦ",
               "unit": "1 шт",
               "price": "договорная",
               "note": null
             },
             {
-              "id": "шаговые-переключатели-реохорды",
+              "id": "shagovye-pereklyuchateli-reohordy",
               "title": "Шаговые переключатели, реохорды",
               "unit": "1 шт",
               "price": "договорная",

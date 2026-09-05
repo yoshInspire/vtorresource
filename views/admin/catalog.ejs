@@ -4,16 +4,18 @@
 <main class="adm-main">
   <div class="adm-head">
     <div>
-      <h1 class="adm-h1">Прайс-лист</h1>
-      <p class="adm-sub">Обновлён <%= f.dateLong(prices.updatedAt) %>.</p>
+      <h1 class="adm-h1"><%= meta.title %></h1>
+      <p class="adm-sub">Обновлён <%= f.dateLong(catalog.updatedAt) %>.</p>
     </div>
-    <a class="adm-btn adm-btn--ghost" href="/price" target="_blank" rel="noopener">Посмотреть на сайте</a>
+    <a class="adm-btn adm-btn--ghost" href="<%= meta.url %>" target="_blank" rel="noopener">Посмотреть на сайте</a>
   </div>
+
+  <%- include('_catalog-tabs') %>
 
   <% if (saved !== null) { %>
     <p class="adm-alert adm-alert--ok" role="status">
       <% if (saved > 0) { %>
-        Сохранено позиций: <b><%= saved %></b>. Цены на сайте уже обновились.
+        Сохранено позиций: <b><%= saved %></b>. На сайте уже обновилось.
       <% } else { %>
         Изменений не было, ничего не сохранял.
       <% } %>
@@ -22,14 +24,12 @@
 
   <% if (added) { %>
     <p class="adm-alert adm-alert--ok" role="status">
-      Позиция добавлена, её адрес в прайсе: <code><%= added %></code>.
+      Позиция добавлена, её адрес: <code><%= added %></code>.
     </p>
   <% } %>
 
   <% if (removed) { %>
-    <p class="adm-alert adm-alert--ok" role="status">
-      Позиция «<%= removed %>» удалена.
-    </p>
+    <p class="adm-alert adm-alert--ok" role="status">Позиция «<%= removed %>» удалена.</p>
   <% } %>
 
   <% if (error) { %>
@@ -44,11 +44,10 @@
     </p>
   <% } %>
 
-  <%- include('_catalog-tabs') %>
-
   <div class="adm-tabs">
-    <% prices.groups.forEach(function (g) { %>
-      <a class="adm-tab<%= g.id === group.id ? ' is-active' : '' %>" href="/admin?group=<%= g.id %>">
+    <% catalog.groups.forEach(function (g) { %>
+      <a class="adm-tab<%= g.id === group.id ? ' is-active' : '' %>"
+         href="/admin/catalog/<%= catalogName %>?group=<%= g.id %>">
         <%= g.title %>
         <span><%= g.categories.reduce(function (a, c) { return a + c.items.length; }, 0) %></span>
       </a>
@@ -56,20 +55,18 @@
   </div>
 
   <p class="adm-hint">
-    Цену можно писать через запятую или с пробелами: 818,18 или 1 200.
-    Пустое поле означает «цена по запросу». Колонка «Текстом» перебивает число:
-    если в ней что-то есть, на сайте покажется именно она.
-    Название и уточнение тоже правятся прямо здесь.
+    Цена здесь текстовая: можно написать число, диапазон «38 / 55», «до 40 000»
+    или «договорная». Единица измерения задаётся у каждой позиции отдельно,
+    потому что в одной таблице встречаются и граммы, и штуки, и килограммы.
   </p>
 
-  <!-- Форма удаления вынесена из таблицы: вложенные формы недопустимы,
-       поэтому кнопки в строках привязаны к ней через атрибут form. -->
-  <form id="del-form" action="/admin/prices/delete" method="post" hidden>
+  <!-- Форма удаления вынесена из таблицы: вложенные формы недопустимы. -->
+  <form id="del-form" action="/admin/catalog/<%= catalogName %>/delete" method="post" hidden>
     <input type="hidden" name="_csrf" value="<%= csrf %>">
     <input type="hidden" name="group" value="<%= group.id %>">
   </form>
 
-  <form action="/admin/prices" method="post">
+  <form action="/admin/catalog/<%= catalogName %>" method="post">
     <input type="hidden" name="_csrf" value="<%= csrf %>">
     <input type="hidden" name="group" value="<%= group.id %>">
 
@@ -85,9 +82,11 @@
             <thead>
               <tr>
                 <th scope="col">Название и уточнение</th>
-                <th scope="col" class="adm-table__num">Цена, <%= group.unit %></th>
-                <th scope="col" class="adm-table__num">До (диапазон)</th>
-                <th scope="col" class="adm-table__text">Текстом</th>
+                <th scope="col" class="adm-table__unit">Ед.</th>
+                <th scope="col" class="adm-table__num"><%= (group.columns && group.columns[0]) || 'Цена' %></th>
+                <% if (group.columns && group.columns[1]) { %>
+                  <th scope="col" class="adm-table__num"><%= group.columns[1] %></th>
+                <% } %>
                 <th scope="col" class="adm-table__act"><span class="visually-hidden">Действия</span></th>
               </tr>
             </thead>
@@ -102,28 +101,30 @@
                     <input class="adm-input adm-input--note" type="text" maxlength="400"
                            name="note__<%= category.id %>__<%= item.id %>"
                            value="<%= item.note || '' %>"
-                           placeholder="уточнение: состояние, ГОСТ, засор"
+                           placeholder="уточнение: требования, состояние"
                            aria-label="Уточнение к позиции <%= item.title %>">
                   </td>
                   <td>
-                    <input class="adm-input adm-input--num" type="text" inputmode="decimal"
-                           name="cash__<%= category.id %>__<%= item.id %>"
-                           value="<%= item.cash === null ? '' : item.cash %>"
+                    <input class="adm-input adm-input--unit" type="text" maxlength="24"
+                           name="unit__<%= category.id %>__<%= item.id %>"
+                           value="<%= item.unit || '' %>"
+                           placeholder="1 кг"
+                           aria-label="Единица измерения: <%= item.title %>">
+                  </td>
+                  <td>
+                    <input class="adm-input adm-input--num" type="text" maxlength="60"
+                           name="price__<%= category.id %>__<%= item.id %>"
+                           value="<%= item.price || '' %>"
                            aria-label="Цена: <%= item.title %>">
                   </td>
-                  <td>
-                    <input class="adm-input adm-input--num" type="text" inputmode="decimal"
-                           name="cashTo__<%= category.id %>__<%= item.id %>"
-                           value="<%= item.cashTo === null || item.cashTo === undefined ? '' : item.cashTo %>"
-                           aria-label="Верхняя граница: <%= item.title %>">
-                  </td>
-                  <td>
-                    <input class="adm-input" type="text" maxlength="120"
-                           name="text__<%= category.id %>__<%= item.id %>"
-                           value="<%= item.text || '' %>"
-                           placeholder="до 40 000"
-                           aria-label="Текстовая цена: <%= item.title %>">
-                  </td>
+                  <% if (group.columns && group.columns[1]) { %>
+                    <td>
+                      <input class="adm-input adm-input--num" type="text" maxlength="60"
+                             name="priceBulk__<%= category.id %>__<%= item.id %>"
+                             value="<%= item.priceBulk || '' %>"
+                             aria-label="<%= group.columns[1] %>: <%= item.title %>">
+                    </td>
+                  <% } %>
                   <td class="adm-table__act">
                     <button class="adm-del" type="submit" form="del-form"
                             name="item" value="<%= category.id %>__<%= item.id %>"
@@ -145,11 +146,9 @@
     </div>
   </form>
 
-  <!-- Добавление вынесено отдельной формой: иначе пустые поля новой позиции
-       уходили бы вместе с каждым сохранением цен. -->
   <section class="adm-add">
     <h2 class="adm-add__title">Добавить позицию</h2>
-    <form class="adm-add__form" action="/admin/prices/add" method="post">
+    <form class="adm-add__form" action="/admin/catalog/<%= catalogName %>/add" method="post">
       <input type="hidden" name="_csrf" value="<%= csrf %>">
       <input type="hidden" name="group" value="<%= group.id %>">
 
@@ -165,26 +164,30 @@
       <label class="adm-field adm-add__title-field">
         <span class="adm-field__label">Название</span>
         <input class="adm-field__input" type="text" name="title" required maxlength="200"
-               placeholder="Например: Лом меди «Блеск»">
+               placeholder="Например: Серебро 999 пробы, мерные слитки">
       </label>
 
       <label class="adm-field adm-add__num">
-        <span class="adm-field__label">Цена, <%= group.unit %></span>
-        <input class="adm-field__input adm-input--num" type="text" inputmode="decimal" name="cash"
-               placeholder="818,18">
+        <span class="adm-field__label">Единица</span>
+        <input class="adm-field__input" type="text" name="unit" maxlength="24" placeholder="1 кг">
       </label>
 
       <label class="adm-field adm-add__num">
-        <span class="adm-field__label">До</span>
-        <input class="adm-field__input adm-input--num" type="text" inputmode="decimal" name="cashTo"
-               placeholder="необязательно">
+        <span class="adm-field__label">Цена</span>
+        <input class="adm-field__input" type="text" name="price" maxlength="60" placeholder="договорная">
       </label>
 
+      <% if (group.columns && group.columns[1]) { %>
+        <label class="adm-field adm-add__num">
+          <span class="adm-field__label"><%= group.columns[1] %></span>
+          <input class="adm-field__input" type="text" name="priceBulk" maxlength="60" placeholder="необязательно">
+        </label>
+      <% } %>
 
       <label class="adm-field adm-add__note">
         <span class="adm-field__label">Уточнение</span>
         <input class="adm-field__input" type="text" name="note" maxlength="400"
-               placeholder="состояние, ГОСТ, процент засора">
+               placeholder="требования к позиции">
       </label>
 
       <div class="adm-add__submit">
@@ -192,7 +195,7 @@
       </div>
     </form>
     <p class="adm-add__hint">
-      Позиция встанет в конец выбранной категории. Адрес в прайсе построится
+      Позиция встанет в конец выбранной категории. Адрес построится
       из названия автоматически.
     </p>
   </section>
