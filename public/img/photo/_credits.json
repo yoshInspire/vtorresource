@@ -52,5 +52,23 @@
     "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0",
     "source": "https://commons.wikimedia.org/wiki/File%3ATungsten%20carbide%20inserts.jpg",
     "note": "Твердосплавные пластины ВК-ТК"
+  },
+  {
+    "slug": "radiolom",
+    "title": "8Platinen-harddisc hg.jpg",
+    "author": "Hannes Grobe",
+    "license": "CC BY-SA 4.0",
+    "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0",
+    "source": "https://commons.wikimedia.org/wiki/File:8Platinen-harddisc_hg.jpg",
+    "note": "Печатные платы крупно — плитка «Радиолом»"
+  },
+  {
+    "slug": "dragmet",
+    "title": "Ag 99 99 Uralelectromed.jpg",
+    "author": "Niklitov",
+    "license": "CC BY-SA 4.0",
+    "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0",
+    "source": "https://commons.wikimedia.org/wiki/File:Ag_99_99_Uralelectromed.jpg",
+    "note": "Слиток серебра 99,99 — плитка «Драгметаллы»"
   }
 ]

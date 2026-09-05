@@ -14,7 +14,7 @@
 
       <h1 class="page-head__title">Цены на приём металлолома в Омске</h1>
       <p class="page-head__lead">
-        Прайс-лист пункта приёма «Вторресурс» на 2-й Барнаульской, 105:
+        Прайс-лист пункта приёма «<%= site.brand %>» на 2-й Барнаульской, 105:
         <%= prices.groups.reduce(function (a, g) { return a + g.categories.reduce(function (b, c) { return b + c.items.length; }, 0); }, 0) %>
         позиций чёрного, цветного и редкоземельного лома. Чёрный металл считаем за тонну, остальной за килограмм.
         Цены действуют на <%= f.dateLong(prices.updatedAt) %>.

@@ -48,8 +48,16 @@ function buildCalcItems(prices) {
 router.get('/', (req, res) => {
   const prices = store.getPrices();
 
-  // Крупные плитки «что принимаем»: цена «до N» берётся из таблицы цен.
+  // Крупные плитки «что принимаем». У плиток прайса в углу стоит верхняя цена
+  // группы, у радиолома и драгметаллов — размер их каталога: там цены за грамм,
+  // за штуку и за контакт лежат в одной таблице, одной цифрой не обойтись.
+  // Число берём из каталога, а не из константы, чтобы оно не разъезжалось
+  // с тем, что заказчик правит в админке.
   const tiles = content.tiles.map(tile => {
+    if (tile.countFrom) {
+      const n = cat.countItems(cat.load(tile.countFrom));
+      return { ...tile, countText: `${n} ${f.plural(n, 'позиция', 'позиции', 'позиций')}` };
+    }
     const group = prices.groups.find(g => g.id === tile.priceFrom.group);
     const category = group && group.categories.find(c => c.id === tile.priceFrom.category);
     return {

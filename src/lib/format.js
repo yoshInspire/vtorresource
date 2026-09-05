@@ -49,4 +49,17 @@ function jsonLd(obj) {
   return JSON.stringify(obj).replace(/</g, '\\u003c');
 }
 
-module.exports = { price, itemPrice, dateLong, dateTime, phone, jsonLd };
+/**
+ * Русское склонение после числа: 1 позиция, 2 позиции, 5 позиций.
+ * Формы передаются в порядке «одна, две, пять».
+ */
+function plural(n, one, few, many) {
+  const abs = Math.abs(n) % 100;
+  const last = abs % 10;
+  if (abs > 10 && abs < 20) return many;
+  if (last > 1 && last < 5) return few;
+  if (last === 1) return one;
+  return many;
+}
+
+module.exports = { price, itemPrice, dateLong, dateTime, phone, jsonLd, plural };

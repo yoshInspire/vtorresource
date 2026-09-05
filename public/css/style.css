@@ -126,7 +126,7 @@
   src: url("/fonts/golos-700-latin.woff2") format("woff2");
   unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
 }/* =========================================================================
-   Вторресурс — приём лома металлов в Омске
+   Металлобаза55 — приём лома металлов в Омске
    Дизайн-система: тёмная сталь и оранжевый с вывески, фотография как фон,
    Oswald на заголовки и цифры, Golos Text на текст.
    Шрифты подключены локально — см. public/fonts/_manifest.json.
@@ -577,14 +577,19 @@ a.msg:hover { background: rgba(255, 255, 255, .1); color: #fff; }
   font-size: 14.5px; color: var(--text-600);
 }
 
-/* ---------- плитки «что принимаем» ---------- */
-.tiles { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 20px; }
+/* ---------- плитки «что принимаем» ----------
+   Сетка на шесть колонок, а не на три: плиток пять. Первые три занимают
+   по две колонки (ряд из трёх), радиолом и драгметаллы по три (ряд из двух),
+   и нижний ряд не оставляет пустой ячейки. */
+.tiles { display: grid; grid-template-columns: repeat(6, minmax(0, 1fr)); gap: 20px; }
 .tile {
+  grid-column: span 2;
   position: relative; display: flex; flex-direction: column; justify-content: flex-end;
   min-height: 380px; padding: 28px; border-radius: var(--radius-lg);
   overflow: hidden; text-decoration: none; color: #fff;
   background: var(--ink-850); isolation: isolate;
 }
+.tile--wide { grid-column: span 3; min-height: 320px; }
 .tile__media { position: absolute; inset: 0; z-index: -1; }
 .tile__media img { width: 100%; height: 100%; object-fit: cover; transition: transform .5s ease; }
 .tile:hover .tile__media img { transform: scale(1.05); }
@@ -1064,7 +1069,9 @@ select.field__input { appearance: none; background-image: url("data:image/svg+xm
   .calc__hints { grid-template-columns: minmax(0, 1fr); }
   .steps-block__media img { aspect-ratio: 16 / 9; }
   .tiles { grid-template-columns: repeat(2, minmax(0, 1fr)); }
-  .tile:last-child { grid-column: span 2; min-height: 260px; }
+  .tile, .tile--wide { grid-column: auto; min-height: 300px; }
+  /* Плиток пять: нечётная по счёту занимает ряд целиком, иначе остаётся дыра */
+  .tile:nth-child(odd):last-child { grid-column: span 2; min-height: 260px; }
   .footer__inner { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 32px; }
   .rating { grid-template-columns: auto minmax(0, 1fr); }
   .rating .btn { grid-column: span 2; justify-self: start; }
@@ -1125,7 +1132,7 @@ select.field__input { appearance: none; background-image: url("data:image/svg+xm
   .hero__actions .btn { width: 100%; }
   .tiles { grid-template-columns: minmax(0, 1fr); }
   .gratitude__item { grid-template-columns: 140px minmax(0, 1fr); gap: 16px; }
-  .tile, .tile:last-child { grid-column: auto; min-height: 300px; }
+  .tile, .tile--wide, .tile:nth-child(odd):last-child { grid-column: auto; min-height: 300px; }
   .trust { grid-template-columns: minmax(0, 1fr); }
   .trust__item {
     padding: 22px 0 0; border-left: 0;

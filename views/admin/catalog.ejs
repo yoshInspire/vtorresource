@@ -54,12 +54,6 @@
     <% }); %>
   </div>
 
-  <p class="adm-hint">
-    Цена здесь текстовая: можно написать число, диапазон «38 / 55», «до 40 000»
-    или «договорная». Единица измерения задаётся у каждой позиции отдельно,
-    потому что в одной таблице встречаются и граммы, и штуки, и килограммы.
-  </p>
-
   <!-- Форма удаления вынесена из таблицы: вложенные формы недопустимы. -->
   <form id="del-form" action="/admin/catalog/<%= catalogName %>/delete" method="post" hidden>
     <input type="hidden" name="_csrf" value="<%= csrf %>">
@@ -141,8 +135,7 @@
     <% }); %>
 
     <div class="adm-save">
-      <button class="adm-btn adm-btn--accent" type="submit">Сохранить <%= group.title.toLowerCase() %></button>
-      <span class="adm-save__hint">Сохраняются только изменённые поля.</span>
+      <button class="adm-btn adm-btn--accent" type="submit">Сохранить</button>
     </div>
   </form>
 
@@ -194,10 +187,6 @@
         <button class="adm-btn adm-btn--accent" type="submit">Добавить</button>
       </div>
     </form>
-    <p class="adm-add__hint">
-      Позиция встанет в конец выбранной категории. Адрес построится
-      из названия автоматически.
-    </p>
   </section>
 </main>
 

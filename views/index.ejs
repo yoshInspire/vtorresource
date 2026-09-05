@@ -192,7 +192,7 @@
 
       <div class="tiles">
         <% tiles.forEach(function (t) { %>
-          <a class="tile<%= t.photo ? '' : ' tile--flat' %>" href="<%= t.anchor %>">
+          <a class="tile<%= t.photo ? '' : ' tile--flat' %><%= t.wide ? ' tile--wide' : '' %>" href="<%= t.anchor %>">
             <% if (t.photo) { %>
               <span class="tile__media" aria-hidden="true">
                 <%- include('partials/photo', {
@@ -207,7 +207,7 @@
             <span class="tile__hint"><%= t.hint %></span>
             <span class="tile__price">
               <span class="tile__price-value num">
-                <% if (t.from) { %>до <%= f.price(t.from) %><small><%= t.unit %></small><% } else { %>цена по запросу<% } %>
+                <% if (t.countText) { %><%= t.countText %><% } else if (t.from) { %>до <%= f.price(t.from) %><small><%= t.unit %></small><% } else { %>цена по запросу<% } %>
               </span>
               <span class="tile__more">
                 прайс-лист

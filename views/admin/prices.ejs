@@ -55,13 +55,6 @@
     <% }); %>
   </div>
 
-  <p class="adm-hint">
-    Цену можно писать через запятую или с пробелами: 818,18 или 1 200.
-    Пустое поле означает «цена по запросу». Колонка «Текстом» перебивает число:
-    если в ней что-то есть, на сайте покажется именно она.
-    Название и уточнение тоже правятся прямо здесь.
-  </p>
-
   <!-- Форма удаления вынесена из таблицы: вложенные формы недопустимы,
        поэтому кнопки в строках привязаны к ней через атрибут form. -->
   <form id="del-form" action="/admin/prices/delete" method="post" hidden>
@@ -86,7 +79,7 @@
               <tr>
                 <th scope="col">Название и уточнение</th>
                 <th scope="col" class="adm-table__num">Цена, <%= group.unit %></th>
-                <th scope="col" class="adm-table__num">До (диапазон)</th>
+                <th scope="col" class="adm-table__num">До</th>
                 <th scope="col" class="adm-table__text">Текстом</th>
                 <th scope="col" class="adm-table__act"><span class="visually-hidden">Действия</span></th>
               </tr>
@@ -140,8 +133,7 @@
     <% }); %>
 
     <div class="adm-save">
-      <button class="adm-btn adm-btn--accent" type="submit">Сохранить <%= group.title.toLowerCase() %></button>
-      <span class="adm-save__hint">Сохраняются только изменённые поля.</span>
+      <button class="adm-btn adm-btn--accent" type="submit">Сохранить</button>
     </div>
   </form>
 
@@ -191,10 +183,6 @@
         <button class="adm-btn adm-btn--accent" type="submit">Добавить</button>
       </div>
     </form>
-    <p class="adm-add__hint">
-      Позиция встанет в конец выбранной категории. Адрес в прайсе построится
-      из названия автоматически.
-    </p>
   </section>
 </main>
 

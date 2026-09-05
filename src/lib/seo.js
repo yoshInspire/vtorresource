@@ -11,6 +11,10 @@ function organization() {
     '@id': `${site.url}/#organization`,
     name: `${site.brand} — ${site.tagline} ${site.cityIn}`,
     alternateName: site.brand,
+    // Бренд и юрлицо теперь называются по-разному, поэтому наименование
+    // из ЕГРЮЛ отдаём отдельным полем: по нему компанию сопоставляют с
+    // реквизитами в подвале и в реестрах.
+    legalName: site.legalName,
     url: site.url,
     description: site.seo.defaultDescription,
     telephone: site.phones.map(p => p.raw),

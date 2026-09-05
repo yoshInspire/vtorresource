@@ -11,6 +11,7 @@
       <p class="footer__about">
         Пункт приёма чёрного, цветного и редкоземельного лома в Омске.
         Принимаем на площадке по адресу <%= site.address.full %>.
+        Работаем от <%= site.legalName %>.
       </p>
     </div>
 
@@ -71,6 +72,9 @@
       <br>
       Лицензия № <%= site.legal.license.number %> от <%= site.legal.license.dateText %>
       на <%= site.legal.license.activity %>. Выдана: <%= site.legal.license.authority %>.
+      <br>
+      Лицензия № <%= site.legal.licenseDragmet.number %> от <%= site.legal.licenseDragmet.dateText %>
+      на <%= site.legal.licenseDragmet.activity %>.
     </p>
 
     <% if (photoCredits && photoCredits.length) { %>
