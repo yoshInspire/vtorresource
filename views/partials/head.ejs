@@ -17,15 +17,18 @@
 <meta property="og:title" content="<%= title %>">
 <meta property="og:description" content="<%= description %>">
 <% if (canonical) { %><meta property="og:url" content="<%= canonical %>"><% } %>
-<meta property="og:image" content="<%= site.url + site.seo.ogImage %>">
+<%# Обложку версионируем хешем файла: соцсети и мессенджеры кешируют превью
+    по адресу картинки, и после смены названия компании они месяцами
+    показывали бы старую обложку. Новый адрес заставляет их перечитать. %>
+<meta property="og:image" content="<%= site.url + asset(site.seo.ogImage) %>">
 <meta property="og:image:type" content="image/png">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
 <meta property="og:image:alt" content="<%= site.brand %> — приём лома чёрных и цветных металлов в Омске">
 <meta name="twitter:card" content="summary_large_image">
 
-<link rel="icon" href="/img/favicon-32.png" type="image/png" sizes="32x32">
-<link rel="apple-touch-icon" href="/img/apple-touch-icon.png" sizes="180x180">
+<link rel="icon" href="<%= asset('/img/favicon-32.png') %>" type="image/png" sizes="32x32">
+<link rel="apple-touch-icon" href="<%= asset('/img/apple-touch-icon.png') %>" sizes="180x180">
 <link rel="preload" href="<%= asset('/css/style.css') %>" as="style">
 <link rel="stylesheet" href="<%= asset('/css/style.css') %>">
 <link rel="preload" href="/fonts/oswald-600-cyrillic.woff2" as="font" type="font/woff2" crossorigin>
