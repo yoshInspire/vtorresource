@@ -99,17 +99,12 @@ router.get('/', (req, res) => {
   const calcItems = buildCalcItems(prices);
   const counts = countPositions();
 
-  // Первый экран: четвёртый факт и FAQ говорят об одном и том же числе,
-  // поэтому подставляем его в одном месте.
+  // Четвёртый факт первого экрана — число позиций по всем каталогам.
   const heroFacts = content.hero.facts.map(fact => (
     fact.id === 'positions'
       ? { value: String(counts.total), label: f.plural(counts.total, 'позиция', 'позиции', 'позиций') + ' с ценами' }
       : fact
   ));
-  const faq = content.faq.map(item => ({
-    ...item,
-    a: item.a.replace('{positions}', positionsText(counts.total))
-  }));
 
   const title = `Приём металлолома в Омске — сдать чёрный и цветной лом | ${site.brand}`;
   const description = site.seo.defaultDescription;
@@ -123,7 +118,6 @@ router.get('/', (req, res) => {
     counts,
     positionsText,
     heroFacts,
-    faq,
     tiles,
     ticker,
     calcItems,
@@ -131,11 +125,12 @@ router.get('/', (req, res) => {
     mapEmbed: `https://yandex.ru/map-widget/v1/?ll=${site.geo.lon}%2C${site.geo.lat}&z=17&pt=${site.geo.lon},${site.geo.lat},pm2rdm`,
     reviews: content.reviews,
     content,
+    // FAQPage больше нет: блок вопросов убран со страницы, а размечать
+    // текст, которого на ней не видно, поисковики считают нарушением.
     jsonLd: seo.graph([
       seo.organization(),
       seo.webSite(),
-      seo.webPage({ path: '/', title, description }),
-      seo.faqPage(faq)
+      seo.webPage({ path: '/', title, description })
     ])
   });
 });

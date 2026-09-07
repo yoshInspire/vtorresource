@@ -83,17 +83,6 @@ function breadcrumbs(trail) {
   };
 }
 
-function faqPage(items) {
-  return {
-    '@type': 'FAQPage',
-    mainEntity: items.map(f => ({
-      '@type': 'Question',
-      name: f.q,
-      acceptedAnswer: { '@type': 'Answer', text: f.a }
-    }))
-  };
-}
-
 /** Каталог предложений по прайсу — для страницы цен. */
 function offerCatalog(groups) {
   return {
@@ -129,4 +118,4 @@ function graph(nodes) {
   return { '@context': 'https://schema.org', '@graph': nodes.filter(Boolean) };
 }
 
-module.exports = { organization, webSite, webPage, breadcrumbs, faqPage, offerCatalog, graph, abs };
+module.exports = { organization, webSite, webPage, breadcrumbs, offerCatalog, graph, abs };

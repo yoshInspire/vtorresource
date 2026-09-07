@@ -284,16 +284,6 @@ table { border-collapse: collapse; width: 100%; }
 .section--dark .section__title { color: #fff; }
 .section__lead { margin-top: 16px; font-size: 17.5px; color: var(--text-600); max-width: 68ch; }
 .section--dark .section__lead { color: var(--on-dark-dim); }
-.section__note {
-  margin-top: 30px; padding: 16px 20px; border-left: 3px solid var(--orange-500);
-  background: var(--paper-50); font-size: 15px; color: var(--text-600);
-}
-.section--dark .section__note,
-.section__note--dark {
-  background: rgba(255, 255, 255, .04); color: var(--on-dark-dim);
-}
-.section__note a { color: var(--orange-600); text-decoration: underline; }
-.section--dark .section__note a { color: var(--orange-400); }
 
 .link { color: var(--orange-600); text-decoration: underline; text-underline-offset: 2px; }
 .section--dark .link { color: var(--orange-400); }
@@ -440,9 +430,8 @@ table { border-collapse: collapse; width: 100%; }
 .hero__offer {
   font-family: var(--display); font-weight: 500; text-transform: uppercase;
   font-size: clamp(19px, 2.6vw, 30px); line-height: 1.14;
-  color: var(--orange-400); margin-bottom: 22px; text-wrap: balance;
+  color: var(--orange-400); margin-bottom: 30px; text-wrap: balance;
 }
-.hero__lead { font-size: 17px; color: var(--on-dark); max-width: 58ch; margin-bottom: 30px; }
 .hero__actions { display: flex; gap: 14px; flex-wrap: wrap; margin-bottom: 30px; }
 .hero__phones { row-gap: 6px; font-size: 14px; color: var(--on-dark-dim); }
 .hero__phone {
@@ -558,20 +547,6 @@ a.msg:hover { background: rgba(255, 255, 255, .1); color: #fff; }
   font-size: 13px; color: var(--on-dark-dim); line-height: 1.6;
 }
 .calc__cta { margin-top: 20px; }
-.calc__hints {
-  grid-column: 1 / -1; display: grid; gap: 10px 32px;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
-  padding-top: 24px; border-top: 1px solid var(--paper-300);
-}
-.calc__hints li {
-  position: relative; padding-left: 22px; font-size: 14.5px; color: var(--text-600);
-}
-.calc__hints li::before {
-  content: ""; position: absolute; left: 2px; top: .58em;
-  width: 8px; height: 8px; background: var(--orange-500); transform: rotate(45deg);
-}
-.calc__hints b { color: var(--text-900); }
-
 .calc__noscript {
   padding: 16px 20px; background: var(--paper-100); border-radius: var(--radius);
   font-size: 14.5px; color: var(--text-600);
@@ -606,8 +581,6 @@ a.msg:hover { background: rgba(255, 255, 255, .1); color: #fff; }
   font-family: var(--display); font-weight: 600; text-transform: uppercase;
   font-size: 28px; line-height: 1.08; margin-bottom: 10px;
 }
-.tile__lead { font-size: 15px; color: var(--on-dark); margin-bottom: 8px; }
-.tile__hint { font-size: 13.5px; color: var(--on-dark-dim); }
 .tile__price {
   margin-top: 18px; padding-top: 16px; border-top: 1px solid rgba(255, 255, 255, .2);
   display: flex; align-items: baseline; justify-content: space-between; gap: 12px;
@@ -626,51 +599,7 @@ a.msg:hover { background: rgba(255, 255, 255, .1); color: #fff; }
 }
 .chip:hover { border-color: var(--blue-500); color: var(--blue-600); background: #fff; }
 
-/* ---------- шаги ---------- */
-.steps-block { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 56px; align-items: center; }
-.steps { display: flex; flex-direction: column; }
-.step {
-  display: grid; grid-template-columns: 54px minmax(0, 1fr); gap: 20px;
-  padding: 24px 0; border-top: 1px solid rgba(107, 129, 154, .22);
-}
-.step:first-child { border-top: 0; padding-top: 0; }
-.step__n {
-  font-family: var(--display); font-weight: 600; font-size: 30px; line-height: 1;
-  color: var(--blue-400);
-}
-.step__title { font-family: var(--display); font-weight: 500; font-size: 20px; color: #fff; margin-bottom: 6px; text-transform: uppercase; letter-spacing: .01em; }
-.step__text { font-size: 15.5px; color: var(--on-dark-dim); }
-.steps-block__media { border-radius: var(--radius-lg); overflow: hidden; box-shadow: var(--shadow-lg); }
-.steps-block__media img { width: 100%; height: 100%; object-fit: cover; aspect-ratio: 4 / 5; }
-
-/* ---------- засор ---------- */
-.zasor { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 18px; }
-/* Нечётная последняя карточка иначе оставляет дыру в ряду */
-.zasor-case:last-child:nth-child(odd) { grid-column: 1 / -1; }
-.zasor-case {
-  border: 1px solid var(--paper-200); border-radius: var(--radius);
-  padding: 24px 26px; background: var(--paper);
-}
-.zasor-case__what { font-family: var(--display); font-weight: 500; font-size: 20px; color: var(--text-900); text-transform: uppercase; letter-spacing: .01em; }
-.zasor-case__detail { font-size: 14px; color: var(--text-500); margin-top: 3px; }
-.zasor-case__pay {
-  margin: 16px 0; padding: 12px 16px; background: var(--ink-900); border-radius: var(--radius-sm);
-  display: flex; align-items: baseline; gap: 10px; flex-wrap: wrap;
-}
-.zasor-case__pay-label { font-size: 12px; letter-spacing: .1em; text-transform: uppercase; color: var(--on-dark-dim); font-family: var(--display); }
-.zasor-case__pay-value { font-family: var(--display); font-weight: 600; font-size: 20px; color: var(--orange-400); }
-.zasor-case__note { font-size: 14.5px; color: var(--text-600); }
-.zasor__disclaimer {
-  margin-top: 22px; font-size: 14px; color: var(--text-500);
-  padding: 14px 18px; background: var(--paper-100); border-radius: var(--radius-sm);
-}
-
 /* ---------- площадка и карта ---------- */
-.place { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.05fr); gap: 48px; align-items: start; }
-.place__points { display: grid; gap: 20px; }
-.place-point { border-left: 3px solid var(--blue-500); padding-left: 18px; }
-.place-point__title { font-family: var(--display); font-weight: 500; font-size: 18px; color: var(--text-900); text-transform: uppercase; letter-spacing: .01em; margin-bottom: 5px; }
-.place-point__text { font-size: 15px; color: var(--text-600); }
 .map {
   border-radius: var(--radius-lg); overflow: hidden; border: 1px solid var(--paper-300);
   background: var(--paper-100); box-shadow: var(--shadow-sm);
@@ -701,95 +630,15 @@ a.msg:hover { background: rgba(255, 255, 255, .1); color: #fff; }
 
 /* ---------- отзывы / рейтинг ---------- */
 .rating {
-  display: grid; grid-template-columns: auto minmax(0, 1fr) auto; gap: 32px;
+  display: grid; grid-template-columns: auto minmax(0, 1fr); gap: 32px;
   align-items: center; padding: 30px 34px;
   background: var(--paper); border: 1px solid var(--paper-200); border-radius: var(--radius-lg);
 }
 .rating__score { text-align: center; }
+.rating .btn { justify-self: end; }
 .rating__value { font-family: var(--display); font-weight: 600; font-size: 56px; line-height: 1; color: var(--text-900); }
 .rating__stars { color: var(--gold-400); font-size: 17px; letter-spacing: 2px; margin-top: 4px; }
 .rating__count { font-size: 13px; color: var(--text-500); margin-top: 5px; }
-.rating__text { font-size: 16px; color: var(--text-600); }
-.rating__text b { color: var(--text-900); }
-
-/* ---------- документы ---------- */
-.docs { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 20px; }
-.doc-card {
-  display: flex; flex-direction: column;
-  border: 1px solid var(--paper-200); border-radius: var(--radius);
-  padding: 26px 26px 24px; background: var(--paper);
-}
-.doc-card__icon {
-  display: grid; place-items: center; width: 42px; height: 42px; margin-bottom: 16px;
-  background: linear-gradient(150deg, var(--blue-600), var(--blue-700));
-  border-radius: var(--radius-sm); color: #fff;
-}
-.doc-card__icon svg { width: 22px; height: 22px; }
-.doc-card__title {
-  font-family: var(--display); font-weight: 500; font-size: 19px; text-transform: uppercase;
-  letter-spacing: .01em; color: var(--text-900); margin-bottom: 14px;
-}
-.doc-card__rows { display: grid; gap: 8px; margin-bottom: 16px; }
-.doc-card__row { display: grid; grid-template-columns: 108px minmax(0, 1fr); gap: 12px; font-size: 14.5px; }
-.doc-card__row dt { color: var(--text-500); }
-.doc-card__row dd { margin: 0; color: var(--text-900); font-weight: 600; overflow-wrap: anywhere; }
-.doc-card__text { margin-top: auto; font-size: 14.5px; color: var(--text-600); }
-
-/* ---------- благодарности ---------- */
-.gratitude { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 22px; }
-.gratitude__item { margin: 0; display: grid; grid-template-columns: 200px minmax(0, 1fr); gap: 22px; align-items: start; }
-.gratitude__shot {
-  position: relative; display: block; overflow: hidden;
-  border: 1px solid var(--paper-300); border-radius: var(--radius);
-  background: var(--paper); box-shadow: var(--shadow-sm);
-}
-.gratitude__shot img { width: 100%; height: auto; display: block; transition: transform .4s ease; }
-.gratitude__shot:hover img { transform: scale(1.03); }
-.gratitude__zoom {
-  position: absolute; left: 0; right: 0; bottom: 0;
-  padding: 8px 10px; text-align: center;
-  background: rgba(5, 11, 22, .82); color: #fff;
-  font-family: var(--display); font-size: 12px; letter-spacing: .08em; text-transform: uppercase;
-  opacity: 0; transition: opacity .2s ease;
-}
-.gratitude__shot:hover .gratitude__zoom,
-.gratitude__shot:focus-visible .gratitude__zoom { opacity: 1; }
-.gratitude__cap { display: flex; flex-direction: column; gap: 8px; }
-.gratitude__from {
-  font-family: var(--display); font-weight: 500; font-size: 16px; line-height: 1.25;
-  text-transform: uppercase; letter-spacing: .01em; color: var(--text-900);
-}
-.gratitude__what { font-size: 15px; color: var(--text-600); }
-
-/* ---------- организациям ---------- */
-.business { display: grid; grid-template-columns: minmax(0, 1fr) minmax(320px, 420px); gap: 48px; align-items: center; }
-.business__list { display: grid; gap: 11px; margin-top: 24px; }
-.business__list li { display: flex; align-items: flex-start; gap: 11px; font-size: 16px; color: var(--on-dark); }
-.business__list li::before {
-  content: ""; flex: none; width: 7px; height: 7px; margin-top: 9px;
-  background: var(--blue-500); transform: rotate(45deg);
-}
-
-/* ---------- FAQ ---------- */
-.faq { columns: 2; column-gap: 32px; }
-.faq__item {
-  break-inside: avoid; margin-bottom: 12px;
-  border: 1px solid var(--paper-200); border-radius: var(--radius); background: var(--paper);
-}
-.faq__q {
-  list-style: none; cursor: pointer; padding: 17px 46px 17px 20px; position: relative;
-  font-family: var(--display); font-weight: 500; font-size: 17px; color: var(--text-900);
-  line-height: 1.3;
-}
-.faq__q::-webkit-details-marker { display: none; }
-.faq__q::after {
-  content: ""; position: absolute; right: 20px; top: 24px;
-  width: 10px; height: 10px; border-right: 2px solid var(--orange-500);
-  border-bottom: 2px solid var(--orange-500); transform: rotate(45deg);
-  transition: transform .2s ease;
-}
-.faq__item[open] .faq__q::after { transform: rotate(-135deg); top: 27px; }
-.faq__a { padding: 0 20px 18px; font-size: 15px; color: var(--text-600); }
 
 /* ---------- финальный призыв ---------- */
 .cta { position: relative; overflow: hidden; background: var(--ink-950); color: var(--on-dark); }
@@ -879,9 +728,8 @@ select.field__input { appearance: none; background-image: url("data:image/svg+xm
 .trust__icon svg { width: 34px; height: 34px; }
 .trust__title {
   font-family: var(--display); font-weight: 500; font-size: 18px; text-transform: uppercase;
-  color: #fff; letter-spacing: .02em; margin-bottom: 7px;
+  color: #fff; letter-spacing: .02em;
 }
-.trust__text { font-size: 14.5px; color: rgba(255, 255, 255, .9); }
 
 /* ---------- подвал ---------- */
 .footer { background: var(--ink-950); color: var(--on-dark-dim); padding-top: 56px; font-size: 15px; }
@@ -1063,18 +911,12 @@ select.field__input { appearance: none; background-image: url("data:image/svg+xm
 @media (max-width: 1180px) {
   .hero__inner { grid-template-columns: minmax(0, 1fr); gap: 40px; }
   .hero__form { max-width: 520px; }
-  .steps-block, .place, .business, .cta__inner, .calc, .price-cta { grid-template-columns: minmax(0, 1fr); gap: 36px; }
-  .steps-block__media { order: -1; max-height: 320px; }
-  /* на узких экранах сумма должна быть видна сразу под полями, а не под подсказками */
-  .calc__hints { grid-template-columns: minmax(0, 1fr); }
-  .steps-block__media img { aspect-ratio: 16 / 9; }
+  .cta__inner, .calc, .price-cta { grid-template-columns: minmax(0, 1fr); gap: 36px; }
   .tiles { grid-template-columns: repeat(2, minmax(0, 1fr)); }
   .tile, .tile--wide { grid-column: auto; min-height: 300px; }
   /* Плиток пять: нечётная по счёту занимает ряд целиком, иначе остаётся дыра */
   .tile:nth-child(odd):last-child { grid-column: span 2; min-height: 260px; }
   .footer__inner { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 32px; }
-  .rating { grid-template-columns: auto minmax(0, 1fr); }
-  .rating .btn { grid-column: span 2; justify-self: start; }
 }
 
 @media (max-width: 1100px) {
@@ -1113,10 +955,6 @@ select.field__input { appearance: none; background-image: url("data:image/svg+xm
   .trust { grid-template-columns: repeat(2, minmax(0, 1fr)); }
   .trust__item { padding: 20px 22px; }
   .trust__item:nth-child(odd) { padding-left: 0; border-left: 0; }
-  .zasor { grid-template-columns: minmax(0, 1fr); }
-  .gratitude { grid-template-columns: minmax(0, 1fr); }
-  .docs { grid-template-columns: minmax(0, 1fr); }
-  .faq { columns: 1; }
   .price-grid { grid-template-columns: minmax(0, 1fr); }
   .price-toolbar { position: static; }
   .map__frame { height: 320px; }
@@ -1131,7 +969,6 @@ select.field__input { appearance: none; background-image: url("data:image/svg+xm
   .hero-fact:nth-child(2) { border-top: 1px solid rgba(107, 129, 154, .18); }
   .hero__actions .btn { width: 100%; }
   .tiles { grid-template-columns: minmax(0, 1fr); }
-  .gratitude__item { grid-template-columns: 140px minmax(0, 1fr); gap: 16px; }
   .tile, .tile--wide, .tile:nth-child(odd):last-child { grid-column: auto; min-height: 300px; }
   .trust { grid-template-columns: minmax(0, 1fr); }
   .trust__item {
@@ -1151,9 +988,7 @@ select.field__input { appearance: none; background-image: url("data:image/svg+xm
   .logo__mark { height: 36px; }
   .rating { grid-template-columns: minmax(0, 1fr); gap: 20px; text-align: left; }
   .rating__score { text-align: left; }
-  .rating .btn { grid-column: auto; }
-  .step { grid-template-columns: 38px minmax(0, 1fr); gap: 14px; }
-  .step__n { font-size: 24px; }
+  .rating .btn { justify-self: start; }
 }
 
 /* ---------- печать ---------- */

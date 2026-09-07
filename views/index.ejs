@@ -2,6 +2,13 @@
 <%- include('partials/icons') %>
 <%- include('partials/header') %>
 
+<%#
+  Главная намеренно короткая. Заказчик просил убрать всё, что читают редко:
+  порядок работы, блок про засор, FAQ, благодарности, документы и текстовый
+  блок для организаций. Осталось то, ради чего заходят: цены, калькулятор,
+  что принимаем, адрес и телефон. Тексты сведены к одной строке на блок.
+%>
+
 <main id="main">
 
   <!-- ================= ПЕРВЫЙ ЭКРАН ================= -->
@@ -22,7 +29,6 @@
           <p class="hero__eyebrow"><%= content.hero.eyebrow %></p>
           <h1 class="hero__title"><%= content.hero.title %></h1>
           <p class="hero__offer"><%= content.hero.offer %></p>
-          <p class="hero__lead"><%= content.hero.lead %></p>
 
           <div class="hero__actions">
             <a class="btn btn--accent" href="/price">Прайс-лист
@@ -52,8 +58,8 @@
           <% } %>
           <%- include('partials/lead-form', {
             variant: 'hero',
-            formTitle: 'Узнать цену по телефону',
-            formText: 'Оставьте номер. Перезвоним, уточним вид лома и назовём цену на сегодня.'
+            formTitle: 'Узнать цену',
+            formText: 'Оставьте номер, перезвоним и назовём цену на сегодня.'
           }) %>
         </div>
       </div>
@@ -100,7 +106,6 @@
           <div class="trust__item">
             <span class="trust__icon"><svg aria-hidden="true"><use href="#i-<%= t.icon %>"></use></svg></span>
             <h2 class="trust__title"><%= t.title %></h2>
-            <p class="trust__text"><%= t.text %></p>
           </div>
         <% }); %>
       </div>
@@ -111,12 +116,7 @@
   <section class="section section--muted" id="kalkulyator">
     <div class="container">
       <header class="section__head">
-        <p class="section__eyebrow">Расчёт по ценам на сегодня</p>
         <h2 class="section__title">Сколько вы получите</h2>
-        <p class="section__lead">
-          Выберите металл и укажите вес. Посчитаем по ценам на сегодня:
-          мы обновляем их каждый день.
-        </p>
       </header>
 
       <script type="application/json" id="calc-data"><%- calcItemsJson %></script>
@@ -150,8 +150,7 @@
           <noscript>
             <p class="calc__noscript">
               Калькулятор работает с включённым JavaScript. Без него посмотрите
-              <a class="link" href="/price">прайс-лист</a> или позвоните,
-              посчитаем по телефону.
+              <a class="link" href="/price">прайс-лист</a> или позвоните нам.
             </p>
           </noscript>
 
@@ -162,17 +161,10 @@
           <p class="calc__sum num" data-calc-sum>—</p>
           <p class="calc__breakdown" data-calc-breakdown></p>
           <p class="calc__disclaimer">
-            Расчёт справочный, он не учитывает засор. Окончательную сумму приёмщик
-            называет после осмотра и взвешивания на площадке.
+            Расчёт справочный. Точную сумму приёмщик называет после осмотра и взвешивания.
           </p>
           <a class="btn btn--accent btn--block calc__cta" href="#zayavka-form">Уточнить по телефону</a>
         </div>
-
-        <ul class="calc__hints">
-          <li>Всего у нас <b><%= positionsText(counts.total) %></b>, в калькуляторе только самые ходовые. Редкие сплавы посчитаем по телефону.</li>
-          <li>Чёрный лом считаем за тонну, цветной за килограмм. Единицу можно переключить.</li>
-          <li>Засор в расчёт не входит: за краску, изоляцию, пластик и влагу мы не платим. <a class="link" href="#zasor">Как это считается</a>.</li>
-        </ul>
       </div>
     </div>
   </section>
@@ -181,10 +173,7 @@
   <section class="section section--light" id="priem">
     <div class="container">
       <header class="section__head section__head--split">
-        <div>
-          <p class="section__eyebrow">Приём лома</p>
-          <h2 class="section__title">Какой металлолом мы принимаем</h2>
-        </div>
+        <h2 class="section__title">Что принимаем</h2>
         <a class="btn btn--ghost btn--sm" href="/price">Прайс-лист, <%= positionsText(counts.prices) %>
           <svg class="btn__icon" aria-hidden="true"><use href="#i-arrow"></use></svg>
         </a>
@@ -203,8 +192,6 @@
               </span>
             <% } %>
             <span class="tile__name"><%= t.name %></span>
-            <span class="tile__lead"><%= t.lead %></span>
-            <span class="tile__hint"><%= t.hint %></span>
             <span class="tile__price">
               <span class="tile__price-value num">
                 <% if (t.countText) { %><%= t.countText %><% } else if (t.from) { %>до <%= f.price(t.from) %><small><%= t.unit %></small><% } else { %>цена по запросу<% } %>
@@ -223,75 +210,6 @@
           <a class="chip" href="<%= a.anchor %>"><%= a.name %></a>
         <% }); %>
       </div>
-
-      <p class="section__note">
-        Принимаем и редкие позиции: вольфрам, молибден, тантал, баббиты, припои ПОС
-        и ПОССу, ферросплавы, катализаторы. Не нашли свой металл в списке, позвоните.
-        <a href="/price">Полный прайс-лист</a> шире, чем эта витрина.
-      </p>
-    </div>
-  </section>
-
-  <!-- ================= КАК ПРОХОДИТ ПРИЁМКА ================= -->
-  <section class="section section--dark" id="kak-rabotaem">
-    <div class="container">
-      <header class="section__head">
-        <p class="section__eyebrow">Порядок работы</p>
-        <h2 class="section__title">Как сдать металлолом</h2>
-        <p class="section__lead">
-          Четыре шага. Всё происходит на площадке в день приезда, записываться и ждать не нужно.
-        </p>
-      </header>
-
-      <div class="steps-block">
-        <ol class="steps">
-          <% content.steps.forEach(function (s) { %>
-            <li class="step">
-              <span class="step__n num"><%= s.n %></span>
-              <div>
-                <h3 class="step__title"><%= s.title %></h3>
-                <p class="step__text"><%= s.text %></p>
-              </div>
-            </li>
-          <% }); %>
-        </ol>
-
-        <figure class="steps-block__media">
-          <%- include('partials/photo', {
-            slug: 'grapple',
-            alt: 'Кран-погрузчик разбирает партию лома на приёмной площадке',
-            sizes: '(max-width: 1080px) 100vw, 50vw',
-            width: 1280, height: 853
-          }) %>
-        </figure>
-      </div>
-    </div>
-  </section>
-
-  <!-- ================= ПРО ЗАСОР ================= -->
-  <section class="section section--light" id="zasor">
-    <div class="container">
-      <header class="section__head">
-        <p class="section__eyebrow">Честно про вес</p>
-        <h2 class="section__title"><%= content.zasor.title %></h2>
-        <p class="section__lead"><%= content.zasor.lead %></p>
-      </header>
-
-      <div class="zasor">
-        <% content.zasor.cases.forEach(function (c) { %>
-          <article class="zasor-case">
-            <h3 class="zasor-case__what"><%= c.what %></h3>
-            <p class="zasor-case__detail"><%= c.detail %></p>
-            <p class="zasor-case__pay">
-              <span class="zasor-case__pay-label"><%= c.payLabel || 'Платим за' %></span>
-              <span class="zasor-case__pay-value num"><%= c.payFor %></span>
-            </p>
-            <p class="zasor-case__note"><%= c.note %></p>
-          </article>
-        <% }); %>
-      </div>
-
-      <p class="zasor__disclaimer"><%= content.zasor.disclaimer %></p>
     </div>
   </section>
 
@@ -299,44 +217,28 @@
   <section class="section section--muted" id="punkt-priema">
     <div class="container">
       <header class="section__head">
-        <p class="section__eyebrow">Адрес и заезд</p>
         <h2 class="section__title"><%= content.location.title %></h2>
-        <p class="section__lead"><%= content.location.intro %></p>
       </header>
 
-      <div class="place">
-        <div class="place__points">
-          <% content.location.points.forEach(function (p) { %>
-            <div class="place-point">
-              <h3 class="place-point__title"><%= p.title %></h3>
-              <p class="place-point__text"><%= p.text %></p>
-            </div>
-          <% }); %>
+      <div class="map">
+        <!-- Карта грузится по клику: iframe Яндекса ставит свои куки, а в
+             политике обработки ПД заявлено, что трекинговых кук на сайте нет.
+             До клика показываем статичную заглушку с адресом. -->
+        <div class="map__frame map__placeholder" data-map data-map-src="<%= mapEmbed %>"
+             data-map-title="Карта: <%= site.address.full %>">
+          <svg class="map__pin" aria-hidden="true"><use href="#i-pin"></use></svg>
+          <p class="map__placeholder-addr"><%= site.address.full %></p>
+          <p class="map__placeholder-note">Карту загружает Яндекс со своими cookie, поэтому включаем её по клику.</p>
+          <button class="btn btn--accent btn--sm" type="button" data-map-load>Показать карту</button>
         </div>
-
-        <div class="map">
-          <!-- Карта грузится по клику: iframe Яндекса ставит свои куки, а в
-               политике обработки ПД заявлено, что трекинговых кук на сайте нет.
-               До клика показываем статичную заглушку с адресом. -->
-          <div class="map__frame map__placeholder" data-map data-map-src="<%= mapEmbed %>"
-               data-map-title="Карта: <%= site.address.full %>">
-            <svg class="map__pin" aria-hidden="true"><use href="#i-pin"></use></svg>
-            <p class="map__placeholder-addr"><%= site.address.full %></p>
-            <p class="map__placeholder-note">
-              Карту загружает Яндекс, вместе с ней он ставит свои файлы cookie.
-              Поэтому включаем её по вашему клику.
-            </p>
-            <button class="btn btn--accent btn--sm" type="button" data-map-load>Показать карту</button>
+        <div class="map__bar">
+          <div>
+            <p class="map__addr"><%= site.address.full %></p>
+            <p class="map__hint"><%= site.hours.text %></p>
           </div>
-          <div class="map__bar">
-            <div>
-              <p class="map__addr"><%= site.address.full %></p>
-              <p class="map__hint">Центральный округ, микрорайон Новый Амур · <%= site.hours.text %></p>
-            </div>
-            <a class="btn btn--dark btn--sm" href="<%= site.mapUrl %>" target="_blank" rel="noopener">
-              Построить маршрут
-            </a>
-          </div>
+          <a class="btn btn--dark btn--sm" href="<%= site.mapUrl %>" target="_blank" rel="noopener">
+            Построить маршрут
+          </a>
         </div>
       </div>
     </div>
@@ -351,7 +253,6 @@
           <p class="rating__stars" aria-hidden="true">★★★★★</p>
           <p class="rating__count"><%= reviews.countLabel %></p>
         </div>
-        <p class="rating__text"><%= reviews.text %></p>
         <a class="btn btn--ghost btn--sm" href="<%= site.profiles.twogis %>" target="_blank" rel="noopener">
           <%= reviews.cta %>
           <svg class="btn__icon" aria-hidden="true"><use href="#i-arrow"></use></svg>
@@ -360,118 +261,7 @@
     </div>
   </section>
 
-  <!-- ================= ДОКУМЕНТЫ ================= -->
-  <section class="section section--light" id="dokumenty">
-    <div class="container">
-      <header class="section__head">
-        <p class="section__eyebrow">Официально</p>
-        <h2 class="section__title"><%= content.documents.title %></h2>
-        <% if (content.documents.lead) { %>
-          <p class="section__lead"><%= content.documents.lead %></p>
-        <% } %>
-      </header>
-
-      <div class="docs">
-        <% content.documents.items.forEach(function (d) { %>
-          <article class="doc-card">
-            <span class="doc-card__icon"><svg aria-hidden="true"><use href="#i-<%= d.icon %>"></use></svg></span>
-            <h3 class="doc-card__title"><%= d.title %></h3>
-            <dl class="doc-card__rows">
-              <% d.rows.forEach(function (r) { %>
-                <div class="doc-card__row">
-                  <dt><%= r.k %></dt>
-                  <dd><%= r.v %></dd>
-                </div>
-              <% }); %>
-            </dl>
-            <p class="doc-card__text"><%= d.text %></p>
-          </article>
-        <% }); %>
-      </div>
-    </div>
-  </section>
-
-  <!-- ================= БЛАГОДАРНОСТИ ================= -->
-  <section class="section section--muted" id="blagodarnosti">
-    <div class="container">
-      <header class="section__head">
-        <p class="section__eyebrow">Городские проекты</p>
-        <h2 class="section__title"><%= content.gratitude.title %></h2>
-        <p class="section__lead"><%= content.gratitude.lead %></p>
-      </header>
-
-      <div class="gratitude">
-        <% content.gratitude.items.forEach(function (g) { %>
-          <figure class="gratitude__item">
-            <a class="gratitude__shot" href="/img/docs/<%= g.slug %>-900.jpg" target="_blank" rel="noopener">
-              <picture>
-                <source type="image/webp"
-                        srcset="/img/docs/<%= g.slug %>-420.webp 420w, /img/docs/<%= g.slug %>-900.webp 900w"
-                        sizes="(max-width: 720px) 100vw, 320px">
-                <img src="/img/docs/<%= g.slug %>-420.jpg"
-                     srcset="/img/docs/<%= g.slug %>-420.jpg 420w, /img/docs/<%= g.slug %>-900.jpg 900w"
-                     sizes="(max-width: 720px) 100vw, 320px"
-                     width="420" height="560" loading="lazy" decoding="async"
-                     alt="<%= g.alt %>">
-              </picture>
-              <span class="gratitude__zoom">Открыть полностью</span>
-            </a>
-            <figcaption class="gratitude__cap">
-              <span class="gratitude__from"><%= g.from %></span>
-              <span class="gratitude__what"><%= g.what %></span>
-            </figcaption>
-          </figure>
-        <% }); %>
-      </div>
-    </div>
-  </section>
-
-  <!-- ================= ОРГАНИЗАЦИЯМ ================= -->
-  <section class="section section--dark" id="yurlicam">
-    <div class="container">
-      <div class="business">
-        <div>
-          <p class="section__eyebrow">Юридическим лицам</p>
-          <h2 class="section__title"><%= content.business.title %></h2>
-          <p class="section__lead"><%= content.business.lead %></p>
-          <ul class="business__list">
-            <% content.business.points.forEach(function (p) { %>
-              <li><%= p %></li>
-            <% }); %>
-          </ul>
-        </div>
-
-        <%- include('partials/lead-form', {
-          variant: 'card',
-          formTitle: content.business.cta,
-          formText: 'Оставьте номер, вышлем договор и цены для организаций.',
-          commentLabel: 'ИНН или название компании',
-          commentPlaceholder: 'Например: ООО «Пример», ИНН 5500000000'
-        }) %>
-      </div>
-    </div>
-  </section>
-
-  <!-- ================= FAQ ================= -->
-  <section class="section section--muted" id="faq">
-    <div class="container">
-      <header class="section__head">
-        <p class="section__eyebrow">Вопросы и ответы</p>
-        <h2 class="section__title">Что спрашивают перед приездом</h2>
-      </header>
-
-      <div class="faq">
-        <% faq.forEach(function (item, i) { %>
-          <details class="faq__item"<%= i === 0 ? ' open' : '' %>>
-            <summary class="faq__q"><%= item.q %></summary>
-            <div class="faq__a"><p><%= item.a %></p></div>
-          </details>
-        <% }); %>
-      </div>
-    </div>
-  </section>
-
-  <!-- ================= ФИНАЛЬНЫЙ ПРИЗЫВ ================= -->
+  <!-- ================= КОНТАКТЫ ================= -->
   <section class="section cta" id="kontakty">
     <div class="cta__media" aria-hidden="true">
       <%- include('partials/photo', {
@@ -484,7 +274,6 @@
 
     <div class="container cta__inner">
       <div>
-        <p class="section__eyebrow">Контакты</p>
         <h2 class="section__title">Привозите, посчитаем при вас</h2>
         <div class="cta__phones">
           <% site.phones.forEach(function (p) { %>
@@ -496,8 +285,8 @@
         </div>
         <div class="cta__meta">
           <p><strong>Адрес:</strong> <%= site.address.full %></p>
-          <p><strong>Режим:</strong> <%= site.hours.text %>, без выходных</p>
-          <p><strong>Документы:</strong> приёмо-сдаточный акт, договор и безнал для организаций</p>
+          <p><strong>Режим:</strong> <%= site.hours.text %></p>
+          <p><strong>Организациям:</strong> договор, безнал, полный пакет документов</p>
           <p><strong>Почта:</strong> <a class="link" href="mailto:<%= site.email %>"><%= site.email %></a></p>
         </div>
       </div>
@@ -506,7 +295,7 @@
         <%- include('partials/lead-form', {
           variant: 'dark',
           formTitle: 'Узнать цену',
-          formText: 'Скажите, что везёте и сколько. Перезвоним и назовём цену до вашего приезда.'
+          formText: 'Скажите, что везёте. Перезвоним и назовём цену.'
         }) %>
       </div>
     </div>
