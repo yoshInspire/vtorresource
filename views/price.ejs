@@ -4,31 +4,14 @@
 
 <main id="main" class="price-page">
 
-  <section class="page-head">
+  <section class="page-head page-head--tight">
     <div class="container">
-      <nav class="breadcrumbs" aria-label="Хлебные крошки">
-        <a href="/">Главная</a>
-        <span aria-hidden="true">/</span>
-        <span aria-current="page">Прайс-лист</span>
-      </nav>
-
       <h1 class="page-head__title">Цены на приём металлолома в Омске</h1>
-      <p class="page-head__lead">
-        Прайс-лист пункта приёма «<%= site.brand %>» на 2-й Барнаульской, 105:
-        <%= prices.groups.reduce(function (a, g) { return a + g.categories.reduce(function (b, c) { return b + c.items.length; }, 0); }, 0) %>
-        позиций чёрного, цветного и редкоземельного лома. Чёрный металл считаем за тонну, остальной за килограмм.
-        Цены действуют на <%= f.dateLong(prices.updatedAt) %>.
-      </p>
-
-      <div class="page-head__meta">
-        <span class="badge badge--live">Обновлено <%= f.dateLong(prices.updatedAt) %></span>
-        <span class="badge">Перевод на карту</span>
-        <span class="badge">Приём <%= site.terms.minWeight %></span>
-        <a class="btn btn--accent btn--sm" href="#zayavka-form">Уточнить цену</a>
-      </div>
     </div>
   </section>
 
+  <%# Дата переехала сюда из шапки: панель липкая, и «обновлено сегодня»
+      видно, пока человек листает таблицы, а не только в самом верху. %>
   <div class="price-toolbar">
     <div class="container price-toolbar__inner">
       <div class="price-tabs">
@@ -36,6 +19,7 @@
           <a class="price-tabs__link" href="#<%= g.id %>"><%= g.title %></a>
         <% }); %>
       </div>
+      <span class="badge badge--live">Обновлено <%= f.dateLong(prices.updatedAt) %></span>
     </div>
   </div>
 
@@ -43,10 +27,11 @@
     <section class="section section--<%= gi % 2 === 0 ? 'muted' : 'light' %> price-group"
              id="<%= group.id %>" data-price-group>
       <div class="container">
-        <header class="section__head">
-          <p class="section__eyebrow">Прайс-лист · <%= group.unit %></p>
+        <%# Описания групп переехали в текстовый блок внизу страницы:
+            наверху они отодвигали таблицы, но выбрасывать их нельзя,
+            в них ГОСТ и перечисление металлов под поиск. %>
+        <header class="section__head section__head--flat">
           <h2 class="section__title">Цены на <%= group.title.toLowerCase() %> <%= group.unitShort === "т" ? "за тонну" : "за кг" %></h2>
-          <p class="section__lead"><%= group.description %></p>
         </header>
 
         <% if (group.categories.length > 1) { %>
@@ -57,35 +42,53 @@
           </nav>
         <% } %>
 
-        <% group.categories.forEach(function (category) { %>
-          <div class="price-cat" id="<%= category.id %>" data-price-cat>
-            <h3 class="price-cat__title"><%= category.name %></h3>
-            <div class="table-wrap">
-              <table class="price-table">
-                <caption class="visually-hidden"><%= category.name %> — цена приёма, ₽ <%= group.unit.replace("₽/", "за ") %></caption>
-                <thead>
-                  <tr>
-                    <th scope="col">Позиция</th>
-                    <% group.columns.forEach(function (col) { %>
-                      <th scope="col" class="price-table__col"><%= col %></th>
-                    <% }); %>
-                  </tr>
-                </thead>
-                <tbody>
-                  <% category.items.forEach(function (item) { %>
-                    <tr data-price-row data-search="<%= (item.title + ' ' + item.note + ' ' + category.name).toLowerCase() %>">
-                      <th scope="row" class="price-table__name">
-                        <%= item.title %>
-                        <% if (item.note) { %><span class="price-table__note"><%= item.note %></span><% } %>
-                      </th>
-                      <td class="price-table__value"><b><%= f.itemPrice(item) %></b></td>
+        <%# До трёх категорий раскладываем сеткой: многоколоночная вёрстка
+            выравнивает колонки по высоте и на трёх блоках оставляет
+            третью колонку пустой. Дальше наоборот: сетка оставляет дыры
+            в рядах, а колонки пакуют таблицы разной высоты плотно. %>
+        <div class="price-cats price-cats--<%= f.priceColumns(group.categories) %><%= group.categories.length <= 3 ? ' price-cats--grid' : '' %>">
+          <% group.categories.forEach(function (category) { %>
+            <%# Длинная категория занимает всю ширину: в колонку она не влезает.
+                Сейчас в прайсе таких нет, самая большая на 16 строк. %>
+            <div class="price-cat<%= category.items.length > f.LONG_TABLE ? ' price-cat--wide' : '' %>"
+                 id="<%= category.id %>" data-price-cat>
+              <h3 class="price-cat__title"><%= category.name %></h3>
+              <div class="table-wrap">
+                <table class="price-table">
+                  <caption class="visually-hidden"><%= category.name %> — цена приёма, ₽ <%= group.unit.replace("₽/", "за ") %></caption>
+                  <thead>
+                    <tr>
+                      <th scope="col">Позиция</th>
+                      <% group.columns.forEach(function (col) { %>
+                        <th scope="col" class="price-table__col"><%= col %></th>
+                      <% }); %>
                     </tr>
-                  <% }); %>
-                </tbody>
-              </table>
+                  </thead>
+                  <tbody>
+                    <% category.items.forEach(function (item) { %>
+                      <tr data-price-row data-search="<%= (item.title + ' ' + item.note + ' ' + category.name).toLowerCase() %>">
+                        <th scope="row" class="price-table__name">
+                          <%# Описание позиции раскрывается по клику. <details>, а не
+                              скрипт: работает без JS, открывается с клавиатуры,
+                              и текст остаётся в разметке для поиска. %>
+                          <% if (item.note) { %>
+                            <details class="price-note">
+                              <summary><%= item.title %></summary>
+                              <p><%= item.note %></p>
+                            </details>
+                          <% } else { %>
+                            <%= item.title %>
+                          <% } %>
+                        </th>
+                        <td class="price-table__value"><b><%= f.itemPrice(item) %></b></td>
+                      </tr>
+                    <% }); %>
+                  </tbody>
+                </table>
+              </div>
             </div>
-          </div>
-        <% }); %>
+          <% }); %>
+        </div>
       </div>
     </section>
   <% }); %>
@@ -119,6 +122,11 @@
     <div class="container container--narrow">
       <h2 class="section__title">От чего зависит цена приёма металлолома</h2>
       <div class="prose">
+        <ul class="prose__list">
+          <% prices.groups.forEach(function (g) { %>
+            <li><b><%= g.title %>, <%= g.unit %>.</b> <%= g.description %></li>
+          <% }); %>
+        </ul>
         <p>
           Стоимость приёма зависит от четырёх вещей: вида металла, его чистоты и засора,
           объёма партии и формы расчёта. Разделанный медный «блеск» стоит заметно дороже

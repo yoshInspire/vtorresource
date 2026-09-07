@@ -44,6 +44,34 @@ function phone(digits) {
   return `8 (${n.slice(0, 3)}) ${n.slice(3, 6)}-${n.slice(6, 8)}-${n.slice(8)}`;
 }
 
+/**
+ * Сколько колонок отдать таблицам группы на странице цен.
+ *
+ * Категорий бывает от одной до шестнадцати, и в три колонки одинокая
+ * таблица оставляла две трети ширины пустыми. Но и три колонки не всегда
+ * подходят: категория на полторы сотни строк (разъёмы в радиодеталях)
+ * в колонку не помещается, рвётся между ними и теряет шапку. Такие
+ * группы оставляем в одну колонку на всю ширину.
+ */
+function priceColumns(categories) {
+  return Math.min(categories.length, 3);
+}
+
+/**
+ * Начиная со скольких строк таблица считается длинной. Такая занимает всю
+ * ширину (`column-span: all`), а её строки режутся на несколько таблиц
+ * рядом: в колонку она не помещается, рвётся между ними и теряет шапку.
+ */
+const LONG_TABLE = 40;
+
+/** Разрезать список на `parts` примерно равных частей, порядок сохраняется. */
+function chunk(list, parts) {
+  const size = Math.ceil(list.length / parts);
+  const out = [];
+  for (let i = 0; i < list.length; i += size) out.push(list.slice(i, i + size));
+  return out;
+}
+
 /** Экранирование для вставки в JSON-LD внутри <script>. */
 function jsonLd(obj) {
   return JSON.stringify(obj).replace(/</g, '\\u003c');
@@ -62,4 +90,4 @@ function plural(n, one, few, many) {
   return many;
 }
 
-module.exports = { price, itemPrice, dateLong, dateTime, phone, jsonLd, plural };
+module.exports = { price, itemPrice, dateLong, dateTime, phone, jsonLd, plural, priceColumns, chunk, LONG_TABLE };

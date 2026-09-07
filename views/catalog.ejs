@@ -4,23 +4,9 @@
 
 <main id="main" class="price-page">
 
-  <section class="page-head">
+  <section class="page-head page-head--tight">
     <div class="container">
-      <nav class="breadcrumbs" aria-label="Хлебные крошки">
-        <a href="/">Главная</a>
-        <span aria-hidden="true">/</span>
-        <span aria-current="page"><%= catalogTitle %></span>
-      </nav>
-
       <h1 class="page-head__title"><%= h1 %></h1>
-      <p class="page-head__lead"><%= lead %></p>
-
-      <div class="page-head__meta">
-        <span class="badge badge--live">Обновлено <%= f.dateLong(catalog.updatedAt) %></span>
-        <span class="badge"><%= itemCount %> позиций</span>
-        <span class="badge">Приём на площадке в Омске</span>
-        <a class="btn btn--accent btn--sm" href="#zayavka-form">Уточнить цену</a>
-      </div>
     </div>
   </section>
 
@@ -31,16 +17,16 @@
           <a class="price-tabs__link" href="#<%= g.id %>"><%= g.title %></a>
         <% }); %>
       </div>
+      <span class="badge badge--live">Обновлено <%= f.dateLong(catalog.updatedAt) %></span>
     </div>
   </div>
 
   <% catalog.groups.forEach(function (group, gi) { %>
     <section class="section section--<%= gi % 2 === 0 ? 'muted' : 'light' %> price-group" id="<%= group.id %>">
       <div class="container">
-        <header class="section__head">
-          <p class="section__eyebrow">Прайс-лист</p>
+        <%# Описания групп переехали в текстовый блок внизу страницы. %>
+        <header class="section__head section__head--flat">
           <h2 class="section__title"><%= group.title %></h2>
-          <p class="section__lead"><%= group.description %></p>
         </header>
 
         <% if (group.categories.length > 1) { %>
@@ -51,43 +37,69 @@
           </nav>
         <% } %>
 
+        <%# До трёх категорий раскладываем сеткой: многоколоночная вёрстка
+            выравнивает колонки по высоте и на трёх блоках оставляет
+            третью колонку пустой. Дальше наоборот: сетка оставляет дыры
+            в рядах, а колонки пакуют таблицы разной высоты плотно. %>
+        <div class="price-cats price-cats--<%= f.priceColumns(group.categories) %><%= group.categories.length <= 3 ? ' price-cats--grid' : '' %>">
         <% group.categories.forEach(function (category) { %>
-          <div class="price-cat" id="<%= category.id %>">
+          <%
+            // Разъёмов полторы сотни в одной категории: такую таблицу
+            // в колонку не втиснуть. Она занимает всю ширину, а строки
+            // режутся на три таблицы рядом — у каждой своя шапка,
+            // и порядок позиций не меняется.
+            var wide = category.items.length > f.LONG_TABLE;
+            var parts = wide ? f.chunk(category.items, 3) : [category.items];
+          %>
+          <div class="price-cat<%= wide ? ' price-cat--wide' : '' %>" id="<%= category.id %>">
             <h3 class="price-cat__title"><%= category.name %></h3>
-            <div class="table-wrap">
-              <table class="price-table">
-                <caption class="visually-hidden"><%= category.name %>, цены приёма</caption>
-                <thead>
-                  <tr>
-                    <th scope="col">Позиция</th>
-                    <th scope="col" class="price-table__unit">Ед.</th>
-                    <th scope="col" class="price-table__col"><%= (group.columns && group.columns[0]) || 'Цена, ₽' %></th>
-                    <% if (group.columns && group.columns[1]) { %>
-                      <th scope="col" class="price-table__col"><%= group.columns[1] %></th>
-                    <% } %>
-                  </tr>
-                </thead>
-                <tbody>
-                  <% category.items.forEach(function (item) { %>
-                    <tr>
-                      <th scope="row" class="price-table__name">
-                        <%= item.title %>
-                        <% if (item.note) { %><span class="price-table__note"><%= item.note %></span><% } %>
-                      </th>
-                      <td class="price-table__unit"><%= item.unit %></td>
-                      <td class="price-table__value"><b><%= cat.formatPrice(item.price) %></b></td>
-                      <% if (group.columns && group.columns[1]) { %>
-                        <td class="price-table__value price-table__value--alt">
-                          <%= item.priceBulk ? cat.formatPrice(item.priceBulk) : '—' %>
-                        </td>
-                      <% } %>
-                    </tr>
-                  <% }); %>
-                </tbody>
-              </table>
+            <div class="<%= wide ? 'price-split' : '' %>">
+              <% parts.forEach(function (rows) { %>
+                <div class="table-wrap">
+                  <table class="price-table">
+                    <caption class="visually-hidden"><%= category.name %>, цены приёма</caption>
+                    <thead>
+                      <tr>
+                        <th scope="col">Позиция</th>
+                        <th scope="col" class="price-table__unit">Ед.</th>
+                        <th scope="col" class="price-table__col"><%= (group.columns && group.columns[0]) || 'Цена, ₽' %></th>
+                        <% if (group.columns && group.columns[1]) { %>
+                          <th scope="col" class="price-table__col"><%= group.columns[1] %></th>
+                        <% } %>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <% rows.forEach(function (item) { %>
+                        <tr>
+                          <th scope="row" class="price-table__name">
+                            <%# Описание раскрывается по клику: <details> работает без JS
+                                и оставляет текст в разметке для поиска. %>
+                            <% if (item.note) { %>
+                              <details class="price-note">
+                                <summary><%= item.title %></summary>
+                                <p><%= item.note %></p>
+                              </details>
+                            <% } else { %>
+                              <%= item.title %>
+                            <% } %>
+                          </th>
+                          <td class="price-table__unit"><%= item.unit %></td>
+                          <td class="price-table__value"><b><%= cat.formatPrice(item.price) %></b></td>
+                          <% if (group.columns && group.columns[1]) { %>
+                            <td class="price-table__value price-table__value--alt">
+                              <%= item.priceBulk ? cat.formatPrice(item.priceBulk) : '—' %>
+                            </td>
+                          <% } %>
+                        </tr>
+                      <% }); %>
+                    </tbody>
+                  </table>
+                </div>
+              <% }); %>
             </div>
           </div>
         <% }); %>
+        </div>
       </div>
     </section>
   <% }); %>
@@ -120,6 +132,14 @@
     <div class="container container--narrow">
       <h2 class="section__title"><%= aboutTitle %></h2>
       <div class="prose">
+        <%# Лид страницы переехал сюда из шапки: наверху он отодвигал таблицы,
+            но в нём перечислены виды лома под поиск. %>
+        <p><%= lead %></p>
+        <ul class="prose__list">
+          <% catalog.groups.forEach(function (g) { %>
+            <li><b><%= g.title %>.</b> <%= g.description %></li>
+          <% }); %>
+        </ul>
         <% about.forEach(function (para) { %>
           <p><%- para %></p>
         <% }); %>
