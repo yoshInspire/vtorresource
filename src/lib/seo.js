@@ -83,6 +83,22 @@ function breadcrumbs(trail) {
   };
 }
 
+/**
+ * FAQPage — для страницы «Как сдать металлолом». Размечаем только те вопросы,
+ * которые человек реально видит на странице: разметка невидимого текста
+ * считается нарушением и снимает сниппет целиком.
+ */
+function faqPage(items) {
+  return {
+    '@type': 'FAQPage',
+    mainEntity: items.map(item => ({
+      '@type': 'Question',
+      name: item.q,
+      acceptedAnswer: { '@type': 'Answer', text: item.a }
+    }))
+  };
+}
+
 /** Каталог предложений по прайсу — для страницы цен. */
 function offerCatalog(groups) {
   return {
@@ -118,4 +134,4 @@ function graph(nodes) {
   return { '@context': 'https://schema.org', '@graph': nodes.filter(Boolean) };
 }
 
-module.exports = { organization, webSite, webPage, breadcrumbs, offerCatalog, graph, abs };
+module.exports = { organization, webSite, webPage, breadcrumbs, faqPage, offerCatalog, graph, abs };

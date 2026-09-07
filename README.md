@@ -42,16 +42,18 @@ npm run dev
 server.js                — точка входа
 src/app.js               — express-приложение, middleware, обработка 404/500
 src/config/site.js       — контакты, реквизиты, адрес, координаты, режим, SEO-умолчания
-src/content/index.js     — тексты лендинга: оффер, полоса доверия, плитки, витрины
+src/content/index.js     — тексты лендинга: оффер, плитки, витрины
+src/content/how-to.js    — тексты страницы /kak-sdat: шаги, засор, условия, FAQ
 src/content/privacy.js   — текст политики обработки персональных данных
 src/lib/store.js         — доступ к основному прайсу и заявкам (чтение + запись)
 src/lib/catalogs.js      — радиодетали и драгметаллы (чтение + запись)
 src/lib/format.js        — форматирование цен и дат
-src/lib/seo.js           — сборка JSON-LD (LocalBusiness, OfferCatalog, крошки)
-src/routes/pages.js      — роуты: /, /price, /privacy, /lead, robots.txt, sitemap.xml
+src/lib/seo.js           — сборка JSON-LD (LocalBusiness, FAQPage, OfferCatalog, крошки)
+src/routes/pages.js      — роуты: /, /price, /kak-sdat, /privacy, /lead, robots.txt, sitemap.xml
 views/                   — EJS-шаблоны
 views/partials/photo.ejs — адаптивная картинка (webp + jpg, три ширины)
 views/catalog.ejs        — общий шаблон страниц радиодеталей и драгметаллов
+views/how-to.ejs         — страница «Как сдать металлолом» (/kak-sdat)
 public/css/style.css     — единая таблица стилей, включая @font-face
 public/fonts/            — Oswald и Golos Text, кириллица и латиница раздельно
 public/img/photo/        — фотографии блоков + _credits.json с атрибуцией
@@ -70,6 +72,12 @@ scripts/                 — разовые скрипты импорта пра
 первый экран → калькулятор суммы → пять плиток «что принимаем» → площадка
 с картой → документы → контакты с формой. Отступ между блоками один на всю
 страницу (`.section`), отдельного «плотного» варианта больше нет.
+
+Убранный текст не потерян: второй владелец попросил не терять поисковые
+формулировки, и весь информационный блок переехал на страницу
+[`/kak-sdat`](#структура) — порядок приёмки, засор, документы и FAQ
+с разметкой `FAQPage`. Главная отвечает на коммерческий запрос,
+`/kak-sdat` — на информационный. Подробнее в [docs/SEO.md](docs/SEO.md).
 
 Первый экран собран в одну колонку: адрес, заголовок, оффер, бегущая строка
 цен, кнопки «Прайс-лист» и «Калькулятор», телефоны. Формы на нём нет и ленты
@@ -238,8 +246,8 @@ ssh mbaza55 "sed -i 's/^ADMIN_PASSWORD=.*/ADMIN_PASSWORD=новый/' /srv/mbaza
 - серверный рендеринг, уникальные `title`/`description`, `canonical`, OG/Twitter;
 - по одному `<h1>` на страницу, семантическая иерархия заголовков;
 - JSON-LD: `LocalBusiness`+`RecyclingCenter`, `WebSite`, `WebPage`,
-  `BreadcrumbList`, `OfferCatalog` со 139 офферами. `FAQPage` убрана вместе
-  с блоком вопросов: размечать текст, которого нет на странице, нельзя;
+  `BreadcrumbList`, `OfferCatalog` со 139 офферами, `FAQPage` на `/kak-sdat`
+  (размечаем только те вопросы, которые видны на странице);
 - `/robots.txt` и `/sitemap.xml` генерируются на лету, `lastmod` берётся из даты прайса;
 - прайс — обычные HTML-таблицы, поиск фильтрует уже отрендеренный DOM,
   поэтому весь контент виден поисковикам без JS;

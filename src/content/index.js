@@ -29,7 +29,9 @@ const site = require('../config/site');
  * формы на нём тоже: заявку принимает блок контактов внизу страницы.
  */
 const hero = {
-  eyebrow: 'Омск, 2-я Барнаульская, 105, микрорайон Новый Амур',
+  // «Металлобаза» — синоним из ядра (docs/SEO.md, кластер 1). Стоит
+  // в строке над заголовком, отдельной фразы под него не заводим.
+  eyebrow: 'Металлобаза в Омске: 2-я Барнаульская, 105, микрорайон Новый Амур',
   title: 'Приём металлолома в Омске',
   offer: 'Взвесим при вас и рассчитаемся в тот же день'
 };
@@ -50,6 +52,7 @@ const tiles = [
     name: 'Цветной лом',
     anchor: '/price#med',
     photo: 'cvetmet',
+    photoAlt: 'Алюминиевая стружка в контейнере на площадке приёма цветного лома в Омске',
     priceFrom: { category: 'med', group: 'cvetmet' }
   },
   {
@@ -57,6 +60,7 @@ const tiles = [
     name: 'Чёрный лом',
     anchor: '/price#stal-chugun',
     photo: 'chermet-alt',
+    photoAlt: 'Брикеты прессованного стального лома, приём чёрного металла',
     priceFrom: { category: 'stal-chugun', group: 'chermet' }
   },
   {
@@ -64,6 +68,7 @@ const tiles = [
     name: 'Редкоземельный лом',
     anchor: '/price#tverdye-splavy-pobedit',
     photo: 'redkozem',
+    photoAlt: 'Твердосплавные пластины ВК-ТК, приём победита и редкоземельного лома',
     priceFrom: { category: 'tverdye-splavy-pobedit', group: 'redkozem' }
   },
   {
@@ -71,6 +76,7 @@ const tiles = [
     name: 'Радиолом',
     anchor: '/radiodetali',
     photo: 'radiolom',
+    photoAlt: 'Печатные платы крупным планом, приём радиодеталей и плат',
     catalogFrom: 'radio',
     wide: true
   },
@@ -79,6 +85,7 @@ const tiles = [
     name: 'Драгметаллы',
     anchor: '/dragmetally',
     photo: 'dragmet',
+    photoAlt: 'Поверхность слитка серебра 99,99, приём лома драгметаллов',
     catalogFrom: 'dragmet',
     wide: true
   }

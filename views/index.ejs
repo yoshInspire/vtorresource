@@ -23,7 +23,7 @@
     <div class="hero__media" aria-hidden="true">
       <%- include('partials/photo', {
         slug: 'yard-hero',
-        alt: '',
+        alt: 'Площадка приёма металлолома на 2-й Барнаульской, 105 в Омске',
         sizes: '100vw',
         eager: true,
         width: 1920, height: 1275
@@ -79,7 +79,7 @@
   <section class="section section--muted" id="kalkulyator">
     <div class="container">
       <header class="section__head">
-        <h2 class="section__title">Сколько вы получите</h2>
+        <h2 class="section__title">Калькулятор стоимости металлолома</h2>
       </header>
 
       <script type="application/json" id="calc-data"><%- calcItemsJson %></script>
@@ -143,7 +143,7 @@
   <section class="section section--light" id="priem">
     <div class="container">
       <header class="section__head section__head--split">
-        <h2 class="section__title">Что принимаем</h2>
+        <h2 class="section__title">Какой металлолом принимаем в Омске</h2>
         <a class="btn btn--ghost btn--sm" href="/price">Прайс-лист</a>
       </header>
 
@@ -153,7 +153,7 @@
             <% if (t.photo) { %>
               <span class="tile__media" aria-hidden="true">
                 <%- include('partials/photo', {
-                  slug: t.photo, alt: '',
+                  slug: t.photo, alt: t.photoAlt,
                   sizes: '(max-width: 640px) 100vw, (max-width: 1080px) 50vw, 33vw',
                   width: 1280, height: 960
                 }) %>
@@ -262,7 +262,7 @@
     <div class="cta__media" aria-hidden="true">
       <%- include('partials/photo', {
         slug: 'chermet',
-        alt: '',
+        alt: 'Стальной лом на приёмной площадке в Омске',
         sizes: '100vw',
         width: 1920, height: 1440
       }) %>

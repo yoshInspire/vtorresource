@@ -1,0 +1,166 @@
+<%- include('partials/head') %>
+<%- include('partials/icons') %>
+<%- include('partials/header') %>
+
+<%#
+  Информационная страница: сюда переехали блоки, убранные с главной.
+  Главная отвечает на коммерческий запрос («приём металлолома Омск»),
+  эта — на информационный («как сдать металлолом», «нужен ли паспорт»).
+  Здесь текста может быть много: за ним сюда и приходят.
+%>
+
+<main id="main">
+
+  <section class="page-head">
+    <div class="container">
+      <nav class="breadcrumbs" aria-label="Хлебные крошки">
+        <a href="/">Главная</a>
+        <span aria-hidden="true">/</span>
+        <span aria-current="page">Как сдать металлолом</span>
+      </nav>
+
+      <h1 class="page-head__title"><%= h1 %></h1>
+      <p class="page-head__lead"><%= howTo.lead %></p>
+
+      <div class="page-head__meta">
+        <span class="badge">Приём <%= site.terms.minWeight %></span>
+        <span class="badge">Только по паспорту РФ</span>
+        <span class="badge">Расчёт на карту</span>
+        <a class="btn btn--accent btn--sm" href="/price">Прайс-лист</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= ПОРЯДОК ПРИЁМКИ ================= -->
+  <section class="section section--dark" id="poryadok">
+    <div class="container">
+      <header class="section__head">
+        <h2 class="section__title">Порядок приёмки: четыре шага</h2>
+        <p class="section__lead">
+          Всё происходит на площадке в день приезда, записываться и ждать не нужно.
+        </p>
+      </header>
+
+      <div class="steps-block">
+        <ol class="steps">
+          <% howTo.steps.forEach(function (s) { %>
+            <li class="step">
+              <span class="step__n num"><%= s.n %></span>
+              <div>
+                <h3 class="step__title"><%= s.title %></h3>
+                <p class="step__text"><%= s.text %></p>
+              </div>
+            </li>
+          <% }); %>
+        </ol>
+
+        <figure class="steps-block__media">
+          <%- include('partials/photo', {
+            slug: 'grapple',
+            alt: 'Кран-погрузчик разбирает партию лома на приёмной площадке',
+            sizes: '(max-width: 1080px) 100vw, 50vw',
+            width: 1280, height: 853
+          }) %>
+        </figure>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= ПРО ЗАСОР ================= -->
+  <section class="section section--muted" id="zasor">
+    <div class="container">
+      <header class="section__head">
+        <h2 class="section__title"><%= howTo.zasor.title %></h2>
+        <p class="section__lead"><%= howTo.zasor.lead %></p>
+      </header>
+
+      <div class="zasor">
+        <% howTo.zasor.cases.forEach(function (c) { %>
+          <article class="zasor-case">
+            <h3 class="zasor-case__what"><%= c.what %></h3>
+            <p class="zasor-case__detail"><%= c.detail %></p>
+            <p class="zasor-case__pay">
+              <span class="zasor-case__pay-label"><%= c.payLabel || 'Платим за' %></span>
+              <span class="zasor-case__pay-value num"><%= c.payFor %></span>
+            </p>
+            <p class="zasor-case__note"><%= c.note %></p>
+          </article>
+        <% }); %>
+      </div>
+
+      <p class="zasor__disclaimer"><%= howTo.zasor.disclaimer %></p>
+    </div>
+  </section>
+
+  <!-- ================= ДОКУМЕНТЫ И УСЛОВИЯ ================= -->
+  <section class="section section--light" id="usloviya">
+    <div class="container">
+      <header class="section__head">
+        <h2 class="section__title"><%= howTo.conditions.title %></h2>
+      </header>
+
+      <div class="place__points">
+        <% howTo.conditions.points.forEach(function (p) { %>
+          <div class="place-point">
+            <h3 class="place-point__title"><%= p.title %></h3>
+            <p class="place-point__text"><%= p.text %></p>
+          </div>
+        <% }); %>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= FAQ ================= -->
+  <section class="section section--muted" id="faq">
+    <div class="container">
+      <header class="section__head">
+        <h2 class="section__title">Частые вопросы о сдаче металлолома</h2>
+      </header>
+
+      <div class="faq">
+        <% faq.forEach(function (item, i) { %>
+          <details class="faq__item"<%= i === 0 ? ' open' : '' %>>
+            <summary class="faq__q"><%= item.q %></summary>
+            <div class="faq__a"><p><%= item.a %></p></div>
+          </details>
+        <% }); %>
+      </div>
+
+      <p class="section__note">
+        Не нашли ответ? Позвоните, подскажем цену и условия по вашему лому:
+        <% site.phones.forEach(function (p, i) { %><a class="link" href="tel:<%= p.raw %>"><%= p.display %></a><%= i < site.phones.length - 1 ? ' или ' : '.' %><% }); %>
+        Все цены собраны в <a href="/price">прайс-листе</a>, отдельно есть
+        <a href="/radiodetali">радиодетали и платы</a> и
+        <a href="/dragmetally">драгметаллы</a>.
+      </p>
+    </div>
+  </section>
+
+  <!-- ================= ЗАЯВКА ================= -->
+  <section class="section section--dark" id="zayavka-form">
+    <div class="container price-cta">
+      <div class="price-cta__text">
+        <h2 class="section__title">Скажем цену до вашего приезда</h2>
+        <p>
+          Позвоните или оставьте номер. Уточним вид лома, состояние и вес,
+          назовём цену на сегодня. Приём ведётся на площадке в Омске
+          по адресу <%= site.address.full %>. Звоните:
+          <% site.phones.forEach(function (p, i) { %><a class="link" href="tel:<%= p.raw %>"><%= p.display %></a><%= i < site.phones.length - 1 ? ', ' : '' %><% }); %>.
+        </p>
+      </div>
+      <div class="price-cta__form">
+        <% if (leadStatus === 'ok') { %>
+          <div class="alert alert--ok" role="status"><strong>Заявка принята.</strong> Скоро перезвоним.</div>
+        <% } %>
+        <%- include('partials/lead-form', {
+          variant: 'dark',
+          formTitle: 'Узнать цену',
+          formText: 'Скажите, что везёте. Перезвоним и назовём цену.'
+        }) %>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<%- include('partials/footer') %>

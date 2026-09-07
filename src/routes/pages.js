@@ -4,6 +4,7 @@ const express = require('express');
 const site = require('../config/site');
 const content = require('../content');
 const privacy = require('../content/privacy');
+const howTo = require('../content/how-to');
 const store = require('../lib/store');
 const seo = require('../lib/seo');
 const f = require('../lib/format');
@@ -245,6 +246,46 @@ router.get('/dragmetally', (req, res) => {
   });
 });
 
+// --- как сдать металлолом ----------------------------------------------------
+// Информационный кластер ядра: «как сдать металлолом», «нужен ли паспорт»,
+// «приёмо-сдаточный акт», «как определяют засор». Эти блоки стояли на главной,
+// пока её не сократили; текст не потерян, а переехал на свою страницу.
+router.get('/kak-sdat', (req, res) => {
+  const counts = countPositions();
+  const title = `Как сдать металлолом в Омске: документы, засор, порядок приёмки | ${site.brand}`;
+  const description =
+    'Как сдать металлолом в Омске: что взять с собой, нужен ли паспорт, как оформляется ' +
+    'приёмо-сдаточный акт и как приёмщик определяет засор. Приём на 2-й Барнаульской, 105.';
+
+  // Число позиций подставляем в один заход: тот же текст уходит в FAQPage,
+  // и цифра в разметке должна совпадать с тем, что видно на странице.
+  const faq = howTo.faq.map(item => ({
+    ...item,
+    a: item.a.replace('{positions}', positionsText(counts.total))
+  }));
+
+  res.render('how-to', {
+    page: 'kak-sdat',
+    title,
+    description,
+    canonical: seo.abs('/kak-sdat'),
+    h1: 'Как сдать металлолом в Омске',
+    howTo,
+    faq,
+    content,
+    jsonLd: seo.graph([
+      seo.organization(),
+      seo.webSite(),
+      seo.webPage({ path: '/kak-sdat', title, description }),
+      seo.breadcrumbs([
+        { name: 'Главная', path: '/' },
+        { name: 'Как сдать металлолом', path: '/kak-sdat' }
+      ]),
+      seo.faqPage(faq)
+    ])
+  });
+});
+
 // --- политика обработки персональных данных --------------------------------
 router.get('/privacy', (req, res) => {
   const title = `Политика обработки персональных данных | ${site.brand}`;
@@ -322,6 +363,7 @@ router.get('/sitemap.xml', (req, res) => {
     { loc: seo.abs('/'), priority: '1.0', changefreq: 'weekly' },
     { loc: seo.abs('/price'), priority: '0.9', changefreq: 'daily' },
     { loc: seo.abs('/radiodetali'), priority: '0.8', changefreq: 'weekly' },
+    { loc: seo.abs('/kak-sdat'), priority: '0.7', changefreq: 'monthly' },
     { loc: seo.abs('/dragmetally'), priority: '0.7', changefreq: 'weekly' },
     { loc: seo.abs('/privacy'), priority: '0.2', changefreq: 'yearly' }
   ];
