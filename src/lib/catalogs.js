@@ -50,6 +50,46 @@ function countItems(catalog) {
 }
 
 /**
+ * Единицы измерения каталога в том виде, в каком их показывают в цене.
+ * Здесь только весовые: по ним считается верхняя цена каталога.
+ */
+const WEIGHT_UNITS = {
+  '1 кг': { label: '₽/кг', perKg: 1 },
+  '1 г': { label: '₽/г', perKg: 1000 }
+};
+
+/**
+ * Верхняя цена каталога для плитки «что принимаем»: «до 590 000 ₽/кг».
+ *
+ * Считаем только по весовым позициям. Цена за штуку, за контакт и за галету
+ * с ценой за килограмм несравнима, и «до 9 700 ₽/шт» рядом с «до 880 ₽/кг»
+ * читалось бы как цена за вес. Граммы приводим к килограммам только для
+ * сравнения, показываем в исходной единице.
+ *
+ * Цена в каталоге — строка: встречаются «до 40 000», «38 / 55» и «договорная».
+ * Берём наибольшее число из строки, из «договорной» не берём ничего.
+ *
+ * @returns {{value: number, unit: string}|null}
+ */
+function topPrice(catalog) {
+  let best = null;
+  for (const group of catalog.groups) {
+    for (const category of group.categories) {
+      for (const item of category.items) {
+        const unit = WEIGHT_UNITS[item.unit];
+        if (!unit) continue;
+        const numbers = String(item.price || '').match(/\d+(?:[.,]\d+)?/g);
+        if (!numbers) continue;
+        const value = Math.max(...numbers.map(n => Number(n.replace(',', '.'))));
+        const perKg = value * unit.perKg;
+        if (!best || perKg > best.perKg) best = { value, unit: unit.label, perKg };
+      }
+    }
+  }
+  return best ? { value: best.value, unit: best.unit } : null;
+}
+
+/**
  * «102000» -> «102 000», «38 / 55» -> «38 / 55», «договорная» -> как есть.
  * Разделяем разряды только там, где цена это одно число.
  */
@@ -177,6 +217,7 @@ module.exports = {
   draft,
   save,
   countItems,
+  topPrice,
   formatPrice,
   getGroup,
   getCategory,

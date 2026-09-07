@@ -583,12 +583,21 @@ a.msg:hover { background: rgba(255, 255, 255, .1); color: #fff; }
 }
 .tile__price {
   margin-top: 18px; padding-top: 16px; border-top: 1px solid rgba(255, 255, 255, .2);
-  display: flex; align-items: baseline; justify-content: space-between; gap: 12px;
+  display: flex; align-items: center; justify-content: space-between; gap: 12px;
 }
 .tile__price-value { font-family: var(--display); font-weight: 600; font-size: 26px; color: var(--orange-400); }
 .tile__price-value small { font-size: 13px; color: var(--on-dark-dim); font-weight: 400; margin-left: 5px; }
-.tile__more { font-size: 13px; color: var(--on-dark-dim); display: inline-flex; align-items: center; gap: 6px; }
-.tile__more svg { width: 15px; height: 15px; }
+/* Плашка вместо строки со стрелкой: плитка целиком ссылка, и кнопка
+   должна читаться как кнопка, но не спорить с ценой за внимание. */
+.tile__more {
+  flex: none; padding: 9px 16px; border-radius: 999px;
+  border: 1px solid rgba(255, 255, 255, .3); background: rgba(255, 255, 255, .08);
+  font-family: var(--display); font-weight: 500; font-size: 12.5px;
+  letter-spacing: .08em; text-transform: uppercase; color: #fff;
+  transition: background-color .16s ease, border-color .16s ease;
+}
+.tile:hover .tile__more,
+.tile:focus-visible .tile__more { background: var(--orange-500); border-color: var(--orange-500); }
 
 .chips { display: flex; flex-wrap: wrap; gap: 9px; margin-top: 26px; }
 .chip {
@@ -606,6 +615,9 @@ a.msg:hover { background: rgba(255, 255, 255, .1); color: #fff; }
 }
 .map__frame { width: 100%; height: 420px; border: 0; display: block; }
 .map__placeholder {
+  /* Своя система координат: без неё сетка из ::before считает inset от .map
+     и ложится поверх панели с адресом. */
+  position: relative;
   display: flex; flex-direction: column; align-items: center; justify-content: center;
   gap: 12px; text-align: center; padding: 32px 28px;
   background: linear-gradient(150deg, var(--ink-800), var(--ink-950));
@@ -627,18 +639,44 @@ a.msg:hover { background: rgba(255, 255, 255, .1); color: #fff; }
 }
 .map__addr { font-size: 15px; color: var(--text-900); font-weight: 600; }
 .map__hint { font-size: 13.5px; color: var(--text-500); }
-
-/* ---------- отзывы / рейтинг ---------- */
-.rating {
-  display: grid; grid-template-columns: auto minmax(0, 1fr); gap: 32px;
-  align-items: center; padding: 30px 34px;
-  background: var(--paper); border: 1px solid var(--paper-200); border-radius: var(--radius-lg);
+/* Рейтинг 2ГИС: строка в той же панели, отдельной секции у него больше нет */
+.map__rating {
+  margin-left: auto; display: inline-flex; align-items: baseline; gap: 9px;
+  text-decoration: none; white-space: nowrap;
 }
-.rating__score { text-align: center; }
-.rating .btn { justify-self: end; }
-.rating__value { font-family: var(--display); font-weight: 600; font-size: 56px; line-height: 1; color: var(--text-900); }
-.rating__stars { color: var(--gold-400); font-size: 17px; letter-spacing: 2px; margin-top: 4px; }
-.rating__count { font-size: 13px; color: var(--text-500); margin-top: 5px; }
+.map__rating-value {
+  font-family: var(--display); font-weight: 600; font-size: 24px;
+  line-height: 1; color: var(--text-900);
+}
+.map__rating-stars { color: var(--gold-400); font-size: 14px; letter-spacing: 1.5px; }
+.map__rating-count {
+  font-size: 13.5px; color: var(--text-500);
+  text-decoration: underline; text-underline-offset: 2px;
+}
+.map__rating:hover .map__rating-count { color: var(--orange-600); }
+
+/* ---------- документы и благодарности ----------
+   Один блок вместо двух секций: слева реквизиты лицензий, справа сканы
+   благодарственных писем. Текста нет ни там, ни там. */
+.papers { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 56px; align-items: start; }
+.papers__list { margin-top: 26px; display: grid; gap: 12px; max-width: 640px; }
+.papers__row {
+  display: grid; grid-template-columns: 200px minmax(0, 1fr); gap: 16px;
+  font-size: 15px; padding-bottom: 12px; border-bottom: 1px solid var(--paper-200);
+}
+.papers__row:last-child { border-bottom: 0; padding-bottom: 0; }
+.papers__row dt { color: var(--text-500); }
+.papers__row dd { margin: 0; color: var(--text-900); font-weight: 600; overflow-wrap: anywhere; }
+
+.papers__shots { display: flex; gap: 20px; }
+.papers__shot { margin: 0; width: 186px; }
+.papers__shot a {
+  display: block; overflow: hidden; background: var(--paper);
+  border: 1px solid var(--paper-300); border-radius: var(--radius); box-shadow: var(--shadow-sm);
+}
+.papers__shot img { display: block; width: 100%; height: auto; transition: transform .4s ease; }
+.papers__shot a:hover img { transform: scale(1.03); }
+.papers__shot figcaption { margin-top: 10px; font-size: 13px; color: var(--text-500); line-height: 1.45; }
 
 /* ---------- финальный призыв ---------- */
 .cta { position: relative; overflow: hidden; background: var(--ink-950); color: var(--on-dark); }
@@ -917,6 +955,7 @@ select.field__input { appearance: none; background-image: url("data:image/svg+xm
   /* Плиток пять: нечётная по счёту занимает ряд целиком, иначе остаётся дыра */
   .tile:nth-child(odd):last-child { grid-column: span 2; min-height: 260px; }
   .footer__inner { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 32px; }
+  .papers { grid-template-columns: minmax(0, 1fr); gap: 32px; }
 }
 
 @media (max-width: 1100px) {
@@ -978,6 +1017,10 @@ select.field__input { appearance: none; background-image: url("data:image/svg+xm
   .trust__item:first-child { padding-top: 0; border-top: 0; }
   .trust__icon { margin-bottom: 10px; }
   .footer__inner { grid-template-columns: minmax(0, 1fr); }
+  .papers__row { grid-template-columns: minmax(0, 1fr); gap: 2px; }
+  .papers__shot { width: calc(50% - 10px); }
+  .map__rating { margin-left: 0; }
+  .tile__price { flex-wrap: wrap; gap: 14px; }
   .lead-form--hero, .lead-form--dark, .lead-form--card { padding: 22px; }
   .calc__row { grid-template-columns: minmax(0, 1fr); }
   .legal__req-row { grid-template-columns: 1fr; gap: 2px; }
@@ -986,9 +1029,6 @@ select.field__input { appearance: none; background-image: url("data:image/svg+xm
   .logo__sub { display: none; }
   .logo__name { font-size: 19px; }
   .logo__mark { height: 36px; }
-  .rating { grid-template-columns: minmax(0, 1fr); gap: 20px; text-align: left; }
-  .rating__score { text-align: left; }
-  .rating .btn { justify-self: start; }
 }
 
 /* ---------- печать ---------- */

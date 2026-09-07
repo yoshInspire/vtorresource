@@ -100,7 +100,6 @@
     var inpWeight = calc.querySelector('[data-calc-weight]');
     var selUnit = calc.querySelector('[data-calc-unit]');
     var outSum = calc.querySelector('[data-calc-sum]');
-    var outBreak = calc.querySelector('[data-calc-breakdown]');
 
     var byId = {};
     items.forEach(function (i) { byId[i.id] = i; });
@@ -115,7 +114,6 @@
 
       if (!item || !isFinite(weight) || weight <= 0) {
         outSum.textContent = '—';
-        outBreak.textContent = 'Укажите вес, чтобы увидеть сумму.';
         return;
       }
 
@@ -125,12 +123,9 @@
       var qty = item.perTonne ? kg / 1000 : kg;
       var sum = qty * item.price;
 
+      // Заказчик просил оставить в результате одну цифру: разбор
+      // «10 кг × 900 ₽/кг» с блока убран вместе с остальными пояснениями.
       outSum.innerHTML = money(sum) + '<span class="calc__sum-unit">₽</span>';
-
-      var qtyLabel = item.perTonne
-        ? qty.toLocaleString('ru-RU', { maximumFractionDigits: 3 }) + ' т'
-        : money(qty) + ' кг';
-      outBreak.innerHTML = qtyLabel + ' × <b>' + money(item.price) + ' ' + item.unit + '</b>';
     }
 
     [selItem, inpWeight, selUnit].forEach(function (el) {

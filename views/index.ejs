@@ -159,7 +159,6 @@
         <div class="calc__result">
           <p class="calc__result-label">Ориентировочно к выплате</p>
           <p class="calc__sum num" data-calc-sum>—</p>
-          <p class="calc__breakdown" data-calc-breakdown></p>
           <p class="calc__disclaimer">
             Расчёт справочный. Точную сумму приёмщик называет после осмотра и взвешивания.
           </p>
@@ -174,9 +173,7 @@
     <div class="container">
       <header class="section__head section__head--split">
         <h2 class="section__title">Что принимаем</h2>
-        <a class="btn btn--ghost btn--sm" href="/price">Прайс-лист, <%= positionsText(counts.prices) %>
-          <svg class="btn__icon" aria-hidden="true"><use href="#i-arrow"></use></svg>
-        </a>
+        <a class="btn btn--ghost btn--sm" href="/price">Прайс-лист</a>
       </header>
 
       <div class="tiles">
@@ -194,12 +191,9 @@
             <span class="tile__name"><%= t.name %></span>
             <span class="tile__price">
               <span class="tile__price-value num">
-                <% if (t.countText) { %><%= t.countText %><% } else if (t.from) { %>до <%= f.price(t.from) %><small><%= t.unit %></small><% } else { %>цена по запросу<% } %>
+                <% if (t.from) { %>до <%= f.price(t.from) %><small><%= t.unit %></small><% } else { %>цена по запросу<% } %>
               </span>
-              <span class="tile__more">
-                прайс-лист
-                <svg aria-hidden="true"><use href="#i-arrow"></use></svg>
-              </span>
+              <span class="tile__more">прайс-лист</span>
             </span>
           </a>
         <% }); %>
@@ -236,6 +230,15 @@
             <p class="map__addr"><%= site.address.full %></p>
             <p class="map__hint"><%= site.hours.text %></p>
           </div>
+
+          <%# Рейтинг стоит здесь, а не отдельной секцией: оценку смотрят
+              вместе с адресом, и на строку она укладывается целиком. %>
+          <a class="map__rating" href="<%= site.profiles.twogis %>" target="_blank" rel="noopener">
+            <span class="map__rating-value num"><%= reviews.score.toLocaleString('ru-RU') %></span>
+            <span class="map__rating-stars" aria-hidden="true">★★★★★</span>
+            <span class="map__rating-count"><%= reviews.countLabel %></span>
+          </a>
+
           <a class="btn btn--dark btn--sm" href="<%= site.mapUrl %>" target="_blank" rel="noopener">
             Построить маршрут
           </a>
@@ -244,19 +247,41 @@
     </div>
   </section>
 
-  <!-- ================= ОТЗЫВЫ ================= -->
-  <section class="section section--light section--tight" id="otzyvy">
+  <!-- ================= ДОКУМЕНТЫ И БЛАГОДАРНОСТИ ================= -->
+  <section class="section section--light section--tight" id="dokumenty">
     <div class="container">
-      <div class="rating">
-        <div class="rating__score">
-          <p class="rating__value num"><%= reviews.score.toLocaleString('ru-RU') %></p>
-          <p class="rating__stars" aria-hidden="true">★★★★★</p>
-          <p class="rating__count"><%= reviews.countLabel %></p>
+      <div class="papers">
+        <div class="papers__facts">
+          <h2 class="section__title"><%= content.documents.title %></h2>
+          <dl class="papers__list">
+            <% content.documents.rows.forEach(function (r) { %>
+              <div class="papers__row">
+                <dt><%= r.k %></dt>
+                <dd><%= r.v %></dd>
+              </div>
+            <% }); %>
+          </dl>
         </div>
-        <a class="btn btn--ghost btn--sm" href="<%= site.profiles.twogis %>" target="_blank" rel="noopener">
-          <%= reviews.cta %>
-          <svg class="btn__icon" aria-hidden="true"><use href="#i-arrow"></use></svg>
-        </a>
+
+        <div class="papers__shots">
+          <% content.documents.gratitude.forEach(function (g) { %>
+            <figure class="papers__shot">
+              <a href="/img/docs/<%= g.slug %>-900.jpg" target="_blank" rel="noopener">
+                <picture>
+                  <source type="image/webp"
+                          srcset="/img/docs/<%= g.slug %>-420.webp 420w, /img/docs/<%= g.slug %>-900.webp 900w"
+                          sizes="(max-width: 720px) 45vw, 200px">
+                  <img src="/img/docs/<%= g.slug %>-420.jpg"
+                       srcset="/img/docs/<%= g.slug %>-420.jpg 420w, /img/docs/<%= g.slug %>-900.jpg 900w"
+                       sizes="(max-width: 720px) 45vw, 200px"
+                       width="420" height="560" loading="lazy" decoding="async"
+                       alt="<%= g.alt %>">
+                </picture>
+              </a>
+              <figcaption><%= g.caption %></figcaption>
+            </figure>
+          <% }); %>
+        </div>
       </div>
     </div>
   </section>
