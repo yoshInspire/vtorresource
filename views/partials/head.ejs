@@ -10,6 +10,15 @@
 <meta name="format-detection" content="telephone=no">
 <meta name="geo.region" content="RU-OMS">
 <meta name="geo.placename" content="<%= site.city %>">
+<%# Подтверждение прав в панелях вебмастеров. Коды лежат в site.seo,
+    пустая строка убирает метатег. Удалять после подтверждения нельзя:
+    Яндекс перепроверяет права и снимает сайт, если тег пропал. %>
+<% if (site.seo.yandexVerification) { %>
+<meta name="yandex-verification" content="<%= site.seo.yandexVerification %>">
+<% } %>
+<% if (site.seo.googleVerification) { %>
+<meta name="google-site-verification" content="<%= site.seo.googleVerification %>">
+<% } %>
 
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="<%= site.brand %>">
