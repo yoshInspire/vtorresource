@@ -213,6 +213,59 @@ function usedIds(data) {
 }
 
 /**
+ * Все занятые id категорий. Как и в прайсе, id категории это ещё и якорь
+ * на странице каталога (`/radiodetali#kondensatory`), поэтому он уникален
+ * на весь каталог.
+ */
+function usedCategoryIds(data) {
+  const ids = new Set();
+  for (const group of data.groups) {
+    for (const category of group.categories) ids.add(category.id);
+  }
+  return ids;
+}
+
+function freeId(taken, title, fallback) {
+  const base = slugify(title) || fallback;
+  let id = base;
+  for (let i = 2; taken.has(id); i += 1) id = `${base}-${i}`;
+  return id;
+}
+
+/**
+ * Добавление категории в группу каталога. Встаёт в конец: порядок разделов
+ * на странице каталога это порядок данных, двигают его из админки.
+ * @returns {string|null} id созданной категории либо null, если группы нет
+ */
+function addCategory(name, groupId, categoryName) {
+  const data = draft(name);
+  const group = data.groups.find(g => g.id === groupId);
+  if (!group) return null;
+
+  const id = freeId(usedCategoryIds(data), categoryName, 'kategoriya');
+  group.categories.push({ id, name: categoryName, items: [] });
+  save(name, data);
+  return id;
+}
+
+/**
+ * Удаление категории вместе с её позициями.
+ * @returns {object|null} удалённая категория либо null, если её не нашли
+ */
+function removeCategory(name, groupId, categoryId) {
+  const data = draft(name);
+  const group = data.groups.find(g => g.id === groupId);
+  if (!group) return null;
+
+  const index = group.categories.findIndex(c => c.id === categoryId);
+  if (index === -1) return null;
+
+  const [removed] = group.categories.splice(index, 1);
+  save(name, data);
+  return removed;
+}
+
+/**
  * Добавление позиции.
  * @returns {string|null} id созданной позиции либо null, если категории нет
  */
@@ -273,5 +326,7 @@ module.exports = {
   getCategory,
   addItem,
   removeItem,
+  addCategory,
+  removeCategory,
   slugify
 };

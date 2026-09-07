@@ -68,24 +68,33 @@ function topPrice(category) {
 }
 
 /**
- * Плоский список категорий прайса в заданном порядке — для страницы цен.
+ * Плоский список категорий прайса в порядке показа — для страницы цен.
  *
  * В данных категории лежат внутри групп (чёрный, цветной, редкозем): так их
  * правят в админке и так уходит OfferCatalog в микроразметку. На странице
- * группы не показываются, категории идут одним списком, поэтому порядок
- * задаётся отдельно (content.priceOrder). Что не попало в список — в конец,
- * в исходном порядке: sort в V8 стабильный.
+ * группы не показываются, категории идут одним списком.
+ *
+ * Порядок берётся из самих данных. Раньше он лежал отдельным списком
+ * в content.priceOrder, но с появлением кнопок «выше/ниже» в админке два
+ * источника порядка разошлись бы в первый же день: заказчик двигает
+ * категорию, а на сайте всё по-старому. Список перенесён в data/prices.json
+ * без изменения самого порядка.
+ *
+ * Сам порядок пришёл от заказчика: он сверяет цены с прайсом конкурента
+ * (74vtormet.ru/price), и строки должны идти одна против другой. Отличие
+ * одно: у конкурента вольфрам первым, а в Омске он «не развит», поэтому
+ * вольфрам и твёрдые сплавы внизу, а список начинается с чёрного лома,
+ * меди, латуни и алюминия. Двигать категории теперь можно из админки,
+ * менять здесь ничего не нужно.
  *
  * @returns {{group: object, category: object}[]}
  */
-function orderedCategories(order) {
+function orderedCategories() {
   const rows = [];
   for (const group of getPrices().groups) {
     for (const category of group.categories) rows.push({ group, category });
   }
-  const rank = new Map(order.map((id, i) => [id, i]));
-  const at = row => (rank.has(row.category.id) ? rank.get(row.category.id) : Number.MAX_SAFE_INTEGER);
-  return rows.sort((a, b) => at(a) - at(b));
+  return rows;
 }
 
 /** Позиции по списку id — витрина ходовых цен на главной. */
@@ -146,6 +155,71 @@ function slugify(text) {
     .replace(/^-|-$/g, '')
     .slice(0, 48)
     .replace(/-$/, '');
+}
+
+/** Свежая копия прайса для правки: кэш отдаёт общий объект, его менять нельзя. */
+function draft() {
+  return JSON.parse(fs.readFileSync(PRICES_FILE, 'utf8'));
+}
+
+/**
+ * Все занятые id категорий. Идентификатор категории это ещё и якорь
+ * на странице цен (`/price#med`), поэтому он уникален на весь прайс.
+ */
+function usedCategoryIds(data) {
+  const ids = new Set();
+  for (const group of data.groups) {
+    for (const category of group.categories) ids.add(category.id);
+  }
+  return ids;
+}
+
+/**
+ * Свободный id по названию: «Медь сортовая» -> «med-sortovaya».
+ * При совпадении дополняется числом.
+ */
+function freeId(taken, title, fallback) {
+  const base = slugify(title) || fallback;
+  let id = base;
+  for (let i = 2; taken.has(id); i += 1) id = `${base}-${i}`;
+  return id;
+}
+
+/**
+ * Добавление категории в группу. Встаёт в конец группы: на странице цен
+ * категории идут в порядке данных, а двигают их кнопками в админке.
+ * @returns {string|null} id созданной категории либо null, если группы нет
+ */
+function addCategory(groupId, name) {
+  const data = draft();
+  const group = data.groups.find(g => g.id === groupId);
+  if (!group) return null;
+
+  const id = freeId(usedCategoryIds(data), name, 'kategoriya');
+  group.categories.push({ id, name, items: [] });
+  data.updatedAt = new Date().toISOString().slice(0, 10);
+  writeJson(PRICES_FILE, data);
+  cache = null;
+  return id;
+}
+
+/**
+ * Удаление категории вместе с её позициями.
+ * @returns {object|null} удалённая категория либо null, если её не нашли
+ */
+function removeCategory(groupId, categoryId) {
+  const data = draft();
+  const group = data.groups.find(g => g.id === groupId);
+  if (!group) return null;
+
+  const index = group.categories.findIndex(c => c.id === categoryId);
+  if (index === -1) return null;
+
+  const [removed] = group.categories.splice(index, 1);
+  data.updatedAt = new Date().toISOString().slice(0, 10);
+  writeJson(PRICES_FILE, data);
+  cache = null;
+  return removed;
 }
 
 /** Все занятые id позиций: они должны быть уникальны на весь прайс. */
@@ -249,6 +323,9 @@ module.exports = {
   topPrice,
   pickItems,
   updateItem,
+  draft,
+  addCategory,
+  removeCategory,
   addItem,
   removeItem,
   slugify,

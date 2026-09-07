@@ -173,9 +173,12 @@ button, input { font: inherit; color: inherit; }
   font-size: 12px; font-weight: 400; color: var(--a-dim);
   background: var(--a-bg); border-radius: 999px; padding: 1px 8px; margin-left: 6px;
 }
-.adm-table__act { width: 96px; text-align: right; }
+.adm-table__act { width: 150px; text-align: right; }
+.adm-table__cat { width: 170px; }
+.adm-table__empty { color: var(--a-dim); font-size: 13.5px; }
 .adm-input--title { font-weight: 500; }
 .adm-input--note { margin-top: 4px; font-size: 13px; color: var(--a-dim); }
+.adm-input--cat { padding: 7px 8px; font-size: 13px; }
 
 .adm-del {
   border: 0; background: transparent; color: var(--a-dim);
@@ -183,6 +186,35 @@ button, input { font: inherit; color: inherit; }
   transition: background-color .15s ease, color .15s ease;
 }
 .adm-del:hover { background: rgba(196, 44, 32, .1); color: #C42C20; }
+
+/* ---------- заголовок категории и перестановка ----------
+   Название категории правится прямо в заголовке и уходит с общей формой,
+   поэтому это поле ввода, а не текст. Стрелки двигают на одну позицию:
+   перетаскивание мышью потребовало бы скрипта, а админка работает без него. */
+.adm-cat__head {
+  display: flex; align-items: center; gap: 10px; flex-wrap: wrap; margin-bottom: 10px;
+}
+.adm-cat__head .adm-cat__title { margin: 0; flex: 0 1 380px; min-width: 0; }
+.adm-cat__name {
+  font-size: 16px; font-weight: 600; color: var(--a-ink);
+  background: transparent; border-color: transparent;
+}
+.adm-cat__name:hover { border-color: var(--a-line); background: #fff; }
+.adm-cat__name:focus { background: #fff; }
+.adm-cat__tools { display: inline-flex; align-items: center; gap: 2px; margin-left: auto; }
+
+.adm-move {
+  border: 1px solid var(--a-line); background: #fff; color: var(--a-text);
+  font-size: 14px; line-height: 1; cursor: pointer;
+  padding: 6px 9px; border-radius: 5px;
+  transition: border-color .15s ease, color .15s ease;
+}
+.adm-move:hover:not(:disabled) { border-color: var(--a-blue); color: var(--a-blue); }
+.adm-move:disabled { opacity: .35; cursor: default; }
+
+.adm-rowtools { display: inline-flex; align-items: center; gap: 2px; justify-content: flex-end; }
+
+.adm-save__hint { font-size: 13px; color: var(--a-dim); }
 
 .adm-btn--danger { background: #C42C20; color: #fff; }
 .adm-btn--danger:hover { background: #A5231A; }
@@ -200,6 +232,11 @@ button, input { font: inherit; color: inherit; }
 }
 .adm-add__note { grid-column: 1 / -2; }
 .adm-add__submit { grid-column: -2 / -1; justify-self: end; }
+/* Добавление категории: одно поле и кнопка, сетка позиции здесь избыточна. */
+.adm-add__form--one { grid-template-columns: minmax(0, 1fr) auto; }
+.adm-add__form--one .adm-add__title-field { grid-column: 1; }
+.adm-add__form--one .adm-add__submit { grid-column: 2; }
+.adm-add__hint { margin-top: 12px; font-size: 13.5px; color: var(--a-dim); max-width: 68ch; }
 
 @media (max-width: 900px) {
   .adm-add__form { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); }
@@ -225,6 +262,10 @@ button, input { font: inherit; color: inherit; }
 .adm-confirm__what dd { margin: 0; color: var(--a-ink); font-weight: 500; }
 .adm-confirm__actions { display: flex; gap: 12px; align-items: center; flex-wrap: wrap; }
 .adm-confirm__actions form { margin: 0; }
+.adm-confirm__list { margin: -8px 0 22px; font-size: 14px; }
+.adm-confirm__list summary { cursor: pointer; color: var(--a-blue); }
+.adm-confirm__list ul { margin: 10px 0 0; padding-left: 20px; color: var(--a-text); }
+.adm-confirm__list li { margin-bottom: 4px; }
 
 /* ---------- заявки ---------- */
 .adm-table--leads { min-width: 640px; }

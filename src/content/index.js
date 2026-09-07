@@ -178,43 +178,6 @@ const popular = [
   { id: 'akkumulyatory-polipropilenovye-ne-slitye', label: 'Аккумуляторы' }
 ];
 
-/**
- * Порядок категорий на странице цен.
- *
- * Заказчик сверяет цены с прайсом конкурента (74vtormet.ru/price) и попросил
- * тот же порядок: так строки идут одна против другой и цены удобно
- * переносить. Отличие одно и оно от заказчика: у конкурента вольфрам стоит
- * первым, а в Омске он «не развит», поэтому вольфрам и твёрдые сплавы ушли
- * вниз, а список начинается с чёрного лома, меди, латуни и алюминия.
- *
- * Категории, которых здесь нет, показываются в конце в том порядке,
- * в каком лежат в data/prices.json. Новую категорию из админки не потеряем.
- */
-const priceOrder = [
-  'stal-chugun',                                // Чёрный лом
-  'med-sortovaya',
-  'med',
-  'latun-bronza',                               // у конкурента бронза и латунь врозь
-  'alyuminiy',
-  'alyuminiy-sortovoy',
-  'nerzhaveyuschaya-i-nizkolegirovannaya-stal', // «нержавейка» и «низколегирка»
-  'akkumulyatory',                              // АКБ
-  'svinec',
-  'olovo',
-  'babbity',
-  'pripoi-olovyanno-svincovye-posy-possu',
-  'titan',
-  'cink-cam',
-  'nihromy-i-nikelsoderzhaschie-splavy',
-  'nikel',
-  'elektrodvigateli',
-  'bystrorezhuschie-stali',                     // «инструментальные стали»
-  'ferrosplavy',
-  'tverdye-splavy-pobedit',
-  'volfram-molibden-niobiy-volframosoderzhaschie-sp',
-  'prochee'
-];
-
 /** Позиции в бегущей строке цен. Держим короткими: это витрина, не таблица. */
 const ticker = [
   { id: 'lom-medi-blesk', label: 'Медь «Блеск»' },
@@ -230,5 +193,5 @@ const ticker = [
 ];
 
 module.exports = {
-  hero, tiles, alsoAccepted, location, reviews, documents, popular, priceOrder, ticker
+  hero, tiles, alsoAccepted, location, reviews, documents, popular, ticker
 };

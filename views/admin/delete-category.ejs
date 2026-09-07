@@ -1,0 +1,57 @@
+<%- include('_head') %>
+<%- include('_nav') %>
+
+<%#
+  Подтверждение общее для прайса и каталогов: адрес формы и ссылка «Отмена»
+  приходят из роутера. Категория удаляется вместе с позициями, поэтому их
+  количество показано отдельной строкой, а сами названия перечислены ниже:
+  на этой странице человек последний раз видит, что именно исчезнет.
+%>
+
+<main class="adm-main">
+  <%- include('_catalog-tabs') %>
+
+  <div class="adm-confirm">
+    <h1 class="adm-h1">Удалить категорию?</h1>
+    <p class="adm-sub">
+      <% if (category.items.length) { %>
+        Категория исчезнет с сайта вместе со всеми своими позициями, их
+        <%= category.items.length %>. Отменить это из админки нельзя.
+        Если позиции нужно сохранить, вернитесь и перенесите их в другую
+        категорию колонкой «Категория», а потом удаляйте.
+      <% } else { %>
+        Категория пустая, на сайте её не видно. Удаление ничего не заденет.
+      <% } %>
+    </p>
+
+    <dl class="adm-confirm__what">
+      <div><dt>Категория</dt><dd><%= category.name %></dd></div>
+      <div><dt>Группа</dt><dd><%= group.title %></dd></div>
+      <div><dt>Позиций</dt><dd><%= category.items.length %></dd></div>
+    </dl>
+
+    <% if (category.items.length) { %>
+      <details class="adm-confirm__list">
+        <summary>Что удалится</summary>
+        <ul>
+          <% category.items.forEach(function (item) { %>
+            <li><%= item.title %></li>
+          <% }); %>
+        </ul>
+      </details>
+    <% } %>
+
+    <div class="adm-confirm__actions">
+      <form action="<%= action %>" method="post">
+        <input type="hidden" name="_csrf" value="<%= csrf %>">
+        <input type="hidden" name="group" value="<%= group.id %>">
+        <input type="hidden" name="category" value="<%= category.id %>">
+        <input type="hidden" name="confirm" value="yes">
+        <button class="adm-btn adm-btn--danger" type="submit">Да, удалить</button>
+      </form>
+      <a class="adm-btn adm-btn--ghost" href="<%= back %>">Отмена</a>
+    </div>
+  </div>
+</main>
+
+<%- include('_foot') %>

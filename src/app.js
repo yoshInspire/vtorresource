@@ -18,8 +18,18 @@ app.set('views', path.join(__dirname, '..', 'views'));
 app.disable('x-powered-by');
 
 app.use(compression());
-app.use(express.urlencoded({ extended: false, limit: '32kb' }));
-app.use(express.json({ limit: '32kb' }));
+
+/**
+ * Разбор форм. Публичным формам хватает 32 КБ и стандартного числа полей:
+ * там имя, телефон и комментарий.
+ *
+ * Админка сохраняет группу прайса целиком одной формой, и это совсем другой
+ * порядок: у «Цветных металлов» сто с лишним позиций по пять полей (≈48 КБ),
+ * у радиодеталей — почти полторы тысячи полей и ≈120 КБ. Со стандартными
+ * лимитами такое сохранение падало с ошибкой 500, поэтому у /admin свои.
+ */
+const publicForms = express.urlencoded({ extended: false, limit: '32kb' });
+const adminForms = express.urlencoded({ extended: false, limit: '2mb', parameterLimit: 20000 });
 
 app.use(express.static(path.join(__dirname, '..', 'public'), {
   maxAge: process.env.NODE_ENV === 'production' ? '30d' : 0,
@@ -75,6 +85,15 @@ app.use((req, res, next) => {
   res.locals.asset = assetUrl;
   next();
 });
+
+// Разбор тела идёт после общих локалей: если он всё-таки упадёт (слишком
+// большая форма, битая кодировка), обработчик ошибок должен успеть
+// отрисовать страницу — а ей нужны site и f. Иначе вместо страницы ошибки
+// пользователь видит голое «Internal Server Error».
+app.use((req, res, next) => {
+  (req.path.startsWith('/admin') ? adminForms : publicForms)(req, res, next);
+});
+app.use(express.json({ limit: '32kb' }));
 
 app.use('/', pages);
 

@@ -12,24 +12,20 @@
 
   <%- include('_catalog-tabs') %>
 
-  <% if (saved !== null) { %>
-    <p class="adm-alert adm-alert--ok" role="status">
-      <% if (saved > 0) { %>
-        Сохранено позиций: <b><%= saved %></b>. На сайте уже обновилось.
-      <% } else { %>
-        Изменений не было, ничего не сохранял.
-      <% } %>
-    </p>
+  <% if (saved) { %>
+    <p class="adm-alert adm-alert--ok" role="status">Сохранено</p>
   <% } %>
 
   <% if (added) { %>
     <p class="adm-alert adm-alert--ok" role="status">
-      Позиция добавлена, её адрес: <code><%= added %></code>.
+      <%= added === 'category' ? 'Категория добавлена' : 'Позиция добавлена' %>
     </p>
   <% } %>
 
   <% if (removed) { %>
-    <p class="adm-alert adm-alert--ok" role="status">Позиция «<%= removed %>» удалена.</p>
+    <p class="adm-alert adm-alert--ok" role="status">
+      <%= removed === 'category' ? 'Категория удалена' : 'Позиция удалена' %>
+    </p>
   <% } %>
 
   <% if (error) { %>
@@ -38,8 +34,10 @@
         Форма устарела: вход был выполнен слишком давно. Откройте страницу заново и повторите.
       <% } else if (error === 'title') { %>
         Не добавил позицию: у неё должно быть название.
+      <% } else if (error === 'catname') { %>
+        Не добавил категорию: у неё должно быть название.
       <% } else { %>
-        Не нашёл, что вы правите. Возможно, позицию уже удалили в другой вкладке.
+        Не нашёл, что вы правите. Возможно, это уже удалили в другой вкладке.
       <% } %>
     </p>
   <% } %>
@@ -54,8 +52,12 @@
     <% }); %>
   </div>
 
-  <!-- Форма удаления вынесена из таблицы: вложенные формы недопустимы. -->
+  <!-- Формы удаления вынесены из таблицы: вложенные формы недопустимы. -->
   <form id="del-form" action="/admin/catalog/<%= catalogName %>/delete" method="post" hidden>
+    <input type="hidden" name="_csrf" value="<%= csrf %>">
+    <input type="hidden" name="group" value="<%= group.id %>">
+  </form>
+  <form id="del-cat-form" action="/admin/catalog/<%= catalogName %>/category/delete" method="post" hidden>
     <input type="hidden" name="_csrf" value="<%= csrf %>">
     <input type="hidden" name="group" value="<%= group.id %>">
   </form>
@@ -64,12 +66,36 @@
     <input type="hidden" name="_csrf" value="<%= csrf %>">
     <input type="hidden" name="group" value="<%= group.id %>">
 
-    <% group.categories.forEach(function (category) { %>
+    <%# Enter в поле отправляет форму первой кнопкой submit: без этой скрытой
+        кнопки он двигал бы первую категорию. %>
+    <button class="visually-hidden" type="submit" tabindex="-1">Сохранить</button>
+
+    <% group.categories.forEach(function (category, ci) { %>
       <section class="adm-cat" id="<%= category.id %>">
-        <h2 class="adm-cat__title">
-          <%= category.name %>
-          <span class="adm-cat__count"><%= category.items.length %></span>
-        </h2>
+        <div class="adm-cat__head">
+          <h2 class="adm-cat__title">
+            <input class="adm-input adm-cat__name" type="text" maxlength="120" required
+                   name="catname__<%= category.id %>"
+                   value="<%= category.name %>"
+                   aria-label="Название категории">
+          </h2>
+          <span class="adm-cat__tools">
+            <span class="adm-cat__count"><%= category.items.length %></span>
+            <button class="adm-move" type="submit" name="catmove" value="up__<%= category.id %>"
+                    title="Категорию выше" <%= ci === 0 ? 'disabled' : '' %>>
+              ↑<span class="visually-hidden"> категорию <%= category.name %> выше</span>
+            </button>
+            <button class="adm-move" type="submit" name="catmove" value="down__<%= category.id %>"
+                    title="Категорию ниже"
+                    <%= ci === group.categories.length - 1 ? 'disabled' : '' %>>
+              ↓<span class="visually-hidden"> категорию <%= category.name %> ниже</span>
+            </button>
+            <button class="adm-del" type="submit" form="del-cat-form"
+                    name="category" value="<%= category.id %>">
+              Удалить категорию<span class="visually-hidden"> <%= category.name %></span>
+            </button>
+          </span>
+        </div>
 
         <div class="adm-tablewrap">
           <table class="adm-table">
@@ -81,14 +107,15 @@
                 <% if (group.columns && group.columns[1]) { %>
                   <th scope="col" class="adm-table__num"><%= group.columns[1] %></th>
                 <% } %>
+                <th scope="col" class="adm-table__cat">Категория</th>
                 <th scope="col" class="adm-table__act"><span class="visually-hidden">Действия</span></th>
               </tr>
             </thead>
             <tbody>
-              <% category.items.forEach(function (item) { %>
+              <% category.items.forEach(function (item, ii) { %>
                 <tr>
                   <td class="adm-table__name">
-                    <input class="adm-input adm-input--title" type="text" maxlength="200" required
+                    <input class="adm-input adm-input--title" type="text" maxlength="400" required
                            name="title__<%= category.id %>__<%= item.id %>"
                            value="<%= item.title %>"
                            aria-label="Название позиции">
@@ -119,15 +146,48 @@
                              aria-label="<%= group.columns[1] %>: <%= item.title %>">
                     </td>
                   <% } %>
+                  <%# Перенос в другую категорию той же группы: у групп каталога
+                      разные колонки цен, и позиция из «Плат» в «Радиодеталях»
+                      осталась бы без второй цены. %>
+                  <td class="adm-table__cat">
+                    <select class="adm-input adm-input--cat"
+                            name="catof__<%= category.id %>__<%= item.id %>"
+                            aria-label="Категория позиции <%= item.title %>">
+                      <% group.categories.forEach(function (c) { %>
+                        <option value="<%= c.id %>"<%= c.id === category.id ? ' selected' : '' %>>
+                          <%= c.name %>
+                        </option>
+                      <% }); %>
+                    </select>
+                  </td>
                   <td class="adm-table__act">
-                    <button class="adm-del" type="submit" form="del-form"
-                            name="item" value="<%= category.id %>__<%= item.id %>"
-                            title="Удалить позицию">
-                      Удалить<span class="visually-hidden"> позицию <%= item.title %></span>
-                    </button>
+                    <span class="adm-rowtools">
+                      <button class="adm-move" type="submit"
+                              name="move" value="up__<%= category.id %>__<%= item.id %>"
+                              title="Выше" <%= ii === 0 ? 'disabled' : '' %>>
+                        ↑<span class="visually-hidden"> позицию <%= item.title %> выше</span>
+                      </button>
+                      <button class="adm-move" type="submit"
+                              name="move" value="down__<%= category.id %>__<%= item.id %>"
+                              title="Ниже" <%= ii === category.items.length - 1 ? 'disabled' : '' %>>
+                        ↓<span class="visually-hidden"> позицию <%= item.title %> ниже</span>
+                      </button>
+                      <button class="adm-del" type="submit" form="del-form"
+                              name="item" value="<%= category.id %>__<%= item.id %>"
+                              title="Удалить позицию">
+                        Удалить<span class="visually-hidden"> позицию <%= item.title %></span>
+                      </button>
+                    </span>
                   </td>
                 </tr>
               <% }); %>
+              <% if (!category.items.length) { %>
+                <tr>
+                  <td colspan="<%= group.columns && group.columns[1] ? 6 : 5 %>" class="adm-table__empty">
+                    Пока пусто. Добавьте позицию внизу страницы, выбрав эту категорию.
+                  </td>
+                </tr>
+              <% } %>
             </tbody>
           </table>
         </div>
@@ -136,6 +196,9 @@
 
     <div class="adm-save">
       <button class="adm-btn adm-btn--accent" type="submit">Сохранить</button>
+      <span class="adm-save__hint">
+        Одной кнопкой сохраняются цены, названия, категории и порядок.
+      </span>
     </div>
   </form>
 
@@ -156,7 +219,7 @@
 
       <label class="adm-field adm-add__title-field">
         <span class="adm-field__label">Название</span>
-        <input class="adm-field__input" type="text" name="title" required maxlength="200"
+        <input class="adm-field__input" type="text" name="title" required maxlength="400"
                placeholder="Например: Серебро 999 пробы, мерные слитки">
       </label>
 
@@ -187,6 +250,29 @@
         <button class="adm-btn adm-btn--accent" type="submit">Добавить</button>
       </div>
     </form>
+  </section>
+
+  <section class="adm-add">
+    <h2 class="adm-add__title">Добавить категорию</h2>
+    <form class="adm-add__form adm-add__form--one"
+          action="/admin/catalog/<%= catalogName %>/category/add" method="post">
+      <input type="hidden" name="_csrf" value="<%= csrf %>">
+      <input type="hidden" name="group" value="<%= group.id %>">
+
+      <label class="adm-field adm-add__title-field">
+        <span class="adm-field__label">Название категории</span>
+        <input class="adm-field__input" type="text" name="name" required maxlength="120"
+               placeholder="Например: Конденсаторы">
+      </label>
+
+      <div class="adm-add__submit">
+        <button class="adm-btn adm-btn--accent" type="submit">Добавить</button>
+      </div>
+    </form>
+    <p class="adm-add__hint">
+      Встанет в конец группы «<%= group.title %>». Дальше её можно поднять
+      стрелками в заголовке, там же переименовать и удалить.
+    </p>
   </section>
 </main>
 
