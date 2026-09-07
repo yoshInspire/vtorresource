@@ -17,10 +17,19 @@ const path = require('path');
 
 const DATA_DIR = path.join(__dirname, '..', '..', 'data');
 
-/** Какие каталоги существуют и как называются в интерфейсе. */
+/**
+ * Какие каталоги существуют и как называются в интерфейсе.
+ *
+ * `flatten` — на каком уровне резать каталог на разделы страницы цен.
+ * Уровней в данных два, группа и категория, и осмысленные названия
+ * лежат на разных: у радиодеталей это категории («Конденсаторы»,
+ * «Реле»), а у драгметаллов группы («Серебро», «Золото»), потому что
+ * категории там это подразделы вроде «Контакты», которые сами по себе
+ * ничего не говорят и повторяются под разными металлами.
+ */
 const REGISTRY = [
-  { id: 'radio', file: 'radio', title: 'Радиодетали и платы', url: '/radiodetali' },
-  { id: 'dragmet', file: 'dragmet', title: 'Драгметаллы', url: '/dragmetally' }
+  { id: 'radio', file: 'radio', title: 'Радиодетали и платы', url: '/radiodetali', flatten: 'category' },
+  { id: 'dragmet', file: 'dragmet', title: 'Драгметаллы', url: '/dragmetally', flatten: 'group' }
 ];
 
 const cache = new Map();
@@ -47,6 +56,46 @@ function countItems(catalog) {
     (total, group) => total + group.categories.reduce((n, c) => n + c.items.length, 0),
     0
   );
+}
+
+/**
+ * Плоский список разделов каталога для страницы цен: заголовок, якорь,
+ * колонки цен и позиции. Группы на странице не показываются, как и на
+ * основном прайсе, поэтому уровень резки задаётся в REGISTRY.
+ *
+ * Якорь берём у группы, когда категория в ней одна: на `/radiodetali#platy`
+ * ведёт ссылка из подвала, и она не должна протухнуть.
+ *
+ * @returns {{id: string, title: string, columns: string[]|null, items: object[]}[]}
+ */
+function sections(catalog, mode) {
+  const out = [];
+
+  for (const group of catalog.groups) {
+    const columns = (group.columns && group.columns.length) ? group.columns : null;
+
+    if (mode === 'group') {
+      out.push({
+        id: group.id,
+        title: group.title,
+        columns,
+        items: group.categories.reduce((all, c) => all.concat(c.items), [])
+      });
+      continue;
+    }
+
+    const single = group.categories.length === 1;
+    for (const category of group.categories) {
+      out.push({
+        id: single ? group.id : category.id,
+        title: single ? group.title : category.name,
+        columns,
+        items: category.items
+      });
+    }
+  }
+
+  return out;
 }
 
 /**
@@ -217,6 +266,7 @@ module.exports = {
   draft,
   save,
   countItems,
+  sections,
   topPrice,
   formatPrice,
   getGroup,

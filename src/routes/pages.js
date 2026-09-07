@@ -152,6 +152,7 @@ router.get('/price', (req, res) => {
 
 // --- радиодетали и платы -----------------------------------------------------
 router.get('/radiodetali', (req, res) => {
+  const entry = cat.REGISTRY.find(c => c.id === 'radio');
   const catalog = cat.load('radio');
   const title = `Приём радиодеталей и плат в Омске: цены | ${site.brand}`;
   const description =
@@ -165,6 +166,8 @@ router.get('/radiodetali', (req, res) => {
     canonical: seo.abs('/radiodetali'),
     catalog,
     cat,
+    // Плоский список разделов: групп на странице не видно, как и на /price
+    sections: cat.sections(catalog, entry.flatten),
     catalogTitle: 'Радиодетали и платы',
     h1: 'Приём радиодеталей и плат в Омске',
     lead:
@@ -200,6 +203,7 @@ router.get('/radiodetali', (req, res) => {
 
 // --- драгметаллы -------------------------------------------------------------
 router.get('/dragmetally', (req, res) => {
+  const entry = cat.REGISTRY.find(c => c.id === 'dragmet');
   const catalog = cat.load('dragmet');
   const title = `Приём лома драгметаллов в Омске: серебро, палладий, платина | ${site.brand}`;
   const description =
@@ -213,6 +217,8 @@ router.get('/dragmetally', (req, res) => {
     canonical: seo.abs('/dragmetally'),
     catalog,
     cat,
+    // Плоский список разделов: групп на странице не видно, как и на /price
+    sections: cat.sections(catalog, entry.flatten),
     catalogTitle: 'Драгметаллы',
     h1: 'Приём лома драгметаллов в Омске',
     lead:

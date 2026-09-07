@@ -932,77 +932,21 @@ select.field__input { appearance: none; background-image: url("data:image/svg+xm
   content: ""; width: 8px; height: 8px; border-radius: 50%; background: var(--ok-500);
 }
 
-/* ---------- панель поиска и вкладки ---------- */
-.price-toolbar {
-  position: sticky; top: var(--header-h); z-index: 50;
-  background: var(--paper); border-top: 1px solid var(--paper-200);
-  border-bottom: 1px solid var(--paper-200);
-}
-.price-toolbar__inner {
-  display: flex; align-items: center; gap: 12px 20px; padding-top: 12px; padding-bottom: 12px;
-  flex-wrap: wrap;
-}
-.price-toolbar__inner .badge { margin-left: auto; }
-/* wrap: три вкладки в ряд не помещаются на 375 и давали странице
-   горизонтальную прокрутку в два пикселя. */
-.price-tabs { display: flex; flex-wrap: wrap; gap: 6px; }
-.price-tabs__link {
-  padding: 9px 18px; border-radius: 999px; font-size: 14.5px; text-decoration: none;
-  color: var(--text-600); background: var(--paper-100); transition: background-color .15s ease, color .15s ease;
-}
-.price-tabs__link:hover { background: var(--paper-200); color: var(--text-900); }
-
-
-.anchors { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 36px; }
-.anchors__link {
-  padding: 7px 14px; border: 1px solid var(--paper-300); border-radius: 999px;
-  font-size: 13.5px; color: var(--text-600); text-decoration: none;
-}
-.anchors__link:hover { border-color: var(--blue-500); color: var(--blue-600); }
-
 /* ---------- таблицы прайса ---------- */
-/* Категории раскладываем в колонки: 22 таблицы в один столбец давали
-   экран за экраном прокрутки. Многоколоночная раскладка, а не грид:
-   таблицы разной высоты она пакует плотно, без дыр в ряду.
-   inline-block + width: 100% — обязательная пара к break-inside: avoid,
-   иначе таблица всё равно рвётся между колонками. */
-.price-cats { columns: 3; column-gap: 24px; }
-.price-cats--1 { columns: 1; max-width: 660px; }
-.price-cats--2 { columns: 2; max-width: 880px; }
-
-/* До трёх категорий — сетка: колонки балансируются по высоте и на трёх
-   блоках оставляют третью колонку пустой. */
-.price-cats--grid { columns: auto; display: grid; gap: 24px; align-items: start; }
-.price-cats--grid.price-cats--1 { grid-template-columns: minmax(0, 1fr); }
-.price-cats--grid.price-cats--2 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
-.price-cats--grid.price-cats--3 { grid-template-columns: repeat(3, minmax(0, 1fr)); }
-.price-cats--grid .price-cat { margin: 0; }
-.price-cats--grid .price-cat--wide { grid-column: 1 / -1; }
-.price-cat {
-  break-inside: avoid; display: inline-block; width: 100%;
-  margin: 0 0 24px; scroll-margin-top: calc(var(--header-h) + 70px);
-}
-/* Длинная категория выходит из колонок на всю ширину, а её строки
-   разложены в несколько таблиц рядом — у каждой своя шапка. */
-.price-cat--wide { column-span: all; display: block; }
-.price-split { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 20px; align-items: start; }
+/* Две колонки, а не три: у таблицы своя минимальная ширина по содержимому,
+   и на трети от 868 px она в дорожку не влезала и вылезала за край. */
+.price-split { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 20px 24px; align-items: start; }
+.price-split .price-table__name { overflow-wrap: anywhere; }
 .price-split .price-table { min-width: 0; }
 .price-split .price-table th,
 .price-split .price-table td { padding: 10px 14px; }
 .price-split .price-table thead th { white-space: nowrap; }
 .price-split .price-table__col { width: auto; }
 
-.price-cats .price-table { min-width: 0; }
-.price-cats .price-table th,
-.price-cats .price-table td { padding: 10px 14px; }
-.price-cats .price-table__col { width: auto; }
-/* «Цена, ₽/кг» в узкой колонке рвалась на две строки */
-.price-cats .price-table thead th { white-space: nowrap; }
 .price-cat__title {
   font-family: var(--display); font-weight: 600; text-transform: uppercase;
   font-size: 22px; color: var(--text-900); margin-bottom: 14px; letter-spacing: .01em;
 }
-.table-wrap { overflow-x: auto; border: 1px solid var(--paper-200); border-radius: var(--radius); }
 .price-table { font-size: 15px; min-width: 480px; }
 .price-table th, .price-table td { padding: 12px 18px; text-align: left; border-bottom: 1px solid var(--paper-200); }
 .price-table tbody tr:last-child th, .price-table tbody tr:last-child td { border-bottom: 0; }
@@ -1054,7 +998,6 @@ select.field__input { appearance: none; background-image: url("data:image/svg+xm
 .section--dark .price-table td { border-color: rgba(107, 129, 154, .2); color: var(--on-dark); }
 .section--dark .price-table__value { color: #fff; }
 .section--dark .price-table tbody tr:hover { background: rgba(255, 255, 255, .03); }
-.section--dark .table-wrap { border: 0; }
 
 /* Блок «уточните цену» на странице цен. Секция тёмная, поэтому светлой
    подложки здесь быть не должно: раньше она ложилась поверх тёмного фона
@@ -1153,7 +1096,11 @@ select.field__input { appearance: none; background-image: url("data:image/svg+xm
   font-family: var(--display); font-size: 14px; color: var(--steel-400);
   font-variant-numeric: tabular-nums; text-align: right;
 }
-.price-table__num::before { counter-increment: pos; content: counter(pos); }
+/* Считаем только строки тела: такая же ячейка стоит в шапке таблицы,
+   чтобы колонки сошлись, и она не должна попадать в нумерацию. */
+.price-table--flat tbody .price-table__num::before { counter-increment: pos; content: counter(pos); }
+/* «Цена, ₽» и «От 100 кг» в шапке не должны переноситься по слогам */
+.price-table--flat thead th { white-space: nowrap; }
 
 /* Список категорий: липнет рядом со списком цен и прокручивается сам,
    если не влезает в экран. */
@@ -1267,7 +1214,6 @@ select.field__input { appearance: none; background-image: url("data:image/svg+xm
   .section { padding: 52px 0; }
   .zasor { grid-template-columns: minmax(0, 1fr); }
   .faq { columns: 1; }
-  .price-cats, .price-cats--2, .price-cats--3 { columns: 2; }
   /* Категории уезжают наверх одной прокручиваемой строкой: списком
      в столбик они занимали весь первый экран, а прайс должен быть виден
      сразу. Заголовок «Категории» на узком экране только тратит строку. */
@@ -1286,11 +1232,7 @@ select.field__input { appearance: none; background-image: url("data:image/svg+xm
     border: 1px solid var(--paper-300); border-radius: 999px;
   }
   .price-nav__link.is-active { border-color: var(--ink-900); }
-  .price-cats--grid.price-cats--2,
-  .price-cats--grid.price-cats--3 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
-  .price-split { grid-template-columns: repeat(2, minmax(0, 1fr)); }
   .price-grid { grid-template-columns: minmax(0, 1fr); }
-  .price-toolbar { position: static; }
   .map__frame { height: 320px; }
 }
 
@@ -1308,12 +1250,14 @@ select.field__input { appearance: none; background-image: url("data:image/svg+xm
   .map__rating { margin-left: 0; }
   .tile__price { flex-wrap: wrap; gap: 14px; }
   .lead-form--dark { padding: 22px; }
-  .price-cats, .price-cats--2, .price-cats--3 { columns: 1; }
   .price-cat__title { font-size: 19px; }
-  .price-table--flat th, .price-table--flat td { padding: 10px 8px; }
-  .price-table__num { width: 30px; font-size: 13px; }
-  .price-cats--grid.price-cats--2,
-  .price-cats--grid.price-cats--3 { grid-template-columns: minmax(0, 1fr); }
+  /* На узком экране таблица платы—единица—две цены не помещалась в 375:
+     распускаем всё, что можно перенести, кроме самих цифр. */
+  .price-table--flat th, .price-table--flat td { padding: 10px 6px; }
+  .price-table__num { width: 26px; font-size: 13px; }
+  .price-table--flat thead th { white-space: normal; }
+  .price-table--flat .price-table__unit { white-space: normal; width: auto; }
+  .price-table--flat .price-table__name { overflow-wrap: anywhere; }
   .price-split { grid-template-columns: minmax(0, 1fr); }
   .calc__row { grid-template-columns: minmax(0, 1fr); }
   .step { grid-template-columns: 38px minmax(0, 1fr); gap: 14px; }
@@ -1328,7 +1272,7 @@ select.field__input { appearance: none; background-image: url("data:image/svg+xm
 
 /* ---------- печать ---------- */
 @media print {
-  .header, .price-toolbar, .call-fab, .lead-form, .hero__media, .footer__bottom,
+  .header, .price-bar, .price-nav, .call-fab, .lead-form, .hero__media, .footer__bottom,
   .ticker, .calc, .cta { display: none !important; }
   body { color: #000; background: #fff; }
   .section { padding: 20px 0; }
