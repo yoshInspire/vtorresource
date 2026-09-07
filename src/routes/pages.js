@@ -97,14 +97,6 @@ router.get('/', (req, res) => {
   }));
 
   const calcItems = buildCalcItems(prices);
-  const counts = countPositions();
-
-  // Четвёртый факт первого экрана — число позиций по всем каталогам.
-  const heroFacts = content.hero.facts.map(fact => (
-    fact.id === 'positions'
-      ? { value: String(counts.total), label: f.plural(counts.total, 'позиция', 'позиции', 'позиций') + ' с ценами' }
-      : fact
-  ));
 
   const title = `Приём металлолома в Омске — сдать чёрный и цветной лом | ${site.brand}`;
   const description = site.seo.defaultDescription;
@@ -115,7 +107,6 @@ router.get('/', (req, res) => {
     description,
     canonical: seo.abs('/'),
     prices,
-    heroFacts,
     tiles,
     ticker,
     calcItems,
@@ -306,10 +297,10 @@ router.post('/lead', (req, res) => {
 
   const fail = message => wantsJson
     ? res.status(400).json({ ok: false, error: message })
-    : res.redirect('/?lead=error#zayavka');
+    : res.redirect('/?lead=error#zayavka-form');
 
   // honeypot: поле company скрыто от людей, боты его заполняют
-  if (company.trim()) return wantsJson ? res.json({ ok: true }) : res.redirect('/?lead=ok#zayavka');
+  if (company.trim()) return wantsJson ? res.json({ ok: true }) : res.redirect('/?lead=ok#zayavka-form');
   if (rateLimited(req.ip)) return fail('Слишком много заявок, попробуйте через минуту');
 
   const digits = phone.replace(/\D/g, '');
@@ -323,7 +314,7 @@ router.post('/lead', (req, res) => {
     ua: String(req.get('user-agent') || '').slice(0, 300)
   });
 
-  return wantsJson ? res.json({ ok: true }) : res.redirect('/?lead=ok#zayavka');
+  return wantsJson ? res.json({ ok: true }) : res.redirect('/?lead=ok#zayavka-form');
 });
 
 // --- служебные -------------------------------------------------------------

@@ -413,9 +413,13 @@ table { border-collapse: collapse; width: 100%; }
 .section--dark > .container, .cta > .container { position: relative; z-index: 2; }
 .hero__inner {
   position: relative; z-index: 2;
-  display: grid; grid-template-columns: minmax(0, 1.15fr) minmax(340px, .85fr);
-  gap: 56px; align-items: start; padding: 68px 0 56px;
+  padding: 76px 0 68px;
 }
+/* Заголовок и оффер держим в колонке: во всю ширину экрана строка
+   получается длиннее, чем её удобно читать. Бегущая строка и кнопки
+   под ними идут на всю ширину контейнера. */
+.hero__title { max-width: 20ch; }
+.hero__offer { max-width: 28ch; }
 .hero__eyebrow {
   display: inline-flex; align-items: center; gap: 9px;
   font-size: 13px; letter-spacing: .08em; text-transform: uppercase;
@@ -430,7 +434,7 @@ table { border-collapse: collapse; width: 100%; }
 .hero__offer {
   font-family: var(--display); font-weight: 500; text-transform: uppercase;
   font-size: clamp(19px, 2.6vw, 30px); line-height: 1.14;
-  color: var(--orange-400); margin-bottom: 30px; text-wrap: balance;
+  color: var(--orange-400); margin-bottom: 34px; text-wrap: balance;
 }
 .hero__actions { display: flex; gap: 14px; flex-wrap: wrap; margin-bottom: 30px; }
 .hero__phones { row-gap: 6px; font-size: 14px; color: var(--on-dark-dim); }
@@ -440,18 +444,6 @@ table { border-collapse: collapse; width: 100%; }
 }
 .hero__phone:hover { color: var(--orange-400); }
 
-.hero__facts {
-  position: relative; z-index: 2;
-  display: grid; grid-template-columns: repeat(4, minmax(0, 1fr));
-  border-top: 1px solid rgba(107, 129, 154, .24);
-}
-.hero-fact { padding: 24px 26px 28px; border-left: 1px solid rgba(107, 129, 154, .18); }
-.hero-fact:first-child { border-left: 0; padding-left: 0; }
-.hero-fact__value {
-  font-family: var(--display); font-weight: 600; font-size: 30px; line-height: 1.1;
-  color: #fff; letter-spacing: .01em;
-}
-.hero-fact__label { font-size: 13.5px; color: var(--on-dark-dim); margin-top: 5px; }
 
 /* ---------- значки мессенджеров ---------- */
 .msgs { display: inline-flex; align-items: center; gap: 6px; flex: none; }
@@ -518,18 +510,36 @@ a.msg:hover { background: rgba(255, 255, 255, .1); color: #fff; }
   border-right: 1px solid rgba(255, 255, 255, .2);
 }
 .ticker { box-shadow: 0 4px 0 rgba(30, 107, 239, .55); }
+/* Вариант внутри первого экрана: не полоса во всю ширину окна, а плашка
+   в контейнере между оффером и кнопками. Синей тени под ней нет, она
+   лежит на тёмной фотографии и читалась бы как артефакт. */
+.ticker--hero {
+  border-radius: var(--radius); border: 0; box-shadow: var(--shadow);
+  margin-bottom: 34px;
+}
 .ticker__item:hover { background: rgba(0, 0, 0, .14); }
 .ticker__name { font-size: 14.5px; opacity: .92; }
 .ticker__price { font-family: var(--display); font-weight: 600; font-size: 18px; }
 .ticker__unit { font-size: 12px; opacity: .8; }
 
 /* ---------- калькулятор ---------- */
-.calc { display: grid; grid-template-columns: minmax(0, 1fr) minmax(330px, 420px); gap: 48px; align-items: start; }
-.calc__form { display: flex; flex-direction: column; gap: 18px; }
+/* Калькулятор — одно окно, а не поля отдельно и карточка отдельно:
+   светлая половина с полями и тёмная с суммой лежат в общей рамке. */
+.calc {
+  display: grid; grid-template-columns: minmax(0, 1fr) minmax(340px, 430px);
+  align-items: stretch;
+  background: var(--paper); border: 1px solid var(--paper-200);
+  border-radius: var(--radius-lg); box-shadow: var(--shadow); overflow: hidden;
+}
+.calc__form {
+  display: flex; flex-direction: column; justify-content: center; gap: 18px;
+  padding: 34px 36px;
+}
 .calc__row { display: grid; grid-template-columns: minmax(0, 1fr) 150px; gap: 14px; }
 .calc__result {
-  background: var(--ink-900); color: #fff; border-radius: var(--radius-lg);
-  padding: 30px 32px; box-shadow: var(--shadow);
+  display: flex; flex-direction: column; justify-content: center;
+  background: var(--ink-900); color: #fff;
+  padding: 34px 36px;
 }
 .calc__result-label {
   font-family: var(--display); font-size: 12.5px; letter-spacing: .14em;
@@ -704,7 +714,7 @@ a.msg:hover { background: rgba(255, 255, 255, .1); color: #fff; }
 
 /* ---------- формы ---------- */
 .lead-form { display: flex; flex-direction: column; gap: 15px; }
-.lead-form--hero, .lead-form--dark, .lead-form--card {
+.lead-form--dark {
   background: var(--paper); color: var(--text-700);
   border-radius: var(--radius-lg); padding: 30px; box-shadow: var(--shadow-lg);
 }
@@ -947,9 +957,10 @@ select.field__input { appearance: none; background-image: url("data:image/svg+xm
    Адаптив
    ========================================================================= */
 @media (max-width: 1180px) {
-  .hero__inner { grid-template-columns: minmax(0, 1fr); gap: 40px; }
-  .hero__form { max-width: 520px; }
-  .cta__inner, .calc, .price-cta { grid-template-columns: minmax(0, 1fr); gap: 36px; }
+  .cta__inner, .price-cta { grid-template-columns: minmax(0, 1fr); gap: 36px; }
+  /* Калькулятор складывается в колонку, но остаётся одним окном:
+     зазор между половинами разорвал бы рамку. */
+  .calc { grid-template-columns: minmax(0, 1fr); }
   .tiles { grid-template-columns: repeat(2, minmax(0, 1fr)); }
   .tile, .tile--wide { grid-column: auto; min-height: 300px; }
   /* Плиток пять: нечётная по счёту занимает ряд целиком, иначе остаётся дыра */
@@ -985,10 +996,6 @@ select.field__input { appearance: none; background-image: url("data:image/svg+xm
   .nav__hours { grid-column: 1 / -1; font-size: 12.5px; color: var(--on-dark-dim); margin-top: 4px; }
 
   .section { padding: 56px 0; }
-  .hero__facts { grid-template-columns: repeat(2, minmax(0, 1fr)); }
-  .hero-fact { border-left: 0; padding: 20px 0; border-top: 1px solid rgba(107, 129, 154, .18); }
-  .hero-fact:nth-child(-n+2) { border-top: 0; }
-  .hero-fact:nth-child(even) { padding-left: 22px; border-left: 1px solid rgba(107, 129, 154, .18); }
   /* В колонку разделители должны быть сверху, иначе первый пункт
      оказывается без отступа, а остальные с ним */
   .trust { grid-template-columns: repeat(2, minmax(0, 1fr)); }
@@ -1002,11 +1009,9 @@ select.field__input { appearance: none; background-image: url("data:image/svg+xm
 @media (max-width: 640px) {
   .container { padding: 0 18px; }
   .section { padding: 44px 0; }
-  .hero__inner { padding: 44px 0 36px; }
-  .hero__facts { grid-template-columns: minmax(0, 1fr); }
-  .hero-fact { border-left: 0 !important; padding-left: 0 !important; }
-  .hero-fact:nth-child(2) { border-top: 1px solid rgba(107, 129, 154, .18); }
-  .hero__actions .btn { width: 100%; }
+  .hero__inner { padding: 48px 0 40px; }
+  .hero__title, .hero__offer { max-width: none; }
+  .hero__actions .btn { flex: 1 0 auto; }
   .tiles { grid-template-columns: minmax(0, 1fr); }
   .tile, .tile--wide, .tile:nth-child(odd):last-child { grid-column: auto; min-height: 300px; }
   .trust { grid-template-columns: minmax(0, 1fr); }
@@ -1021,7 +1026,7 @@ select.field__input { appearance: none; background-image: url("data:image/svg+xm
   .papers__shot { width: calc(50% - 10px); }
   .map__rating { margin-left: 0; }
   .tile__price { flex-wrap: wrap; gap: 14px; }
-  .lead-form--hero, .lead-form--dark, .lead-form--card { padding: 22px; }
+  .lead-form--dark { padding: 22px; }
   .calc__row { grid-template-columns: minmax(0, 1fr); }
   .legal__req-row { grid-template-columns: 1fr; gap: 2px; }
   .ticker__label { display: none; }

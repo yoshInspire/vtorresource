@@ -12,7 +12,14 @@
 <main id="main">
 
   <!-- ================= ПЕРВЫЙ ЭКРАН ================= -->
-  <section class="hero" id="zayavka">
+  <%#
+    Формы на первом экране больше нет: заявку принимает блок контактов внизу,
+    туда же ведут кнопка в шапке и кнопка из калькулятора. Лента фактов
+    (от 1 кг, 10 минут, режим, число позиций) убрана вместе с ней.
+    Между оффером и кнопками стоит бегущая строка цен: раньше она шла
+    отдельной полосой под первым экраном.
+  %>
+  <section class="hero">
     <div class="hero__media" aria-hidden="true">
       <%- include('partials/photo', {
         slug: 'yard-hero',
@@ -25,78 +32,48 @@
 
     <div class="container">
       <div class="hero__inner">
-        <div class="hero__text">
-          <p class="hero__eyebrow"><%= content.hero.eyebrow %></p>
-          <h1 class="hero__title"><%= content.hero.title %></h1>
-          <p class="hero__offer"><%= content.hero.offer %></p>
+        <p class="hero__eyebrow"><%= content.hero.eyebrow %></p>
+        <h1 class="hero__title"><%= content.hero.title %></h1>
+        <p class="hero__offer"><%= content.hero.offer %></p>
 
-          <div class="hero__actions">
-            <a class="btn btn--accent" href="/price">Прайс-лист
-              <svg class="btn__icon" aria-hidden="true"><use href="#i-arrow"></use></svg>
-            </a>
-          </div>
-
-          <div class="hero__phones">
-            <% site.phones.forEach(function (p) { %>
-              <span class="hero__phone-row">
-                <a class="hero__phone" href="tel:<%= p.raw %>"><%= p.display %></a>
-                <%- include('partials/messengers', { phone: p, size: 'md' }) %>
-              </span>
-            <% }); %>
+        <div class="ticker ticker--hero">
+          <div class="ticker__inner">
+            <div class="ticker__label">
+              <span>Цены на</span>
+              <b><%= f.dateLong(prices.updatedAt) %></b>
+            </div>
+            <div class="ticker__viewport">
+              <div class="ticker__track">
+                <% for (var pass = 0; pass < 2; pass++) { %>
+                  <% ticker.forEach(function (t) { %>
+                    <a class="ticker__item" href="<%= t.anchor %>"<%= pass === 1 ? ' aria-hidden="true" tabindex="-1"' : '' %>>
+                      <span class="ticker__name"><%= t.label %></span>
+                      <span class="ticker__price num"><%= t.price %></span>
+                      <span class="ticker__unit"><%= t.unit %></span>
+                    </a>
+                  <% }); %>
+                <% } %>
+              </div>
+            </div>
           </div>
         </div>
 
-        <div class="hero__form" id="zayavka-form">
-          <% if (leadStatus === 'ok') { %>
-            <div class="alert alert--ok" role="status">
-              <strong>Заявка принята.</strong> Перезвоним в рабочее время.
-            </div>
-          <% } else if (leadStatus === 'error') { %>
-            <div class="alert alert--err" role="alert">
-              Не удалось отправить заявку. Проверьте номер или позвоните напрямую.
-            </div>
-          <% } %>
-          <%- include('partials/lead-form', {
-            variant: 'hero',
-            formTitle: 'Узнать цену',
-            formText: 'Оставьте номер, перезвоним и назовём цену на сегодня.'
-          }) %>
+        <div class="hero__actions">
+          <a class="btn btn--accent" href="/price">Прайс-лист</a>
+          <a class="btn btn--ghost" href="#kalkulyator">Калькулятор</a>
         </div>
-      </div>
 
-      <div class="hero__facts">
-        <% heroFacts.forEach(function (f2) { %>
-          <div class="hero-fact">
-            <p class="hero-fact__value num"><%= f2.value %></p>
-            <p class="hero-fact__label"><%= f2.label %></p>
-          </div>
-        <% }); %>
+        <div class="hero__phones">
+          <% site.phones.forEach(function (p) { %>
+            <span class="hero__phone-row">
+              <a class="hero__phone" href="tel:<%= p.raw %>"><%= p.display %></a>
+              <%- include('partials/messengers', { phone: p, size: 'md' }) %>
+            </span>
+          <% }); %>
+        </div>
       </div>
     </div>
   </section>
-
-  <!-- ================= БЕГУЩАЯ СТРОКА ЦЕН ================= -->
-  <div class="ticker">
-    <div class="ticker__inner">
-      <div class="ticker__label">
-        <span>Цены на</span>
-        <b><%= f.dateLong(prices.updatedAt) %></b>
-      </div>
-      <div class="ticker__viewport">
-        <div class="ticker__track">
-          <% for (var pass = 0; pass < 2; pass++) { %>
-            <% ticker.forEach(function (t) { %>
-              <a class="ticker__item" href="<%= t.anchor %>"<%= pass === 1 ? ' aria-hidden="true" tabindex="-1"' : '' %>>
-                <span class="ticker__name"><%= t.label %></span>
-                <span class="ticker__price num"><%= t.price %></span>
-                <span class="ticker__unit"><%= t.unit %></span>
-              </a>
-            <% }); %>
-          <% } %>
-        </div>
-      </div>
-    </div>
-  </div>
 
   <!-- ================= ПОЛОСА ДОВЕРИЯ ================= -->
   <section class="section section--blue section--tight">
@@ -316,7 +293,16 @@
         </div>
       </div>
 
-      <div class="cta__form">
+      <div class="cta__form" id="zayavka-form">
+        <% if (leadStatus === 'ok') { %>
+          <div class="alert alert--ok" role="status">
+            <strong>Заявка принята.</strong> Перезвоним в рабочее время.
+          </div>
+        <% } else if (leadStatus === 'error') { %>
+          <div class="alert alert--err" role="alert">
+            Не удалось отправить заявку. Проверьте номер или позвоните напрямую.
+          </div>
+        <% } %>
         <%- include('partials/lead-form', {
           variant: 'dark',
           formTitle: 'Узнать цену',
