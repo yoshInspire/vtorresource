@@ -12,36 +12,29 @@ const cat = require('../lib/catalogs');
 const router = express.Router();
 
 /**
- * Позиции для калькулятора: ходовые из content.popular плюс чёрный лом.
- * Отдаём в шаблон и в JSON для клиентского скрипта. Считать умеет и он, и мы,
- * но источник цен один и тот же — data/prices.json.
+ * Позиции для калькулятора — весь прайс, а не десяток ходовых: в поле
+ * «что сдаёте» человек вводит текст, и подсказки ищутся по всем строкам.
+ * Берём только позиции с числовой ценой: договорные и текстовые
+ * («по запросу») посчитать нельзя, в подсказках им делать нечего.
+ *
+ * `popular` помечает ходовые из content.popular: пока поле пустое, они стоят
+ * первыми, иначе человек видит сверху чёрный лом и редкие сплавы.
+ * Источник цен один и тот же и для сервера, и для скрипта — data/prices.json.
  */
-function buildCalcItems(prices) {
-  const picked = store.pickItems(content.popular);
-  const items = picked
-    .filter(i => i.cash !== null)
-    .map(i => ({
-      id: i.id,
-      label: `${i.title} · ${i.cashTo ? 'от ' : ''}${f.price(i.cash)} ${i.group.unit}`,
-      price: i.cash,
-      unit: i.group.unit,
-      perTonne: i.group.id === 'chermet'
-    }));
+function buildCalcItems() {
+  const popular = new Map(content.popular.map((p, i) => [p.id, i]));
 
-  const chermet = prices.groups.find(g => g.id === 'chermet');
-  if (chermet) {
-    chermet.categories[0].items
-      .filter(i => i.cash !== null)
-      .slice(0, 5)
-      .forEach(i => items.push({
-        id: i.id,
-        label: `${i.title} · ${i.cashTo ? 'от ' : ''}${f.price(i.cash)} ${chermet.unit}`,
-        price: i.cash,
-        unit: chermet.unit,
-        perTonne: true
-      }));
-  }
-  return items;
+  return store.allItems()
+    .filter(({ item }) => item.cash !== null)
+    .map(({ group, category, item }) => ({
+      id: item.id,
+      title: item.title,
+      category: category.name,
+      priceLabel: `${item.cashTo ? 'от ' : ''}${f.price(item.cash)} ${group.unit}`,
+      price: item.cash,
+      perTonne: group.id === 'chermet',
+      rank: popular.has(item.id) ? popular.get(item.id) : null
+    }));
 }
 
 /**
@@ -96,7 +89,7 @@ router.get('/', (req, res) => {
     anchor: `/price#${item.categoryId}`
   }));
 
-  const calcItems = buildCalcItems(prices);
+  const calcItems = buildCalcItems();
 
   const title = `Приём металлолома в Омске — сдать чёрный и цветной лом | ${site.brand}`;
   const description = site.seo.defaultDescription;
@@ -109,7 +102,6 @@ router.get('/', (req, res) => {
     prices,
     tiles,
     ticker,
-    calcItems,
     calcItemsJson: JSON.stringify(calcItems),
     mapEmbed: `https://yandex.ru/map-widget/v1/?ll=${site.geo.lon}%2C${site.geo.lat}&z=17&pt=${site.geo.lon},${site.geo.lat},pm2rdm`,
     reviews: content.reviews,

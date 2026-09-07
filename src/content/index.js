@@ -35,17 +35,6 @@ const hero = {
 };
 
 /**
- * Полоса доверия под первым экраном. Только значок и строка: пояснения к ним
- * убраны вместе с остальными текстами главной.
- */
-const trust = [
-  { icon: 'scales', title: 'Взвешивание при вас' },
-  { icon: 'ruble', title: 'Деньги в день сдачи' },
-  { icon: 'search', title: 'Цена известна заранее' },
-  { icon: 'shield', title: 'Работаем официально' }
-];
-
-/**
  * Крупные плитки «что принимаем»: название и цена, без описаний.
  * `anchor` ведёт на якорь категории в таблице цен, `photo` — файл из /img/photo.
  *
@@ -197,5 +186,5 @@ const ticker = [
 ];
 
 module.exports = {
-  hero, trust, tiles, alsoAccepted, location, reviews, documents, popular, ticker
+  hero, tiles, alsoAccepted, location, reviews, documents, popular, ticker
 };

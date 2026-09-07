@@ -75,20 +75,6 @@
     </div>
   </section>
 
-  <!-- ================= ПОЛОСА ДОВЕРИЯ ================= -->
-  <section class="section section--blue section--tight">
-    <div class="container">
-      <div class="trust">
-        <% content.trust.forEach(function (t) { %>
-          <div class="trust__item">
-            <span class="trust__icon"><svg aria-hidden="true"><use href="#i-<%= t.icon %>"></use></svg></span>
-            <h2 class="trust__title"><%= t.title %></h2>
-          </div>
-        <% }); %>
-      </div>
-    </div>
-  </section>
-
   <!-- ================= КАЛЬКУЛЯТОР ================= -->
   <section class="section section--muted" id="kalkulyator">
     <div class="container">
@@ -100,14 +86,22 @@
 
       <div class="calc" data-calc>
         <div class="calc__form">
-          <label class="field">
-            <span class="field__label">Что сдаёте</span>
-            <select class="field__input" data-calc-item>
-              <% calcItems.forEach(function (it, i) { %>
-                <option value="<%= it.id %>"<%= i === 0 ? ' selected' : '' %>><%= it.label %></option>
-              <% }); %>
-            </select>
-          </label>
+          <%#
+            Не выпадающий список из десятка ходовых позиций, а поиск по всему
+            прайсу: человек начинает вводить, и в подсказках остаётся то,
+            что подходит. Пока поле пустое, сверху стоят ходовые позиции.
+            Разметку списка строит main.js, здесь только поле и пустой listbox.
+          %>
+          <div class="field calc__pick" data-calc-pick>
+            <label class="field__label" for="calc-item">Что сдаёте</label>
+            <input class="field__input" id="calc-item" type="text"
+                   role="combobox" aria-expanded="false" aria-controls="calc-item-list"
+                   aria-autocomplete="list" autocomplete="off" spellcheck="false"
+                   placeholder="Начните вводить: медь, алюминий, аккумулятор"
+                   data-calc-input>
+            <ul class="calc__options" id="calc-item-list" role="listbox"
+                aria-label="Позиции прайса" hidden data-calc-list></ul>
+          </div>
 
           <div class="calc__row">
             <label class="field">
@@ -225,7 +219,7 @@
   </section>
 
   <!-- ================= ДОКУМЕНТЫ И БЛАГОДАРНОСТИ ================= -->
-  <section class="section section--light section--tight" id="dokumenty">
+  <section class="section section--light" id="dokumenty">
     <div class="container">
       <div class="papers">
         <div class="papers__facts">
