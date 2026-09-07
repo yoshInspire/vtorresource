@@ -1014,18 +1014,20 @@ select.field__input { appearance: none; background-image: url("data:image/svg+xm
 .price-table__name { font-weight: 500; color: var(--text-900); }
 .price-table__note { display: block; font-size: 13px; color: var(--text-500); font-weight: 400; margin-top: 2px; }
 
-/* Название-раскрывашка: описание позиции прячется до клика */
-.price-note > summary {
-  list-style: none; cursor: pointer; position: relative; padding-right: 20px;
-}
+/* Название-раскрывашка: описание позиции прячется до клика.
+   Галочка идёт сразу за текстом, а не у правого края ячейки: колонка
+   с названием тянется на всю свободную ширину, и у края галочка
+   оказывалась в пустоте, далеко от того, на что нажимать. */
+.price-note > summary { list-style: none; cursor: pointer; }
 .price-note > summary::-webkit-details-marker { display: none; }
 .price-note > summary::after {
-  content: ""; position: absolute; right: 2px; top: .42em;
-  width: 7px; height: 7px; border-right: 1.5px solid var(--text-500);
+  content: ""; display: inline-block; vertical-align: middle;
+  margin: -3px 0 0 9px; width: 7px; height: 7px;
+  border-right: 1.5px solid var(--text-500);
   border-bottom: 1.5px solid var(--text-500); transform: rotate(45deg);
   transition: transform .18s ease;
 }
-.price-note[open] > summary::after { transform: rotate(-135deg); top: .58em; }
+.price-note[open] > summary::after { transform: rotate(-135deg); margin-top: 2px; }
 .price-note > summary:hover { color: var(--orange-600); }
 .price-note > summary:hover::after { border-color: var(--orange-600); }
 .price-note > p {
@@ -1074,6 +1076,109 @@ select.field__input { appearance: none; background-image: url("data:image/svg+xm
   width: 7px; height: 7px; background: var(--orange-500); transform: rotate(45deg);
 }
 .prose p:last-child { margin-bottom: 0; }
+
+/* =========================================================================
+   Страница цен: список слева, категории справа
+   Собрано по образцу 74vtormet.ru/price, на который ориентируется заказчик.
+   ========================================================================= */
+.price-layout {
+  display: grid; grid-template-columns: minmax(0, 1fr) 268px;
+  gap: 36px; align-items: start; padding-bottom: 64px;
+}
+
+/* Панель поиска липнет под шапкой: в прайсе полторы сотни строк,
+   и поле должно быть под рукой на любой высоте прокрутки. */
+.price-bar {
+  position: sticky; top: var(--header-h); z-index: 40;
+  display: flex; align-items: center; gap: 16px; flex-wrap: wrap;
+  padding: 14px 0 12px; margin-bottom: 8px;
+  background: var(--paper); border-bottom: 1px solid var(--paper-200);
+}
+.price-search {
+  flex: 1 1 260px; position: relative;
+  display: flex; align-items: center;
+}
+.price-search svg {
+  position: absolute; left: 14px; width: 18px; height: 18px;
+  color: var(--text-500); pointer-events: none;
+}
+.price-search__input {
+  width: 100%; padding: 12px 16px 12px 42px;
+  border: 1.5px solid var(--paper-300); border-radius: var(--radius-sm);
+  background: var(--paper-50); font-size: 16px; color: var(--text-900);
+  transition: border-color .15s ease, background-color .15s ease;
+}
+.price-search__input:focus { border-color: var(--orange-500); background: #fff; outline: none; }
+.price-search__input::placeholder { color: var(--text-500); }
+.price-search__input::-webkit-search-cancel-button { cursor: pointer; }
+
+.price-empty {
+  padding: 16px 18px; margin-bottom: 20px;
+  background: var(--paper-50); border-left: 3px solid var(--orange-500);
+  font-size: 15px; color: var(--text-600);
+}
+
+/* Сквозная нумерация: счётчик CSS, а не число в разметке. Скрытые
+   поиском строки выпадают из счёта сами, без пересчёта скриптом. */
+.price-main { counter-reset: pos; }
+.price-cat { margin-bottom: 34px; scroll-margin-top: calc(var(--header-h) + 84px); }
+.price-cat:last-child { margin-bottom: 0; }
+.price-cat__title {
+  display: flex; align-items: baseline; justify-content: space-between; gap: 16px;
+  font-family: var(--display); font-weight: 600; text-transform: uppercase;
+  font-size: 22px; color: var(--text-900); letter-spacing: .01em;
+  padding-bottom: 10px; margin-bottom: 4px;
+  border-bottom: 2px solid var(--ink-900);
+}
+.price-cat__unit {
+  flex: none; font-family: var(--body); font-weight: 400; font-size: 13px;
+  text-transform: none; letter-spacing: 0; color: var(--text-500);
+}
+
+/* min-width из базовой таблицы здесь не нужен: колонок всего три,
+   и на 375 он давал странице горизонтальную прокрутку. */
+.price-table--flat { width: 100%; min-width: 0; }
+.price-table--flat tr[hidden] { display: none; }
+.price-table--flat th,
+.price-table--flat td { padding: 11px 14px; border-bottom: 1px solid var(--paper-200); }
+.price-table--flat tbody tr:last-child th,
+.price-table--flat tbody tr:last-child td { border-bottom: 0; }
+.price-table--flat tbody tr:hover { background: var(--paper-50); }
+/* Название забирает всю свободную ширину, цена прижата к правому краю.
+   Двух классов хватает, чтобы перебить `.price-table td { text-align: left }`. */
+.price-table--flat .price-table__name { width: 100%; }
+.price-table--flat .price-table__value { text-align: right; }
+.price-table__num {
+  width: 46px; padding-right: 0 !important;
+  font-family: var(--display); font-size: 14px; color: var(--steel-400);
+  font-variant-numeric: tabular-nums; text-align: right;
+}
+.price-table__num::before { counter-increment: pos; content: counter(pos); }
+
+/* Список категорий: липнет рядом со списком цен и прокручивается сам,
+   если не влезает в экран. */
+.price-nav {
+  position: sticky; top: calc(var(--header-h) + 14px);
+  max-height: calc(100vh - var(--header-h) - 28px);
+  display: flex; flex-direction: column;
+  border: 1px solid var(--paper-200); border-radius: var(--radius);
+  background: var(--paper); overflow: hidden;
+}
+.price-nav__title {
+  flex: none; padding: 14px 18px 12px;
+  font-family: var(--display); font-size: 12.5px; font-weight: 500;
+  letter-spacing: .14em; text-transform: uppercase; color: var(--text-500);
+  border-bottom: 1px solid var(--paper-200);
+}
+.price-nav__list { overflow-y: auto; padding: 6px; }
+.price-nav__link {
+  display: block; padding: 9px 12px; border-radius: var(--radius-sm);
+  font-size: 14.5px; line-height: 1.3; color: var(--text-600); text-decoration: none;
+  transition: background-color .15s ease, color .15s ease;
+}
+.price-nav__link:hover { background: var(--paper-100); color: var(--text-900); }
+.price-nav__link.is-active { background: var(--ink-900); color: #fff; }
+.price-nav__link[hidden] { display: none; }
 
 /* ---------- правовые страницы ---------- */
 .legal__block { margin-top: 34px; }
@@ -1163,6 +1268,24 @@ select.field__input { appearance: none; background-image: url("data:image/svg+xm
   .zasor { grid-template-columns: minmax(0, 1fr); }
   .faq { columns: 1; }
   .price-cats, .price-cats--2, .price-cats--3 { columns: 2; }
+  /* Категории уезжают наверх одной прокручиваемой строкой: списком
+     в столбик они занимали весь первый экран, а прайс должен быть виден
+     сразу. Заголовок «Категории» на узком экране только тратит строку. */
+  .price-layout { grid-template-columns: minmax(0, 1fr); gap: 0; }
+  .price-nav {
+    position: static; max-height: none; order: -1; margin-bottom: 16px;
+    border: 0; background: none; overflow: visible;
+  }
+  .price-nav__title { display: none; }
+  .price-nav__list {
+    display: flex; flex-wrap: nowrap; gap: 6px; padding: 0 0 4px;
+    overflow-x: auto; scrollbar-width: thin;
+  }
+  .price-nav__link {
+    flex: none; white-space: nowrap; padding: 8px 14px;
+    border: 1px solid var(--paper-300); border-radius: 999px;
+  }
+  .price-nav__link.is-active { border-color: var(--ink-900); }
   .price-cats--grid.price-cats--2,
   .price-cats--grid.price-cats--3 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
   .price-split { grid-template-columns: repeat(2, minmax(0, 1fr)); }
@@ -1186,6 +1309,9 @@ select.field__input { appearance: none; background-image: url("data:image/svg+xm
   .tile__price { flex-wrap: wrap; gap: 14px; }
   .lead-form--dark { padding: 22px; }
   .price-cats, .price-cats--2, .price-cats--3 { columns: 1; }
+  .price-cat__title { font-size: 19px; }
+  .price-table--flat th, .price-table--flat td { padding: 10px 8px; }
+  .price-table__num { width: 30px; font-size: 13px; }
   .price-cats--grid.price-cats--2,
   .price-cats--grid.price-cats--3 { grid-template-columns: minmax(0, 1fr); }
   .price-split { grid-template-columns: minmax(0, 1fr); }

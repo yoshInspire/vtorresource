@@ -67,6 +67,27 @@ function topPrice(category) {
   return category.items.reduce((max, i) => (i.cash !== null && i.cash > max ? i.cash : max), 0);
 }
 
+/**
+ * Плоский список категорий прайса в заданном порядке — для страницы цен.
+ *
+ * В данных категории лежат внутри групп (чёрный, цветной, редкозем): так их
+ * правят в админке и так уходит OfferCatalog в микроразметку. На странице
+ * группы не показываются, категории идут одним списком, поэтому порядок
+ * задаётся отдельно (content.priceOrder). Что не попало в список — в конец,
+ * в исходном порядке: sort в V8 стабильный.
+ *
+ * @returns {{group: object, category: object}[]}
+ */
+function orderedCategories(order) {
+  const rows = [];
+  for (const group of getPrices().groups) {
+    for (const category of group.categories) rows.push({ group, category });
+  }
+  const rank = new Map(order.map((id, i) => [id, i]));
+  const at = row => (rank.has(row.category.id) ? rank.get(row.category.id) : Number.MAX_SAFE_INTEGER);
+  return rows.sort((a, b) => at(a) - at(b));
+}
+
 /** Позиции по списку id — витрина ходовых цен на главной. */
 function pickItems(list) {
   const index = new Map();
@@ -224,6 +245,7 @@ module.exports = {
   getGroup,
   getCategory,
   allItems,
+  orderedCategories,
   topPrice,
   pickItems,
   updateItem,

@@ -2,6 +2,15 @@
 <%- include('partials/icons') %>
 <%- include('partials/header') %>
 
+<%#
+  Прайс собран по образцу конкурента (74vtormet.ru/price), на который
+  ориентируется заказчик: слева сплошной нумерованный список позиций
+  с поиском наверху, справа липкий список категорий. Группы (чёрный,
+  цветной, редкоземельный) на странице не показываются — в данных они
+  остались, там их правят в админке и оттуда берётся OfferCatalog,
+  а порядок категорий задан в content.priceOrder.
+%>
+
 <main id="main" class="price-page">
 
   <section class="page-head page-head--tight">
@@ -10,88 +19,74 @@
     </div>
   </section>
 
-  <%# Дата переехала сюда из шапки: панель липкая, и «обновлено сегодня»
-      видно, пока человек листает таблицы, а не только в самом верху. %>
-  <div class="price-toolbar">
-    <div class="container price-toolbar__inner">
-      <div class="price-tabs">
-        <% prices.groups.forEach(function (g) { %>
-          <a class="price-tabs__link" href="#<%= g.id %>"><%= g.title %></a>
+  <div class="container">
+    <div class="price-layout">
+
+      <div class="price-main">
+        <div class="price-bar">
+          <label class="price-search">
+            <svg aria-hidden="true"><use href="#i-search"></use></svg>
+            <input class="price-search__input" type="search" placeholder="Название лома"
+                   autocomplete="off" aria-label="Поиск по прайсу" data-price-search>
+          </label>
+          <span class="badge badge--live">Обновлено <%= f.dateLong(prices.updatedAt) %></span>
+        </div>
+
+        <p class="price-empty" hidden data-price-empty>
+          Такой позиции в прайсе нет. Позвоните, посчитаем по телефону:
+          <% site.phones.forEach(function (p, i) { %><a class="link" href="tel:<%= p.raw %>"><%= p.display %></a><%= i < site.phones.length - 1 ? ' или ' : '.' %><% }); %>
+        </p>
+
+        <%# Нумерация сквозная и считается счётчиком CSS, а не в шаблоне:
+            при поиске скрытые строки выпадают из счёта сами. %>
+        <% categories.forEach(function (row) { %>
+          <section class="price-cat" id="<%= row.category.id %>" data-price-cat>
+            <h2 class="price-cat__title">
+              <%= row.category.name %>
+              <span class="price-cat__unit"><%= row.group.unit %></span>
+            </h2>
+
+            <table class="price-table price-table--flat">
+              <caption class="visually-hidden">
+                <%= row.category.name %> — цена приёма, ₽ <%= row.group.unit.replace('₽/', 'за ') %>
+              </caption>
+              <tbody>
+                <% row.category.items.forEach(function (item) { %>
+                  <tr data-price-row data-search="<%= (item.title + ' ' + (item.note || '') + ' ' + row.category.name).toLowerCase() %>">
+                    <td class="price-table__num" aria-hidden="true"></td>
+                    <th scope="row" class="price-table__name">
+                      <%# Описание раскрывается по клику: <details> работает без JS,
+                          открывается с клавиатуры и остаётся в разметке для поиска. %>
+                      <% if (item.note) { %>
+                        <details class="price-note">
+                          <summary><%= item.title %></summary>
+                          <p><%= item.note %></p>
+                        </details>
+                      <% } else { %>
+                        <%= item.title %>
+                      <% } %>
+                    </th>
+                    <td class="price-table__value"><b><%= f.itemPrice(item) %></b></td>
+                  </tr>
+                <% }); %>
+              </tbody>
+            </table>
+          </section>
         <% }); %>
       </div>
-      <span class="badge badge--live">Обновлено <%= f.dateLong(prices.updatedAt) %></span>
-    </div>
-  </div>
 
-  <% prices.groups.forEach(function (group, gi) { %>
-    <section class="section section--<%= gi % 2 === 0 ? 'muted' : 'light' %> price-group"
-             id="<%= group.id %>" data-price-group>
-      <div class="container">
-        <%# Описания групп переехали в текстовый блок внизу страницы:
-            наверху они отодвигали таблицы, но выбрасывать их нельзя,
-            в них ГОСТ и перечисление металлов под поиск. %>
-        <header class="section__head section__head--flat">
-          <h2 class="section__title">Цены на <%= group.title.toLowerCase() %> <%= group.unitShort === "т" ? "за тонну" : "за кг" %></h2>
-        </header>
-
-        <% if (group.categories.length > 1) { %>
-          <nav class="anchors" aria-label="Разделы цен: <%= group.title %>">
-            <% group.categories.forEach(function (c) { %>
-              <a class="anchors__link" href="#<%= c.id %>"><%= c.name %></a>
-            <% }); %>
-          </nav>
-        <% } %>
-
-        <%# До трёх категорий раскладываем сеткой: многоколоночная вёрстка
-            выравнивает колонки по высоте и на трёх блоках оставляет
-            третью колонку пустой. Дальше наоборот: сетка оставляет дыры
-            в рядах, а колонки пакуют таблицы разной высоты плотно. %>
-        <div class="price-cats price-cats--<%= f.priceColumns(group.categories) %><%= group.categories.length <= 3 ? ' price-cats--grid' : '' %>">
-          <% group.categories.forEach(function (category) { %>
-            <%# Длинная категория занимает всю ширину: в колонку она не влезает.
-                Сейчас в прайсе таких нет, самая большая на 16 строк. %>
-            <div class="price-cat<%= category.items.length > f.LONG_TABLE ? ' price-cat--wide' : '' %>"
-                 id="<%= category.id %>" data-price-cat>
-              <h3 class="price-cat__title"><%= category.name %></h3>
-              <div class="table-wrap">
-                <table class="price-table">
-                  <caption class="visually-hidden"><%= category.name %> — цена приёма, ₽ <%= group.unit.replace("₽/", "за ") %></caption>
-                  <thead>
-                    <tr>
-                      <th scope="col">Позиция</th>
-                      <% group.columns.forEach(function (col) { %>
-                        <th scope="col" class="price-table__col"><%= col %></th>
-                      <% }); %>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    <% category.items.forEach(function (item) { %>
-                      <tr data-price-row data-search="<%= (item.title + ' ' + item.note + ' ' + category.name).toLowerCase() %>">
-                        <th scope="row" class="price-table__name">
-                          <%# Описание позиции раскрывается по клику. <details>, а не
-                              скрипт: работает без JS, открывается с клавиатуры,
-                              и текст остаётся в разметке для поиска. %>
-                          <% if (item.note) { %>
-                            <details class="price-note">
-                              <summary><%= item.title %></summary>
-                              <p><%= item.note %></p>
-                            </details>
-                          <% } else { %>
-                            <%= item.title %>
-                          <% } %>
-                        </th>
-                        <td class="price-table__value"><b><%= f.itemPrice(item) %></b></td>
-                      </tr>
-                    <% }); %>
-                  </tbody>
-                </table>
-              </div>
-            </div>
+      <aside class="price-nav" aria-label="Категории прайса">
+        <p class="price-nav__title">Категории</p>
+        <div class="price-nav__list">
+          <% categories.forEach(function (row) { %>
+            <a class="price-nav__link" href="#<%= row.category.id %>"
+               data-nav-for="<%= row.category.id %>"><%= row.category.name %></a>
           <% }); %>
         </div>
-      </div>
-    </section>
-  <% }); %>
+      </aside>
+
+    </div>
+  </div>
 
   <section class="section section--dark" id="zayavka-form">
     <div class="container price-cta">

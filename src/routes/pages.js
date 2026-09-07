@@ -132,6 +132,9 @@ router.get('/price', (req, res) => {
     description,
     canonical: seo.abs('/price'),
     prices,
+    // Плоский список категорий в порядке показа: группы остаются в данных,
+    // на странице их не видно.
+    categories: store.orderedCategories(content.priceOrder),
     content,
     jsonLd: seo.graph([
       seo.organization(),

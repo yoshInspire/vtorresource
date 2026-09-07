@@ -3,6 +3,28 @@
 (function () {
   'use strict';
 
+  // ---------- нормализация для поиска ---------------------------------------
+  // Регистр и «ё» мешать не должны. Отдельная беда — смешанные алфавиты:
+  // в марках лома «3А», «ВК-ТК», «АМГ» буквы бывают и латинские, и русские,
+  // причём в одном прайсе вперемешку. Схлопываем близнецов к латинице
+  // одинаково и в запросе, и в названии, тогда «3А» находит «3A».
+  var LOOKALIKE = { а: 'a', в: 'b', е: 'e', к: 'k', м: 'm', н: 'h', о: 'o', р: 'p', с: 'c', т: 't', у: 'y', х: 'x' };
+
+  function normalize(text) {
+    return String(text).toLowerCase().replace(/ё/g, 'е')
+      .replace(/[авекмнорстух]/g, function (c) { return LOOKALIKE[c]; })
+      .trim();
+  }
+
+  /** Слова запроса. Порядок не важен: «медь блеск» находит «Лом меди «Блеск»». */
+  function terms(query) {
+    return normalize(query).split(/\s+/).filter(Boolean);
+  }
+
+  function matchesAll(haystack, words) {
+    return words.every(function (w) { return haystack.indexOf(w) !== -1; });
+  }
+
   // ---------- маска телефона -------------------------------------------------
   function formatPhone(raw) {
     var d = raw.replace(/\D/g, '');
@@ -108,14 +130,8 @@
     var shown = [];         // что сейчас в подсказках
     var active = -1;        // подсвеченная строка
 
-    // Регистр и «ё» в поиске мешать не должны: пишут и «Алюминий»,
-    // и «алюминий», и «жёлтый» через «е».
-    function norm(text) {
-      return String(text).toLowerCase().replace(/ё/g, 'е').trim();
-    }
-
     items.forEach(function (item) {
-      item._search = norm(item.title + ' ' + item.category);
+      item._search = normalize(item.title + ' ' + item.category);
     });
 
     function money(n) {
@@ -133,9 +149,9 @@
      * потом те, где оно встретилось в середине названия.
      */
     function match(query) {
-      var q = norm(query);
+      var words = terms(query);
 
-      if (!q) {
+      if (!words.length) {
         return items.slice().sort(function (a, b) {
           if (a.rank !== null && b.rank !== null) return a.rank - b.rank;
           if (a.rank !== null) return -1;
@@ -146,9 +162,11 @@
 
       var hits = [];
       items.forEach(function (item) {
-        var at = item._search.indexOf(q);
-        if (at === -1) return;
-        var atWordStart = at === 0 || /[^a-zа-я0-9]/.test(item._search.charAt(at - 1));
+        if (!matchesAll(item._search, words)) return;
+        // Ранжируем по первому слову: совпадение в начале слова важнее,
+        // чем в середине названия.
+        var at = item._search.indexOf(words[0]);
+        var atWordStart = at === 0 || /[^a-z0-9]/.test(item._search.charAt(at - 1));
         hits.push({ item: item, weight: (atWordStart ? 0 : 1000) + at });
       });
       hits.sort(function (a, b) { return a.weight - b.weight; });
@@ -304,6 +322,77 @@
       el.addEventListener('change', recalc);
     });
     recalc();
+  }
+
+  // ---------- поиск по прайсу и подсветка категории --------------------------
+  // Весь прайс уже в разметке, скрипт только прячет лишние строки: страница
+  // остаётся рабочей без JS, а поисковики видят все позиции.
+  var priceSearch = document.querySelector('[data-price-search]');
+  var priceMain = document.querySelector('.price-main');
+
+  if (priceSearch && priceMain) {
+    var rows = Array.prototype.slice.call(priceMain.querySelectorAll('[data-price-row]'));
+    var cats = Array.prototype.slice.call(priceMain.querySelectorAll('[data-price-cat]'));
+    var navLinks = {};
+    document.querySelectorAll('[data-nav-for]').forEach(function (link) {
+      navLinks[link.getAttribute('data-nav-for')] = link;
+    });
+    var empty = document.querySelector('[data-price-empty]');
+
+    rows.forEach(function (row) {
+      row._search = normalize(row.getAttribute('data-search'));
+    });
+
+    function filter() {
+      var words = terms(priceSearch.value);
+
+      rows.forEach(function (row) {
+        row.hidden = words.length > 0 && !matchesAll(row._search, words);
+      });
+
+      var found = 0;
+      cats.forEach(function (cat) {
+        var visible = cat.querySelector('[data-price-row]:not([hidden])');
+        cat.hidden = !visible;
+        if (visible) found += 1;
+        var link = navLinks[cat.id];
+        if (link) link.hidden = !visible;
+      });
+
+      if (empty) empty.hidden = found > 0;
+    }
+
+    priceSearch.addEventListener('input', filter);
+    // Крестик в поле type="search" не всегда шлёт input
+    priceSearch.addEventListener('search', filter);
+
+    // ---- подсветка категории, до которой долистали ----
+    var headerH = parseInt(getComputedStyle(document.documentElement)
+      .getPropertyValue('--header-h'), 10) || 76;
+    var active = null;
+    var lastRun = 0;
+
+    function highlightCategory() {
+      var current = null;
+      for (var i = 0; i < cats.length; i += 1) {
+        if (cats[i].hidden) continue;
+        if (cats[i].getBoundingClientRect().top <= headerH + 120) current = cats[i];
+      }
+      if (current === active) return;
+      if (active && navLinks[active.id]) navLinks[active.id].classList.remove('is-active');
+      if (current && navLinks[current.id]) navLinks[current.id].classList.add('is-active');
+      active = current;
+    }
+
+    // Ограничиваем по времени, а не через requestAnimationFrame: rAF не идёт,
+    // пока вкладка не отрисовывается, и подсветка залипает на первой категории.
+    window.addEventListener('scroll', function () {
+      var now = Date.now();
+      if (now - lastRun < 100) return;
+      lastRun = now;
+      highlightCategory();
+    }, { passive: true });
+    highlightCategory();
   }
 
   // ---------- карта по клику -------------------------------------------------
