@@ -414,19 +414,17 @@ table { border-collapse: collapse; width: 100%; }
   mask-image: linear-gradient(97deg, rgba(0,0,0,.55) 0%, rgba(0,0,0,.18) 42%, #000 100%);
   -webkit-mask-image: linear-gradient(97deg, rgba(0,0,0,.55) 0%, rgba(0,0,0,.18) 42%, #000 100%);
 }
-/* Логотип на заднем фоне первого экрана: слева, за текстом. Сам файл уже
-   осветлён и обесцвечен (scripts/build-brand.js watermark), здесь остаётся
-   только приглушить его до фактуры. */
-.hero__watermark { position: absolute; inset: 0; z-index: 0; pointer-events: none; }
-.hero__watermark .container { height: 100%; display: flex; align-items: center; }
-.hero__watermark img {
-  width: min(44%, 540px); height: auto;
-  margin-left: -3%;
-  /* Птицу поднимаем над центром: середину первого экрана занимает
-     непрозрачная строка цен, под ней от знака не осталось бы ничего. */
-  transform: translateY(-11%);
-  opacity: .16;
+/* Логотип на заднем фоне первого экрана. Сам файл уже осветлён и обесцвечен
+   (scripts/build-brand.js watermark), здесь остаётся только приглушить его
+   до фактуры. */
+.hero__watermark {
+  position: absolute; inset: 0; z-index: 0; pointer-events: none;
+  display: flex; align-items: center; justify-content: center;
 }
+/* Знак стоит по центру экрана и по центру высоты: голова с гребнем попадает
+   в свободное поле правее короткой второй строки заголовка и остаётся
+   над строкой цен, крылья и хвост уходят ей за спину. */
+.hero__watermark img { width: min(44%, 540px); height: auto; opacity: .16; }
 
 .section--dark, .cta { position: relative; }
 .section--dark > .container, .cta > .container { position: relative; z-index: 2; }
@@ -1248,7 +1246,7 @@ select.field__input { appearance: none; background-image: url("data:image/svg+xm
   .container { padding: 0 18px; }
   .section { padding: 44px 0; }
   .hero__inner { padding: 48px 0 40px; }
-  .hero__watermark img { width: 78%; margin-left: -10%; opacity: .07; }
+  .hero__watermark img { width: 96%; opacity: .1; }
   .hero__title { max-width: none; }
   .hero__actions .btn { flex: 1 0 auto; }
   .tiles { grid-template-columns: minmax(0, 1fr); }
