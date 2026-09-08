@@ -414,6 +414,20 @@ table { border-collapse: collapse; width: 100%; }
   mask-image: linear-gradient(97deg, rgba(0,0,0,.55) 0%, rgba(0,0,0,.18) 42%, #000 100%);
   -webkit-mask-image: linear-gradient(97deg, rgba(0,0,0,.55) 0%, rgba(0,0,0,.18) 42%, #000 100%);
 }
+/* Логотип на заднем фоне первого экрана: слева, за текстом. Сам файл уже
+   осветлён и обесцвечен (scripts/build-brand.js watermark), здесь остаётся
+   только приглушить его до фактуры. */
+.hero__watermark { position: absolute; inset: 0; z-index: 0; pointer-events: none; }
+.hero__watermark .container { height: 100%; display: flex; align-items: center; }
+.hero__watermark img {
+  width: min(44%, 540px); height: auto;
+  margin-left: -3%;
+  /* Птицу поднимаем над центром: середину первого экрана занимает
+     непрозрачная строка цен, под ней от знака не осталось бы ничего. */
+  transform: translateY(-11%);
+  opacity: .16;
+}
+
 .section--dark, .cta { position: relative; }
 .section--dark > .container, .cta > .container { position: relative; z-index: 2; }
 .hero__inner {
@@ -1234,6 +1248,7 @@ select.field__input { appearance: none; background-image: url("data:image/svg+xm
   .container { padding: 0 18px; }
   .section { padding: 44px 0; }
   .hero__inner { padding: 48px 0 40px; }
+  .hero__watermark img { width: 78%; margin-left: -10%; opacity: .07; }
   .hero__title { max-width: none; }
   .hero__actions .btn { flex: 1 0 auto; }
   .tiles { grid-template-columns: minmax(0, 1fr); }
@@ -1266,7 +1281,7 @@ select.field__input { appearance: none; background-image: url("data:image/svg+xm
 
 /* ---------- печать ---------- */
 @media print {
-  .header, .price-bar, .price-nav, .call-fab, .lead-form, .hero__media, .footer__bottom,
+  .header, .price-bar, .price-nav, .call-fab, .lead-form, .hero__media, .hero__watermark, .footer__bottom,
   .ticker, .calc, .cta { display: none !important; }
   body { color: #000; background: #fff; }
   .section { padding: 20px 0; }

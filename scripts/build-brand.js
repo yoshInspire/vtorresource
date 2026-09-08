@@ -6,6 +6,7 @@
  *   node scripts/build-brand.js            # всё
  *   node scripts/build-brand.js og         # только обложку
  *   node scripts/build-brand.js icons      # только иконки
+ *   node scripts/build-brand.js watermark  # только подложку первого экрана
  *
  * Собирается из public/img/source/phoenix-2026-src.png — это присланный
  * заказчиком знак, уже с прозрачным фоном. Логотип в шапке (logo.png) этот
@@ -144,6 +145,31 @@ async function buildOgCover() {
 }
 
 /**
+ * Знак для подложки первого экрана. Обрезаем прозрачные поля, осветляем и
+ * почти полностью обесцвечиваем: на тёмном фоне под текстом нужна светлая
+ * фактура, а не цветная картинка. В шапке лежит logo.png шириной 208 px —
+ * растянуть его на пол-экрана нельзя, поэтому знак пересобирается из
+ * исходника отдельным файлом.
+ */
+async function buildWatermark() {
+  const W = 700;
+  const file = path.join(OUT, 'logo-watermark.png');
+
+  const trimmed = await sharp(SRC).png().toBuffer()
+    .then(buf => sharp(buf).trim({ threshold: 1 }).png().toBuffer());
+
+  // 16 цветов вместо полной палитры: файл втрое легче (56 КБ против 200),
+  // а на подложке в 16% непрозрачности разницы не видно.
+  const info = await sharp(trimmed)
+    .modulate({ brightness: 1.75, saturation: 0.12 })
+    .resize({ width: W })
+    .png({ compressionLevel: 9, palette: true, colours: 16, effort: 10 })
+    .toFile(file);
+
+  console.log(`logo-watermark.png: ${info.width}×${info.height}, ${Math.round(info.size / 1024)} КБ`);
+}
+
+/**
  * Иконки вкладки и домашнего экрана. Знак обрезаем по краям непрозрачных
  * пикселей и вписываем в квадрат с полями: без обрезки птица тонет
  * в прозрачных отступах исходника и на 32 px превращается в точку.
@@ -189,6 +215,7 @@ async function buildIcons() {
     await buildOgCover();
   }
   if (what === 'all' || what === 'icons') await buildIcons();
+  if (what === 'all' || what === 'watermark') await buildWatermark();
 })().catch(err => {
   console.error(err.message);
   process.exit(1);
