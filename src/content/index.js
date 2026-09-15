@@ -51,24 +51,24 @@ const tiles = [
     id: 'cvetmet',
     name: 'Цветной лом',
     anchor: '/price#med',
-    photo: 'cvetmet',
-    photoAlt: 'Алюминиевая стружка в контейнере на площадке приёма цветного лома в Омске',
+    photo: 'tile-cvetmet',
+    photoAlt: 'Прутки латуни, меди и бронзы, приём цветного лома в Омске',
     priceFrom: { category: 'med', group: 'cvetmet' }
   },
   {
     id: 'chermet',
     name: 'Чёрный лом',
     anchor: '/price#stal-chugun',
-    photo: 'chermet-alt',
-    photoAlt: 'Брикеты прессованного стального лома, приём чёрного металла',
+    photo: 'tile-chermet',
+    photoAlt: 'Грейфер над кучей стального лома, приём чёрного металла',
     priceFrom: { category: 'stal-chugun', group: 'chermet' }
   },
   {
     id: 'redkozem',
     name: 'Редкоземельный лом',
     anchor: '/price#tverdye-splavy-pobedit',
-    photo: 'redkozem',
-    photoAlt: 'Твердосплавные пластины ВК-ТК, приём победита и редкоземельного лома',
+    photo: 'tile-redkozem',
+    photoAlt: 'Прутки олова в коробках, приём редкоземельного лома',
     priceFrom: { category: 'tverdye-splavy-pobedit', group: 'redkozem' }
   },
   {
@@ -84,8 +84,8 @@ const tiles = [
     id: 'dragmet',
     name: 'Драгметаллы',
     anchor: '/dragmetally',
-    photo: 'dragmet',
-    photoAlt: 'Поверхность слитка серебра 99,99, приём лома драгметаллов',
+    photo: 'tile-dragmet',
+    photoAlt: 'Благородные металлы: золото, серебро, платина, палладий и платиноиды, приём лома драгметаллов',
     catalogFrom: 'dragmet',
     wide: true
   }

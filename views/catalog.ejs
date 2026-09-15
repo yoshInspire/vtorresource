@@ -113,8 +113,8 @@
         <h2 class="section__title">Оценим по описанию</h2>
         <p><%= catalog.note %></p>
         <p>
-          Приём ведётся на площадке в Омске по адресу <%= site.address.full %>,
-          <%= site.hours.text.toLowerCase() %>. Звоните:
+          Приём ведётся на площадке в Омске по адресу <%= site.address.full %>.
+          Работаем: <%= site.hours.text.toLowerCase() %>. Звоните:
           <% site.phones.forEach(function (p, i) { %><a class="link" href="tel:<%= p.raw %>"><%= p.display %></a><%= i < site.phones.length - 1 ? ', ' : '' %><% }); %>.
         </p>
       </div>

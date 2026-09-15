@@ -32,33 +32,22 @@ const SOURCES = {
   'yard-hero': 'File:Moscow, Vladykino-Moskovskoye railway station, heaps of scrap metal (21).jpg',
   grapple: 'File:Fuchs Bagger F301.jpg',
   chermet: 'File:Scrap metal yard.jpg',
-  'chermet-alt': 'File:Steel Scrap Compacted.JPG',
-  cvetmet: 'File:BS VW Aluminium Swarf.JPG',
-  redkozem: 'File:Tungsten carbide inserts.jpg',
-  radiolom: 'File:8Platinen-harddisc hg.jpg',
-  dragmet: 'File:Ag 99 99 Uralelectromed.jpg'
+  radiolom: 'File:8Platinen-harddisc hg.jpg'
 };
 
 /**
  * Кадрирование до ресайза, в долях от размера оригинала: [left, top, w, h].
- * Нужно там, где в кадр попадает лишнее. У слитка серебра это выбитые на
- * поверхности логотип завода и номер плавки: на плитке они читались как
- * подпись сайта, поэтому берём чистую полосу металла между ними.
+ * Нужно там, где в кадр попадает лишнее. Сейчас таких кадров нет: остальные
+ * плитки «что принимаем» собираются из фото заказчика, см. build-tile-photos.js.
  */
-const CROPS = {
-  dragmet: [0, 0.395, 1, 0.44]
-};
+const CROPS = {};
 
 /** Короткая заметка для _credits.json: зачем кадр нужен на сайте. */
 const NOTES = {
   'yard-hero': 'Куча лома, Москва — фон первого экрана',
   grapple: 'Грейферный перегружатель',
   chermet: 'Чёрный лом навалом',
-  'chermet-alt': 'Прессованный стальной лом',
-  cvetmet: 'Алюминиевая стружка крупно',
-  redkozem: 'Твердосплавные пластины ВК-ТК',
-  radiolom: 'Печатные платы крупно — плитка «Радиолом»',
-  dragmet: 'Слиток серебра 99,99 — плитка «Драгметаллы»'
+  radiolom: 'Печатные платы крупно — плитка «Радиолом»'
 };
 
 function api(params) {

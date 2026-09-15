@@ -34,12 +34,12 @@ function organization() {
       postalCode: site.address.postalCode,
       addressCountry: site.address.country
     },
-    openingHoursSpecification: [{
+    openingHoursSpecification: site.hours.spec.map(s => ({
       '@type': 'OpeningHoursSpecification',
-      dayOfWeek: ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'],
-      opens: site.hours.opens,
-      closes: site.hours.closes
-    }]
+      dayOfWeek: s.days,
+      opens: s.opens,
+      closes: s.closes
+    }))
   };
   if (site.geo) {
     node.geo = { '@type': 'GeoCoordinates', latitude: site.geo.lat, longitude: site.geo.lon };
