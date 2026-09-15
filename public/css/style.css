@@ -607,36 +607,37 @@ a.msg:hover { background: rgba(255, 255, 255, .1); color: #fff; }
 }
 
 /* ---------- плитки «что принимаем» ----------
-   Сетка на шесть колонок, а не на три: плиток пять. Первые три занимают
-   по две колонки (ряд из трёх), радиолом и драгметаллы по три (ряд из двух),
-   и нижний ряд не оставляет пустой ячейки. */
+   Сетка на шесть колонок, а не на три: плиток пять. Широкие (цветной
+   и чёрный лом) занимают по три колонки (ряд из двух), остальные по две
+   (ряд из трёх), и ни в одном ряду не остаётся пустой ячейки.
+   Фото стоит сверху отдельной полосой, название и цена под ним на тёмной
+   плашке: на присланных заказчиком картинках есть свои подписи, и под
+   текстом плитки они сливались с ним. */
 .tiles { display: grid; grid-template-columns: repeat(6, minmax(0, 1fr)); gap: 20px; }
 .tile {
   grid-column: span 2;
   position: relative; display: flex; flex-direction: column; justify-content: flex-end;
-  min-height: 380px; padding: 28px; border-radius: var(--radius-lg);
+  border-radius: var(--radius-lg);
   overflow: hidden; text-decoration: none; color: #fff;
   background: var(--ink-850); isolation: isolate;
 }
-.tile--wide { grid-column: span 3; min-height: 320px; }
-.tile__media { position: absolute; inset: 0; z-index: -1; }
-.tile__media img { width: 100%; height: 100%; object-fit: cover; transition: transform .5s ease; }
+.tile--wide { grid-column: span 3; }
+.tile__media { position: relative; flex: none; height: 250px; overflow: hidden; }
+.tile__media picture { display: block; height: 100%; }
+.tile__media img { display: block; width: 100%; height: 100%; object-fit: cover; transition: transform .5s ease; }
 .tile:hover .tile__media img { transform: scale(1.05); }
-.tile__media::after {
-  content: ""; position: absolute; inset: 0;
-  background: linear-gradient(to top, rgba(5, 11, 22, .93) 12%, rgba(10, 21, 39, .55) 55%, rgba(10, 21, 39, .28));
-}
-.tile--flat { background: linear-gradient(155deg, #14305A, var(--ink-950)); }
+.tile__body { flex: 1 0 auto; display: flex; flex-direction: column; justify-content: flex-end; padding: 22px 28px 24px; }
+.tile--flat { min-height: 380px; background: linear-gradient(155deg, #14305A, var(--ink-950)); }
 .tile--flat::before {
   content: ""; position: absolute; inset: 0; z-index: -1; opacity: .5;
   background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='40' height='40' viewBox='0 0 40 40'%3E%3Cpath d='M0 20h40M20 0v40' stroke='%234B93FF' stroke-width='.5' opacity='.55'/%3E%3Ccircle cx='20' cy='20' r='1.5' fill='%231E6BEF' opacity='.85'/%3E%3C/svg%3E");
 }
 .tile__name {
   font-family: var(--display); font-weight: 600; text-transform: uppercase;
-  font-size: 28px; line-height: 1.08; margin-bottom: 10px;
+  font-size: 26px; line-height: 1.08;
 }
 .tile__price {
-  margin-top: 18px; padding-top: 16px; border-top: 1px solid rgba(255, 255, 255, .2);
+  margin-top: 16px; padding-top: 16px; border-top: 1px solid rgba(255, 255, 255, .14);
   display: flex; align-items: center; justify-content: space-between; gap: 12px;
 }
 .tile__price-value { font-family: var(--display); font-weight: 600; font-size: 26px; color: var(--orange-400); }
@@ -1181,9 +1182,12 @@ select.field__input { appearance: none; background-image: url("data:image/svg+xm
   .calc { grid-template-columns: minmax(0, 1fr); }
   .calc__result { border-radius: 0 0 var(--radius-lg) var(--radius-lg); }
   .tiles { grid-template-columns: repeat(2, minmax(0, 1fr)); }
-  .tile, .tile--wide { grid-column: auto; min-height: 300px; }
-  /* Плиток пять: нечётная по счёту занимает ряд целиком, иначе остаётся дыра */
-  .tile:nth-child(odd):last-child { grid-column: span 2; min-height: 260px; }
+  .tile, .tile--wide { grid-column: auto; }
+  .tile__media { height: 220px; }
+  /* Плиток пять: нечётная по счёту занимает ряд целиком, иначе остаётся дыра.
+     Фото у неё выше, чтобы на всю ширину кадр не превращался в полоску. */
+  .tile:nth-child(odd):last-child { grid-column: span 2; }
+  .tile:nth-child(odd):last-child .tile__media { height: 300px; }
   .footer__inner { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 32px; }
   .papers { grid-template-columns: minmax(0, 1fr); gap: 32px; }
 }
@@ -1250,7 +1254,9 @@ select.field__input { appearance: none; background-image: url("data:image/svg+xm
   .hero__title { max-width: none; }
   .hero__actions .btn { flex: 1 0 auto; }
   .tiles { grid-template-columns: minmax(0, 1fr); }
-  .tile, .tile--wide, .tile:nth-child(odd):last-child { grid-column: auto; min-height: 300px; }
+  .tile, .tile--wide, .tile:nth-child(odd):last-child { grid-column: auto; }
+  .tile__media, .tile:nth-child(odd):last-child .tile__media { height: 210px; }
+  .tile__body { padding: 20px 22px 22px; }
   .footer__inner { grid-template-columns: minmax(0, 1fr); }
   .papers__row { grid-template-columns: minmax(0, 1fr); gap: 2px; }
   .papers__shot { width: calc(50% - 10px); }

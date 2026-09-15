@@ -53,7 +53,8 @@ const tiles = [
     anchor: '/price#med',
     photo: 'tile-cvetmet',
     photoAlt: 'Прутки латуни, меди и бронзы, приём цветного лома в Омске',
-    priceFrom: { category: 'med', group: 'cvetmet' }
+    priceFrom: { category: 'med', group: 'cvetmet' },
+    wide: true
   },
   {
     id: 'chermet',
@@ -61,7 +62,8 @@ const tiles = [
     anchor: '/price#stal-chugun',
     photo: 'tile-chermet',
     photoAlt: 'Грейфер над кучей стального лома, приём чёрного металла',
-    priceFrom: { category: 'stal-chugun', group: 'chermet' }
+    priceFrom: { category: 'stal-chugun', group: 'chermet' },
+    wide: true
   },
   {
     id: 'redkozem',
@@ -77,8 +79,7 @@ const tiles = [
     anchor: '/radiodetali',
     photo: 'radiolom',
     photoAlt: 'Печатные платы крупным планом, приём радиодеталей и плат',
-    catalogFrom: 'radio',
-    wide: true
+    catalogFrom: 'radio'
   },
   {
     id: 'dragmet',
@@ -86,8 +87,7 @@ const tiles = [
     anchor: '/dragmetally',
     photo: 'tile-dragmet',
     photoAlt: 'Благородные металлы: золото, серебро, платина, палладий и платиноиды, приём лома драгметаллов',
-    catalogFrom: 'dragmet',
-    wide: true
+    catalogFrom: 'dragmet'
   }
 ];
 

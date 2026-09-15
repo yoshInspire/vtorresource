@@ -158,17 +158,19 @@
               <span class="tile__media" aria-hidden="true">
                 <%- include('partials/photo', {
                   slug: t.photo, alt: t.photoAlt,
-                  sizes: '(max-width: 640px) 100vw, (max-width: 1080px) 50vw, 33vw',
+                  sizes: '(max-width: 640px) 100vw, (max-width: 1080px) 50vw, ' + (t.wide ? '50vw' : '33vw'),
                   width: 1280, height: 960
                 }) %>
               </span>
             <% } %>
-            <span class="tile__name"><%= t.name %></span>
-            <span class="tile__price">
-              <span class="tile__price-value num">
-                <% if (t.from) { %>до <%= f.price(t.from) %><small><%= t.unit %></small><% } else { %>цена по запросу<% } %>
+            <span class="tile__body">
+              <span class="tile__name"><%= t.name %></span>
+              <span class="tile__price">
+                <span class="tile__price-value num">
+                  <% if (t.from) { %>до <%= f.price(t.from) %><small><%= t.unit %></small><% } else { %>цена по запросу<% } %>
+                </span>
+                <span class="tile__more">прайс-лист</span>
               </span>
-              <span class="tile__more">прайс-лист</span>
             </span>
           </a>
         <% }); %>
