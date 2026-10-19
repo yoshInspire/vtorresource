@@ -26,10 +26,14 @@ const DATA_DIR = path.join(__dirname, '..', '..', 'data');
  * «Реле»), а у драгметаллов группы («Серебро», «Золото»), потому что
  * категории там это подразделы вроде «Контакты», которые сами по себе
  * ничего не говорят и повторяются под разными металлами.
+ *
+ * `pdfTitle` — заголовок в шапке PDF-версии (`/radiodetali.pdf`).
  */
 const REGISTRY = [
-  { id: 'radio', file: 'radio', title: 'Радиодетали и платы', url: '/radiodetali', flatten: 'category' },
-  { id: 'dragmet', file: 'dragmet', title: 'Драгметаллы', url: '/dragmetally', flatten: 'group' }
+  { id: 'radio', file: 'radio', title: 'Радиодетали и платы', url: '/radiodetali', flatten: 'category',
+    pdfTitle: 'Цены на приём радиодеталей и плат' },
+  { id: 'dragmet', file: 'dragmet', title: 'Драгметаллы', url: '/dragmetally', flatten: 'group',
+    pdfTitle: 'Цены на приём лома драгметаллов' }
 ];
 
 const cache = new Map();

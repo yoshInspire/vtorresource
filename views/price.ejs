@@ -29,7 +29,13 @@
             <input class="price-search__input" type="search" placeholder="Название лома"
                    autocomplete="off" aria-label="Поиск по прайсу" data-price-search>
           </label>
-          <span class="badge badge--live">Обновлено <%= f.dateLong(prices.updatedAt) %></span>
+          <div class="price-bar__meta">
+            <span class="badge badge--live">Обновлено <%= f.dateLong(prices.updatedAt) %></span>
+            <%# PDF собирается на сервере из тех же данных, src/lib/price-pdf.js %>
+            <a class="price-pdf" href="/price.pdf" download aria-label="Скачать прайс в PDF">
+              <svg aria-hidden="true"><use href="#i-doc"></use></svg><span class="price-pdf__verb">Скачать </span>PDF
+            </a>
+          </div>
         </div>
 
         <p class="price-empty" hidden data-price-empty>

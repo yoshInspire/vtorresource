@@ -9,6 +9,7 @@ const store = require('../lib/store');
 const seo = require('../lib/seo');
 const f = require('../lib/format');
 const cat = require('../lib/catalogs');
+const pdf = require('../lib/price-pdf');
 
 const router = express.Router();
 
@@ -149,6 +150,32 @@ router.get('/price', (req, res) => {
   });
 });
 
+// --- цены в PDF --------------------------------------------------------------
+// Кнопка «Скачать PDF» на страницах цен. Файл собирается из тех же данных,
+// что и страница, подробности в src/lib/price-pdf.js.
+router.get('/price.pdf', async (req, res, next) => {
+  try {
+    const prices = store.getPrices();
+    const buffer = await pdf.build(prices, () => pdf.fromPrices(prices, store.orderedCategories()));
+    pdf.send(res, buffer, 'price', prices.updatedAt);
+  } catch (err) {
+    next(err);
+  }
+});
+
+for (const entry of cat.REGISTRY) {
+  const page = entry.url.slice(1);
+  router.get(`${entry.url}.pdf`, async (req, res, next) => {
+    try {
+      const catalog = cat.load(entry.id);
+      const buffer = await pdf.build(catalog, () =>
+        pdf.fromCatalog(catalog, cat.sections(catalog, entry.flatten), entry.pdfTitle));
+      pdf.send(res, buffer, page, catalog.updatedAt);
+    } catch (err) {
+      next(err);
+    }
+  });
+}
 
 // --- радиодетали и платы -----------------------------------------------------
 router.get('/radiodetali', (req, res) => {

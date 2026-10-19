@@ -1062,6 +1062,24 @@ select.field__input { appearance: none; background-image: url("data:image/svg+xm
 .price-search__input::placeholder { color: var(--text-500); }
 .price-search__input::-webkit-search-cancel-button { cursor: pointer; }
 
+/* Дата и кнопка держатся одной строкой: на телефоне иначе липкая панель
+   вырастает в три ряда и закрывает пол-экрана. */
+.price-bar__meta { display: flex; align-items: center; gap: 10px; }
+.price-bar__meta > * { white-space: nowrap; }
+
+/* Кнопка «Скачать PDF» рядом с датой обновления, по размеру как бейдж. */
+.price-pdf {
+  display: inline-flex; align-items: center; gap: 8px;
+  padding: 6px 14px; border-radius: 999px;
+  border: 1.5px solid var(--paper-300); background: var(--paper);
+  font-size: 13.5px; font-weight: 500; color: var(--text-900); text-decoration: none;
+  transition: border-color .15s ease, color .15s ease;
+}
+.price-pdf:hover { border-color: var(--orange-500); color: var(--orange-600); }
+.price-pdf svg { width: 16px; height: 16px; flex: none; }
+/* На телефоне слово «Скачать» не влезает рядом с датой, иконка и «PDF» говорят то же. */
+@media (max-width: 420px) { .price-pdf__verb { display: none; } }
+
 .price-empty {
   padding: 16px 18px; margin-bottom: 20px;
   background: var(--paper-50); border-left: 3px solid var(--orange-500);
